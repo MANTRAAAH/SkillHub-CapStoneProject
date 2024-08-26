@@ -2,7 +2,7 @@
  
  
  # Marketplace per Servizi Freelance
-📜 Descrizione Generale
+##📜 Descrizione Generale
 Sto sviluppando un marketplace online che mette in contatto freelancer e clienti in cerca di servizi professionali. L'idea è di creare una piattaforma dove i freelancer possano promuovere i loro servizi e gestire ordini, mentre i clienti possano facilmente trovare, prenotare e recensire i professionisti di cui hanno bisogno. L'obiettivo è semplificare l'incontro tra domanda e offerta nel mondo del lavoro freelance.
 
 🎯 Mercato di Riferimento
