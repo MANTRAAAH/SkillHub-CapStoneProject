@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "+ZCnFqLA7O+j0TFvn8WoXVyh0RWc8ZZ0mQKTM76+eSw=",
+  "Source": "SkillHubApi",
+  "BasePath": "_content/SkillHubApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
