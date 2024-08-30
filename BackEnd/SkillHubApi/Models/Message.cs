@@ -1,21 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using SkillHubApi.Models;
 
-namespace SkillHubApi.Models
+public class Message
 {
-    public class Message
-    {
-        public int MessageID { get; set; }
-        public int SenderID { get; set; } // Foreign Key to User (Sender)
-        public int ReceiverID { get; set; } // Foreign Key to User (Receiver)
-        public int? OrderID { get; set; } // Foreign Key (optional)
-        public string Content { get; set; } // Questo campo sarà criptato
-        public DateTime SentDate { get; set; }
+    public int MessageID { get; set; }
+    public int SenderID { get; set; }
+    public int ReceiverID { get; set; }
+    public int? OrderID { get; set; }
+    public string Content { get; set; }
+    public DateTime SentDate { get; set; }
+    public bool IsRead { get; set; }  // Campo per tracciare se il messaggio è stato letto
 
-        // Navigation Properties
-        public User Sender { get; set; } // Riferimento al mittente
-        public User Receiver { get; set; } // Riferimento al destinatario
-        public Order Order { get; set; }
-    }
-
-
+    public User Sender { get; set; }
+    public User Receiver { get; set; }
+    public Order Order { get; set; }
 }

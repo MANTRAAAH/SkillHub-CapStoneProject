@@ -16,7 +16,6 @@ public class UsersController : ControllerBase
     private readonly SkillHubContext _context;
     private readonly IConfiguration _configuration;
 
-
     public UsersController(SkillHubContext context, IConfiguration configuration)
     {
         _context = context;
@@ -24,6 +23,7 @@ public class UsersController : ControllerBase
     }
 
     // GET: api/users
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<User>>> GetUsers()
     {
@@ -31,6 +31,7 @@ public class UsersController : ControllerBase
     }
 
     // GET: api/users/5
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> GetUser(int id)
     {
@@ -60,7 +61,7 @@ public class UsersController : ControllerBase
             Email = registrationDto.Email,
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registrationDto.Password)),
             PasswordSalt = hmac.Key,
-            Role = registrationDto.Role,
+            Role = "User",  // Default role
             CreatedDate = DateTime.UtcNow,
             IsOnline = false
         };
@@ -96,7 +97,6 @@ public class UsersController : ControllerBase
 
         return Ok(new { token });
     }
-
 
     // PUT: api/users/5
     [Authorize]
@@ -175,11 +175,11 @@ public class UsersController : ControllerBase
     {
         var claims = new[]
         {
-        new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
-        new Claim(ClaimTypes.Role, user.Role)
-    };
+            new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+            new Claim(ClaimTypes.Role, user.Role)
+        };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
