@@ -1,1 +1,35 @@
-<p>home works!</p>
+<div
+  class="hero bg-light text-center text-white py-5"
+  style="
+    background-image: url('https://via.placeholder.com/1920x600');
+    background-size: cover;
+    background-position: center;
+  "
+>
+  <div class="container">
+    <h1 class="display-4">Benvenuto su SkillHub</h1>
+    <p class="lead">
+      Trova il freelance perfetto per il tuo prossimo progetto.
+    </p>
+    <a href="/register" class="btn btn-primary btn-lg mt-4">Inizia ora</a>
+  </div>
+</div>
+
+<div class="carousel-container">
+  <p-carousel
+    [value]="services"
+    [numVisible]="3"
+    [numScroll]="3"
+    [showIndicators]="false"
+  >
+    <ng-template pTemplate="item" let-service>
+      <div class="service-card mt-3 mx-2">
+        <h5>{{ service.title }}</h5>
+        <p>Category: {{ service.category }}</p>
+        <p>Subcategory: {{ service.subCategory }}</p>
+        <p>Freelancer: {{ service.user }}</p>
+        <p>Price: ${{ service.price }}</p>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>

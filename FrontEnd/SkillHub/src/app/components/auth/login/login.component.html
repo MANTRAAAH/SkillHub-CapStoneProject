@@ -1,7 +1,29 @@
-<div class="login-container">
-  <h2>Login</h2>
-  <div *ngIf="error" class="error">{{ error }}</div>
-  <input [(ngModel)]="username" placeholder="Username" />
-  <input [(ngModel)]="password" type="password" placeholder="Password" />
-  <button (click)="login()">Login</button>
+<div
+  class="container d-flex justify-content-center align-items-center vh-100 bg-white"
+>
+  <div class="card p-4 shadow-sm" style="width: 500px">
+    <h2 class="text-center mb-4">Login</h2>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+    <div class="mb-3">
+      <label for="username" class="form-label">Email</label>
+      <input
+        [(ngModel)]="email"
+        id="username"
+        type="text"
+        class="form-control"
+        placeholder="Inserisci la tua email"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        [(ngModel)]="password"
+        id="password"
+        type="password"
+        class="form-control"
+        placeholder="Inserisci la tua password"
+      />
+    </div>
+    <button (click)="login()" class="btn btn-primary w-100">Login</button>
+  </div>
 </div>

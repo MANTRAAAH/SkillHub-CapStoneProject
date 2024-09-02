@@ -10,6 +10,8 @@ import { HomeComponent } from './components/home/home.component';
 import { ChatComponent } from './components/chat/chat/chat.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
+import { CarouselModule } from 'primeng/carousel';  // Importa il modulo del carosello
+import { ButtonModule } from 'primeng/button'; // Importa il modulo dei bottoni
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { RegisterComponent } from './components/auth/register/register.component
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    CarouselModule,  // Aggiungi il modulo del carosello
+    ButtonModule,  // Aggiungi il modulo dei bottoni
     BrowserAnimationsModule  // Aggiungi BrowserAnimationsModule se hai bisogno di animazioni
   ],
   providers: [],
