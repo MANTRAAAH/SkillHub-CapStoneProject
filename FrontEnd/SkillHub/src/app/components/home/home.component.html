@@ -25,9 +25,12 @@
     <ng-template pTemplate="item" let-service>
       <div class="service-card mt-3 mx-2">
         <h5>{{ service.title }}</h5>
-        <p>Category: {{ service.category }}</p>
-        <p>Subcategory: {{ service.subCategory }}</p>
-        <p>Freelancer: {{ service.user }}</p>
+        <p>Category: {{ service.categoryName }}</p>
+        <!-- Usa categoryName -->
+        <p>Subcategory: {{ service.subCategoryName }}</p>
+        <!-- Usa subCategoryName -->
+        <p>Freelancer: {{ service.userName }}</p>
+        <!-- Usa userName -->
         <p>Price: ${{ service.price }}</p>
       </div>
     </ng-template>

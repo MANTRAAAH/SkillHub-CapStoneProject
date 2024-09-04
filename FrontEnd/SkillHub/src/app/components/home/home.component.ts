@@ -7,33 +7,31 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  services: any[] = [];
+  services: any[] = []; // Assicuriamoci che sia un array
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.loadPlaceholderServices();
+    this.loadRandomServices();
   }
-
 
   loadRandomServices() {
     this.apiService.getRandomServices().subscribe(
-      (data) => {
-        this.services = data;
+      (data: any) => {
+        // Verifica se data.$values esiste e assegna solo l'array di servizi
+        if (data && data.$values) {
+          this.services = data.$values; // Passiamo solo l'array di servizi
+        } else {
+          this.services = data; // In caso non ci siano $values, usa direttamente data
+        }
+
+        // Log per confermare i dati
+        console.log('Servizi:', this.services);
       },
       (error) => {
         console.error('Errore nel caricamento dei servizi', error);
+        this.services = []; // Imposta come array vuoto in caso di errore
       }
     );
-  }
-  loadPlaceholderServices() {
-    this.services = [
-      { title: 'Web Development', category: 'Development', subCategory: 'Web Development', user: 'John Doe', price: 100 },
-      { title: 'Graphic Design', category: 'Design', subCategory: 'Graphic Design', user: 'Jane Smith', price: 80 },
-      { title: 'SEO Optimization', category: 'Marketing', subCategory: 'SEO', user: 'Alice Johnson', price: 150 },
-      { title: 'Mobile App Development', category: 'Development', subCategory: 'Mobile Development', user: 'Bob Brown', price: 200 },
-      { title: 'Content Writing', category: 'Writing', subCategory: 'Content Writing', user: 'Emma White', price: 50 },
-      { title: 'Video Editing', category: 'Media', subCategory: 'Video Editing', user: 'Chris Green', price: 120 }
-    ];
   }
 }

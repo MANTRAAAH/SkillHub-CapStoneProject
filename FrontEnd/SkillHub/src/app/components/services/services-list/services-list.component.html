@@ -1,0 +1,65 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Tutti i Servizi</h2>
+
+  <!-- Sezione filtro -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <label for="category">Categoria</label>
+      <select id="category" class="form-control" [(ngModel)]="filter.category">
+        <option value="">Tutte le categorie</option>
+        <option *ngFor="let cat of categories" [value]="cat.categoryName">
+          {{ cat.categoryName }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label for="subcategory">Sottocategoria</label>
+      <select
+        id="subcategory"
+        class="form-control"
+        [(ngModel)]="filter.subCategory"
+      >
+        <option value="">Tutte le sottocategorie</option>
+        <option
+          *ngFor="let subcat of subCategories"
+          [value]="subcat.subCategoryName"
+        >
+          {{ subcat.subCategoryName }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label for="price">Prezzo Massimo</label>
+      <input
+        type="number"
+        id="price"
+        class="form-control"
+        [(ngModel)]="filter.maxPrice"
+      />
+    </div>
+  </div>
+
+  <!-- Lista servizi -->
+  <div class="row">
+    <div class="col-md-4" *ngFor="let service of filteredServices">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ service.title }}</h5>
+          <p class="card-text">
+            Categoria: {{ service.categoryName }} <br />
+            Sottocategoria: {{ service.subCategoryName }} <br />
+            Freelancer: {{ service.userName }} <br />
+            Prezzo: €{{ service.price }}
+          </p>
+          <a
+            [routerLink]="['/service', service.serviceID]"
+            class="btn btn-primary"
+            >Vedi Dettagli</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,7 +11,10 @@ import { ChatComponent } from './components/chat/chat/chat.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { CarouselModule } from 'primeng/carousel';  // Importa il modulo del carosello
-import { ButtonModule } from 'primeng/button'; // Importa il modulo dei bottoni
+import { ButtonModule } from 'primeng/button';
+import { ServicesListComponent } from './components/services/services-list/services-list.component';
+import { ServiceDetailComponent } from './components/services/service-detail/service-detail.component'; // Importa il modulo dei bottoni
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -20,12 +23,15 @@ import { ButtonModule } from 'primeng/button'; // Importa il modulo dei bottoni
     HomeComponent,
     ChatComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ServicesListComponent,
+    ServiceDetailComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    RouterModule,
     HttpClientModule,
     CarouselModule,  // Aggiungi il modulo del carosello
     ButtonModule,  // Aggiungi il modulo dei bottoni

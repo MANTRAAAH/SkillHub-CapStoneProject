@@ -1,0 +1,11 @@
+<div class="container mt-4" *ngIf="service">
+  <h2>{{ service.title }}</h2>
+  <p>
+    Categoria: {{ service.category }} <br />
+    Sottocategoria: {{ service.subCategory }} <br />
+    Freelancer: {{ service.user.username }} <br />
+    Prezzo: {{ service.price }}€
+  </p>
+  <p>{{ service.description }}</p>
+  <button class="btn btn-primary">Procedi con l'ordine</button>
+</div>

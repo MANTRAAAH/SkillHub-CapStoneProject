@@ -18,14 +18,27 @@ public class ServicesController : ControllerBase
 
     // GET: api/services
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Service>>> GetServices()
+    public async Task<ActionResult<IEnumerable<ServiceDto>>> GetServices()
     {
-        return await _context.Services
+        var services = await _context.Services
             .Include(s => s.User)
             .Include(s => s.Category)
             .Include(s => s.SubCategory)
+            .Select(s => new ServiceDto
+            {
+                ServiceID = s.ServiceID,
+                Title = s.Title,
+                Description = s.Description,
+                Price = s.Price,
+                CategoryName = s.Category.CategoryName,
+                SubCategoryName = s.SubCategory.SubCategoryName,
+                UserName = s.User.Username
+            })
             .ToListAsync();
+
+        return services;
     }
+
 
     // GET: api/services/5
     [HttpGet("{id}")]
@@ -54,6 +67,36 @@ public class ServicesController : ControllerBase
 
         return CreatedAtAction(nameof(GetService), new { id = service.ServiceID }, service);
     }
+
+    [HttpGet("random")]
+    public async Task<ActionResult<IEnumerable<ServiceDto>>> GetRandomServices()
+    {
+        // Controlla quanti servizi ci sono nel database
+        var totalServices = await _context.Services.CountAsync();
+        Console.WriteLine($"Numero totale di servizi nel database: {totalServices}");
+
+        var services = await _context.Services
+                                     .Include(s => s.User)
+                                     .Include(s => s.Category)
+                                     .Include(s => s.SubCategory)
+                                     .OrderBy(r => Guid.NewGuid())
+                                     .Take(6)
+                                     .Select(s => new ServiceDto
+                                     {
+                                         ServiceID = s.ServiceID,
+                                         Title = s.Title,
+                                         Description = s.Description,
+                                         Price = s.Price,
+                                         CategoryName = s.Category.CategoryName,
+                                         SubCategoryName = s.SubCategory.SubCategoryName,
+                                         UserName = s.User.Username
+                                     })
+                                     .ToListAsync();
+
+        return services;
+    }
+
+
 
     // PUT: api/services/5
     [HttpPut("{id}")]

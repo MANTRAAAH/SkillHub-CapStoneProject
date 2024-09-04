@@ -3,11 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|c:\\users\\antan\\desktop\\epicode\\skillhub-capstoneproject\\backend\\skillhubapi\\controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|solutionrelative:controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|c:\\users\\antan\\desktop\\epicode\\skillhub-capstoneproject\\backend\\skillhubapi\\models\\servicedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|solutionrelative:models\\servicedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|c:\\users\\antan\\desktop\\epicode\\skillhub-capstoneproject\\backend\\skillhubapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|c:\\users\\antan\\desktop\\epicode\\skillhub-capstoneproject\\backend\\skillhubapi\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|solutionrelative:controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/localhost_sqlexpress/SkillHub_DB/True/SqlTable/dbo.SubCategories.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/localhost_sqlexpress/SkillHub_DB/True/SqlTable/dbo.Categories.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/localhost_sqlexpress/SkillHub_DB/True/SqlTable/dbo.Users.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|c:\\users\\antan\\desktop\\epicode\\skillhub-capstoneproject\\backend\\skillhubapi\\controllers\\subcategoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|solutionrelative:controllers\\subcategoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/localhost_sqlexpress/SkillHub_DB/True/SqlTable/dbo.Services.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/localhost_sqlexpress/SkillHub_DB/True/SqlTable/dbo.Messages.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
@@ -41,16 +66,8 @@
       "RelativeMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|solutionrelative:models\\subcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|c:\\users\\antan\\desktop\\epicode\\skillhub-capstoneproject\\backend\\skillhubapi\\controllers\\subcategoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|solutionrelative:controllers\\subcategoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|c:\\users\\antan\\desktop\\epicode\\skillhub-capstoneproject\\backend\\skillhubapi\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|solutionrelative:models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|c:\\users\\antan\\desktop\\epicode\\skillhub-capstoneproject\\backend\\skillhubapi\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|solutionrelative:controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1BF8ADB6-C3AA-41D2-8046-B78048F8A270}|SkillHubApi.csproj|c:\\users\\antan\\desktop\\epicode\\skillhub-capstoneproject\\backend\\skillhubapi\\migrations\\20240828101651_updatecategoryandsubcategorymodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -64,7 +81,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -72,17 +89,72 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "dbo.Messages [Dati]",
-              "DocumentMoniker": "ViewDataWindow_MSSQL__/localhost_sqlexpress/SkillHub_DB/True/SqlTable/dbo.Messages.sql",
-              "ToolTip": "dbo.Messages [Dati]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2024-08-30T09:54:28.526Z",
+              "DocumentIndex": 1,
+              "Title": "ServiceDto.cs",
+              "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Models\\ServiceDto.cs",
+              "RelativeDocumentMoniker": "Models\\ServiceDto.cs",
+              "ToolTip": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Models\\ServiceDto.cs",
+              "RelativeToolTip": "Models\\ServiceDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-04T09:59:16.732Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
+              "Title": "dbo.SubCategories [Dati]",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/localhost_sqlexpress/SkillHub_DB/True/SqlTable/dbo.SubCategories.sql",
+              "ToolTip": "dbo.SubCategories [Dati]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2024-09-04T09:53:39.537Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "dbo.Categories [Dati]",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/localhost_sqlexpress/SkillHub_DB/True/SqlTable/dbo.Categories.sql",
+              "ToolTip": "dbo.Categories [Dati]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2024-09-04T09:53:22.494Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "dbo.Services [Dati]",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/localhost_sqlexpress/SkillHub_DB/True/SqlTable/dbo.Services.sql",
+              "ToolTip": "dbo.Services [Dati]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2024-09-04T09:31:34.974Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ServicesController.cs",
+              "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Controllers\\ServicesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ServicesController.cs",
+              "ToolTip": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Controllers\\ServicesController.cs",
+              "RelativeToolTip": "Controllers\\ServicesController.cs",
+              "ViewState": "AQIAAC8AAAAAAAAAAAAIwFIAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-04T09:24:13.174Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "dbo.Messages [Dati]",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/localhost_sqlexpress/SkillHub_DB/True/SqlTable/dbo.Messages.sql",
+              "ToolTip": "dbo.Messages [Dati]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2024-08-30T09:54:28.526Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "SetUserIdentifierFilter.cs",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Filters\\SetUserIdentifierFilter.cs",
               "RelativeDocumentMoniker": "Filters\\SetUserIdentifierFilter.cs",
@@ -90,12 +162,11 @@
               "RelativeToolTip": "Filters\\SetUserIdentifierFilter.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-30T09:50:03.193Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-30T09:50:03.193Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
               "Title": "UsersController.cs",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Controllers\\UsersController.cs",
               "RelativeDocumentMoniker": "Controllers\\UsersController.cs",
@@ -103,12 +174,11 @@
               "RelativeToolTip": "Controllers\\UsersController.cs",
               "ViewState": "AQIAAJkAAAAAAAAAAAAswMUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-30T08:58:46.988Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-30T08:58:46.988Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 12,
               "Title": "Message.cs",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Models\\Message.cs",
               "RelativeDocumentMoniker": "Models\\Message.cs",
@@ -116,12 +186,11 @@
               "RelativeToolTip": "Models\\Message.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-30T08:43:03.097Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-30T08:43:03.097Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "ChatHub.cs",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Hub\\ChatHub.cs",
               "RelativeDocumentMoniker": "Hub\\ChatHub.cs",
@@ -129,25 +198,23 @@
               "RelativeToolTip": "Hub\\ChatHub.cs",
               "ViewState": "AQIAABsAAAAAAAAAAAAYwC8AAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-30T08:32:37.047Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-30T08:32:37.047Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "SkillHubApi",
+              "DocumentIndex": 15,
+              "Title": "SkillHubApi.csproj",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\SkillHubApi.csproj",
               "RelativeDocumentMoniker": "SkillHubApi.csproj",
               "ToolTip": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\SkillHubApi.csproj",
               "RelativeToolTip": "SkillHubApi.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-08-30T08:32:06.868Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-30T08:32:06.868Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 14,
               "Title": "ChatController.cs",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Controllers\\ChatController.cs",
               "RelativeDocumentMoniker": "Controllers\\ChatController.cs",
@@ -155,37 +222,37 @@
               "RelativeToolTip": "Controllers\\ChatController.cs",
               "ViewState": "AQIAABMAAAAAAAAAAAAgwEUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-30T08:30:58.755Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-30T08:30:58.755Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAC0AAAAAAAAAAAAAAEoAAAAaAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAABJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-28T10:22:04.191Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 7,
               "Title": "SubCategoriesController.cs",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Controllers\\SubCategoriesController.cs",
               "RelativeDocumentMoniker": "Controllers\\SubCategoriesController.cs",
               "ToolTip": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Controllers\\SubCategoriesController.cs",
               "RelativeToolTip": "Controllers\\SubCategoriesController.cs",
-              "ViewState": "AQIAABoAAAAAAAAAAAAswDcAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-28T10:19:21.757Z"
+              "WhenOpened": "2024-08-28T10:19:21.757Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "20240828101651_UpdateCategoryAndSubCategoryModels.cs",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Migrations\\20240828101651_UpdateCategoryAndSubCategoryModels.cs",
               "RelativeDocumentMoniker": "Migrations\\20240828101651_UpdateCategoryAndSubCategoryModels.cs",
@@ -197,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 16,
               "Title": "SubCategory.cs",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Models\\SubCategory.cs",
               "RelativeDocumentMoniker": "Models\\SubCategory.cs",
@@ -209,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 17,
               "Title": "Category.cs",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Models\\Category.cs",
               "RelativeDocumentMoniker": "Models\\Category.cs",
@@ -221,19 +288,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 3,
               "Title": "CategoriesController.cs",
               "DocumentMoniker": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Controllers\\CategoriesController.cs",
               "RelativeDocumentMoniker": "Controllers\\CategoriesController.cs",
               "ToolTip": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\Controllers\\CategoriesController.cs",
               "RelativeToolTip": "Controllers\\CategoriesController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAGUAAAAAAAAA",
+              "ViewState": "AQIAADEAAAAAAAAAAAAwwEcAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-28T10:12:39.233Z"
+              "WhenOpened": "2024-08-28T10:12:39.233Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "dbo.Users [Dati]",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/localhost_sqlexpress/SkillHub_DB/True/SqlTable/dbo.Users.sql",
               "ToolTip": "dbo.Users [Dati]",
