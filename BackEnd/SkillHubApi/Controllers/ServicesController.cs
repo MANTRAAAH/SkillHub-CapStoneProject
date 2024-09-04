@@ -42,21 +42,33 @@ public class ServicesController : ControllerBase
 
     // GET: api/services/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Service>> GetService(int id)
+    public async Task<ActionResult<ServiceDto>> GetService(int id)
     {
         var service = await _context.Services
             .Include(s => s.User)
             .Include(s => s.Category)
             .Include(s => s.SubCategory)
-            .FirstOrDefaultAsync(s => s.ServiceID == id);
+            .Where(s => s.ServiceID == id)
+            .Select(s => new ServiceDto
+            {
+                ServiceID = s.ServiceID,
+                Title = s.Title,
+                Description = s.Description,
+                Price = s.Price,
+                CategoryName = s.Category.CategoryName,
+                SubCategoryName = s.SubCategory.SubCategoryName,
+                UserName = s.User.Username
+            })
+            .FirstOrDefaultAsync();
 
         if (service == null)
         {
             return NotFound();
         }
 
-        return service;
+        return Ok(service);
     }
+
 
     // POST: api/services
     [HttpPost]

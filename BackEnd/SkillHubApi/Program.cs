@@ -46,6 +46,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 
+    // Configura eventi per gestire il token JWT, in particolare per SignalR o altre query string
     options.Events = new JwtBearerEvents
     {
         OnMessageReceived = context =>
@@ -53,14 +54,23 @@ builder.Services.AddAuthentication(options =>
             var accessToken = context.Request.Query["access_token"];
             var path = context.HttpContext.Request.Path;
 
+            // Estrarre il token se la richiesta è diretta a /chathub o una specifica route SignalR
             if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chathub"))
             {
-                context.Token = accessToken;
+                context.Token = accessToken;  // Imposta il token nel contesto
             }
+
+            return Task.CompletedTask;
+        },
+        OnAuthenticationFailed = context =>
+        {
+            // Logging in caso di errore di autenticazione, utile per il debug
+            context.Response.StatusCode = 401;
             return Task.CompletedTask;
         }
     };
 });
+
 
 // Aggiungi SignalR con il filtro personalizzato per impostare UserIdentifier
 builder.Services.AddSignalR(options =>

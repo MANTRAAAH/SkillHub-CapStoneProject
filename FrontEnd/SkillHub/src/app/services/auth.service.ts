@@ -12,7 +12,13 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     const userJson = localStorage.getItem('currentUser');
-    this.currentUserSubject = new BehaviorSubject<any>(userJson ? JSON.parse(userJson) : null);
+    try {
+      this.currentUserSubject = new BehaviorSubject<any>(userJson ? JSON.parse(userJson) : null);
+    } catch (error) {
+      console.error('Errore nel parsing del token JWT dal localStorage:', error);
+      localStorage.removeItem('currentUser'); // Elimina il token malformato
+      this.currentUserSubject = new BehaviorSubject<any>(null);
+    }
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -49,5 +55,13 @@ export class AuthService {
 
   getToken(): string | null {
     return this.currentUserValue?.token || null;
+  }
+
+  getUserId(): string | null {
+    if (this.currentUserValue && this.currentUserValue.token) {
+      const payload = JSON.parse(atob(this.currentUserValue.token.split('.')[1]));
+      return payload.nameid; // Assume che il JWT contenga il `nameid` come ID utente
+    }
+    return null;
   }
 }

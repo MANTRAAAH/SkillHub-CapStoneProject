@@ -1,11 +1,21 @@
-<div class="container mt-4" *ngIf="service">
-  <h2>{{ service.title }}</h2>
-  <p>
-    Categoria: {{ service.category }} <br />
-    Sottocategoria: {{ service.subCategory }} <br />
-    Freelancer: {{ service.user.username }} <br />
-    Prezzo: {{ service.price }}€
-  </p>
-  <p>{{ service.description }}</p>
-  <button class="btn btn-primary">Procedi con l'ordine</button>
+<div class="container mt-5" *ngIf="service">
+  <div class="row">
+    <div class="col-md-8">
+      <h2>{{ service.title }}</h2>
+      <p>{{ service.description }}</p>
+      <p>Categoria: {{ service.categoryName }}</p>
+      <p>Sottocategoria: {{ service.subCategoryName }}</p>
+      <p>Freelancer: {{ service.userName }}</p>
+      <p>Prezzo: €{{ service.price }}</p>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <button class="btn btn-primary" (click)="placeOrder()">
+        Piazza Ordine
+      </button>
+      <div class="alert mt-3" *ngIf="orderMessage">{{ orderMessage }}</div>
+    </div>
+  </div>
 </div>
