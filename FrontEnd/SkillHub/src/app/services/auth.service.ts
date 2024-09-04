@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+// Correzione importazione jwt_decode
+import { jwtDecode } from 'jwt-decode';
+
 
 @Injectable({
   providedIn: 'root'
@@ -48,20 +51,45 @@ export class AuthService {
       }));
   }
 
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('currentUser');
+    return !!token; // Ritorna true se il token esiste, altrimenti false
+  }
+
   logout(): void {
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+    localStorage.removeItem('currentUser'); // Rimuovi il token o i dati dell'utente
+    this.currentUserSubject.next(null); // Resetta lo stato dell'utente corrente
   }
 
   getToken(): string | null {
     return this.currentUserValue?.token || null;
   }
 
+  // Corretto: utilizzo di jwt_decode come funzione
+  getRoleFromToken(): string | null {
+    const token = this.getToken(); // Recupera il token
+    if (token) {
+      const decodedToken: any = jwtDecode(token); // Decodifica il token
+      console.log('Token decodificato:', decodedToken); // Log del token decodificato
+
+      // Accedi al ruolo utilizzando il nome completo del claim
+      const role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      console.log('Ruolo estratto:', role); // Verifica se il ruolo viene estratto
+      return role || null; // Ritorna il ruolo se presente
+    }
+    console.log('Nessun token presente'); // Se non esiste token, stampalo
+    return null;
+  }
+
+
+
   getUserId(): string | null {
     if (this.currentUserValue && this.currentUserValue.token) {
       const payload = JSON.parse(atob(this.currentUserValue.token.split('.')[1]));
+      console.log('Payload del token:', payload); // Log del payload
       return payload.nameid; // Assume che il JWT contenga il `nameid` come ID utente
     }
     return null;
   }
+
 }

@@ -1,0 +1,44 @@
+<div class="dashboard">
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <h1>SkillHub Dashboard</h1>
+    </div>
+    <div class="user-info">
+      <span>Benvenuto, {{ currentUser.username }}</span>
+      <button (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <!-- Layout con sidebar e content -->
+  <div class="dashboard-container">
+    <!-- Menu laterale -->
+    <aside class="sidebar">
+      <ul>
+        <li>
+          <a routerLink="/dashboard/orders" routerLinkActive="active">Ordini</a>
+        </li>
+        <li>
+          <a routerLink="/dashboard/profile" routerLinkActive="active"
+            >Anagrafica</a
+          >
+        </li>
+        <li *ngIf="isFreelancer">
+          <a routerLink="/dashboard/services" routerLinkActive="active"
+            >Servizi</a
+          >
+        </li>
+        <li *ngIf="isFreelancer">
+          <a routerLink="/dashboard/charts" routerLinkActive="active"
+            >Grafici</a
+          >
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Contenuto dinamico -->
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

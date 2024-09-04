@@ -15,6 +15,11 @@ import { ButtonModule } from 'primeng/button';
 import { ServicesListComponent } from './components/services/services-list/services-list.component';
 import { ServiceDetailComponent } from './components/services/service-detail/service-detail.component'; // Importa il modulo dei bottoni
 import { RouterModule } from '@angular/router';
+import { DashboardComponent } from './components/dashboard/dashboard/dashboard.component';
+import { OrdersComponent } from './components/dashboard/pages/orders/orders.component';
+import { ProfileComponent } from './components/dashboard/pages/profile/profile.component';
+import { ServicesComponent } from './components/dashboard/pages/services/services.component';
+import { ChartsComponent } from './components/dashboard/pages/charts/charts.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +30,12 @@ import { RouterModule } from '@angular/router';
     LoginComponent,
     RegisterComponent,
     ServicesListComponent,
-    ServiceDetailComponent
+    ServiceDetailComponent,
+    DashboardComponent,
+    OrdersComponent,
+    ProfileComponent,
+    ServicesComponent,
+    ChartsComponent
   ],
   imports: [
     BrowserModule,

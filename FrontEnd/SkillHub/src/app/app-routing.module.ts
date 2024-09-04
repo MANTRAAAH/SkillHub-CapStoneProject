@@ -6,6 +6,12 @@ import { RegisterComponent } from './components/auth/register/register.component
 import { ChatComponent } from './components/chat/chat/chat.component';
 import { ServicesListComponent } from './components/services/services-list/services-list.component';
 import { ServiceDetailComponent } from './components/services/service-detail/service-detail.component'; // Import del componente per i dettagli
+import { DashboardComponent } from './components/dashboard/dashboard/dashboard.component';
+import { OrdersComponent } from './components/dashboard/pages/orders/orders.component';
+import { ProfileComponent } from './components/dashboard/pages/profile/profile.component';
+import { ServicesComponent } from './components/dashboard/pages/services/services.component';
+import { ChartsComponent } from './components/dashboard/pages/charts/charts.component';
+import { FreelancerGuard } from './guards/freelancer.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -13,7 +19,18 @@ const routes: Routes = [
   { path: 'chat', component: ChatComponent },
   { path: 'services', component: ServicesListComponent },
   { path: 'services/:id', component: ServiceDetailComponent }, // Aggiunta della route per i dettagli del servizio
-  { path: 'home', pathMatch: 'full', component: HomeComponent }
+  { path: 'home', pathMatch: 'full', component: HomeComponent },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    children: [
+      { path: 'orders', component: OrdersComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'services', component: ServicesComponent, canActivate: [FreelancerGuard] },
+      { path: 'charts', component: ChartsComponent, canActivate: [FreelancerGuard] },
+      { path: '', redirectTo: 'orders', pathMatch: 'full' } // Redirect predefinito
+    ]
+  },
 ];
 
 @NgModule({

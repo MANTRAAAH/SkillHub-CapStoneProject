@@ -34,6 +34,25 @@
             >Services</a
           >
         </li>
+
+        <!-- Mostra la dashboard solo se l'utente è autenticato -->
+        <li class="nav-item" *ngIf="isAuthenticated">
+          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active"
+            >Dashboard</a
+          >
+        </li>
+      </ul>
+
+      <!-- Se l'utente è autenticato mostra Logout, altrimenti Login -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item" *ngIf="isAuthenticated; else loginLink">
+          <a class="nav-link" (click)="logout()">Logout</a>
+        </li>
+        <ng-template #loginLink>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login">Login</a>
+          </li>
+        </ng-template>
       </ul>
     </div>
   </div>
