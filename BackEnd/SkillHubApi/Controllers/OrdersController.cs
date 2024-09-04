@@ -15,18 +15,44 @@ public class OrdersController : ControllerBase
         _context = context;
     }
 
-    // GET: api/orders
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+    [Authorize]
+    [HttpGet("user-orders")]
+    public async Task<ActionResult<IEnumerable<OrderDetailsDto>>> GetUserOrders()
     {
-        return await _context.Orders
-                             .Include(o => o.Service)
-                             .Include(o => o.Client)
-                             .Include(o => o.Freelancer)
-                             .ToListAsync();
+        // Estrai l'ID dell'utente autenticato dal token JWT
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            return BadRequest("Invalid or missing User ID in token.");
+        }
+
+        int parsedUserId = int.Parse(userId);
+
+        // Ottieni tutti gli ordini dove l'utente è il cliente o il freelancer
+        var orders = await _context.Orders
+            .Where(o => o.ClientID == parsedUserId || o.FreelancerID == parsedUserId)
+            .Include(o => o.Service)
+            .Include(o => o.Client)
+            .Include(o => o.Freelancer)
+            .Select(o => new OrderDetailsDto
+            {
+                OrderID = o.OrderID,
+                ServiceTitle = o.Service.Title,
+                ClientUsername = o.Client.Username,
+                FreelancerUsername = o.Freelancer.Username,
+                OrderDate = o.OrderDate,
+                Status = o.Status,
+                TotalPrice = o.TotalPrice
+            })
+            .ToListAsync();
+
+        return Ok(orders);
     }
 
+
     // GET: api/orders/5
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult<Order>> GetOrder(int id)
     {
@@ -39,6 +65,13 @@ public class OrdersController : ControllerBase
         if (order == null)
         {
             return NotFound();
+        }
+
+        // Verifica che l'ordine sia dell'utente autenticato, sia come cliente che come freelancer
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (order.ClientID.ToString() != userId && order.FreelancerID.ToString() != userId)
+        {
+            return Unauthorized();
         }
 
         return order;
@@ -57,7 +90,6 @@ public class OrdersController : ControllerBase
             return BadRequest("Invalid or missing Client ID in token.");
         }
 
-        // Converti l'ID utente in int
         int parsedClientId = int.Parse(clientId);
 
         var service = await _context.Services.FindAsync(orderDto.ServiceID);
@@ -85,12 +117,8 @@ public class OrdersController : ControllerBase
         return Ok(order);
     }
 
-
-
-
-
-
     // PUT: api/orders/5
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> PutOrder(int id, Order order)
     {
@@ -121,6 +149,7 @@ public class OrdersController : ControllerBase
     }
 
     // DELETE: api/orders/5
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteOrder(int id)
     {

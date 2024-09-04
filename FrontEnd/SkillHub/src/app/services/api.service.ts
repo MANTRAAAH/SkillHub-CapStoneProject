@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable,throwError  } from 'rxjs';
-import { Category, Service, SubCategory } from '../models/models';
+import { Category, OrderDetailsDto, Service, SubCategory } from '../models/models';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { Order } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -56,4 +57,10 @@ export class ApiService {
         })
       );
   }
+
+  getUserOrders(): Observable<OrderDetailsDto[]> {
+    return this.http.get<OrderDetailsDto[]>(`${this.apiUrl}/orders/user-orders`);
+  }
+
+
 }

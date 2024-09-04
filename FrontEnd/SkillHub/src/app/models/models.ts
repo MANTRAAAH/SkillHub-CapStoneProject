@@ -18,3 +18,35 @@ export interface SubCategory {
   subCategoryName: string;
   categoryId: number;  // Collegamento alla categoria
 }
+
+export interface Order {
+  orderID: number;
+  serviceID: number;
+  clientID: number;
+  freelancerID: number;
+  orderDate: Date;
+  status: string;
+  totalPrice: number;
+  paymentStatus: string;
+  service: {
+    title: string;
+    description: string;
+    price: number;
+  };
+  client: {
+    username: string;
+  };
+  freelancer: {
+    username: string;
+  };
+}
+
+export interface OrderDetailsDto {
+  orderID: number;
+  serviceTitle: string;
+  clientUsername: string;
+  freelancerUsername: string;
+  orderDate: Date;
+  status: string;
+  totalPrice: number;
+}
