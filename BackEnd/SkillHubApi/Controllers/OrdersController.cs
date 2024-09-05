@@ -10,14 +10,22 @@ public class OrdersController : ControllerBase
 {
     private readonly SkillHubContext _context;
 
-    public OrdersController(SkillHubContext context)
+    private readonly ILogger<OrdersController> _logger;
+
+    public OrdersController(SkillHubContext context, ILogger<OrdersController> logger)
     {
         _context = context;
+        _logger = logger;
     }
+
 
     [Authorize]
     [HttpGet("user-orders")]
-    public async Task<ActionResult<IEnumerable<OrderDetailsDto>>> GetUserOrders()
+    public async Task<ActionResult<IEnumerable<OrderDetailsDto>>> GetUserOrders(
+        [FromQuery] string? status = null,
+        [FromQuery] DateTime? dateFrom = null,
+        [FromQuery] DateTime? dateTo = null,
+        [FromQuery] decimal? maxPrice = null)
     {
         // Estrai l'ID dell'utente autenticato dal token JWT
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -30,11 +38,39 @@ public class OrdersController : ControllerBase
         int parsedUserId = int.Parse(userId);
 
         // Ottieni tutti gli ordini dove l'utente è il cliente o il freelancer
-        var orders = await _context.Orders
+        var query = _context.Orders
             .Where(o => o.ClientID == parsedUserId || o.FreelancerID == parsedUserId)
             .Include(o => o.Service)
             .Include(o => o.Client)
             .Include(o => o.Freelancer)
+            .AsQueryable();
+
+        // Applica il filtro sullo stato dell'ordine, se fornito
+        if (!string.IsNullOrEmpty(status))
+        {
+            query = query.Where(o => o.Status == status);
+        }
+
+        // Filtra per data di inizio, se fornita
+        if (dateFrom.HasValue)
+        {
+            query = query.Where(o => o.OrderDate >= dateFrom.Value);
+        }
+
+        // Filtra per data di fine, se fornita
+        if (dateTo.HasValue)
+        {
+            query = query.Where(o => o.OrderDate <= dateTo.Value);
+        }
+
+        // Filtra per prezzo massimo, se fornito
+        if (maxPrice.HasValue)
+        {
+            query = query.Where(o => o.TotalPrice <= maxPrice.Value);
+        }
+
+        // Esegui la query e restituisci i risultati
+        var orders = await query
             .Select(o => new OrderDetailsDto
             {
                 OrderID = o.OrderID,
@@ -49,6 +85,7 @@ public class OrdersController : ControllerBase
 
         return Ok(orders);
     }
+
 
 
     // GET: api/orders/5
@@ -164,6 +201,82 @@ public class OrdersController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet("orders/stats")]
+    public async Task<ActionResult<OrderStatsDto>> GetOrderStats()
+    {
+        // Log: inizio del metodo
+        _logger.LogInformation("GetOrderStats method called.");
+
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+        {
+            _logger.LogWarning("User ID is missing in the token.");
+            return BadRequest("User ID is missing.");
+        }
+
+        int parsedUserId;
+        if (!int.TryParse(userId, out parsedUserId))
+        {
+            _logger.LogError($"User ID '{userId}' is not a valid integer.");
+            return BadRequest("Invalid User ID.");
+        }
+
+        // Log: userId verificato correttamente
+        _logger.LogInformation($"User ID is: {parsedUserId}");
+
+        try
+        {
+            var stats = await GetMonthlyOrderStats(parsedUserId);
+            _logger.LogInformation("Stats retrieved successfully.");
+            return Ok(stats);
+        }
+        catch (Exception ex)
+        {
+            // Log: eccezione durante il recupero delle statistiche
+            _logger.LogError(ex, "An error occurred while retrieving order stats.");
+            return StatusCode(500, "An error occurred while retrieving order stats.");
+        }
+    }
+
+
+
+    private async Task<OrderStatsDto> GetMonthlyOrderStats(int userId)
+    {
+        _logger.LogInformation($"Fetching monthly order stats for user ID: {userId}");
+
+        var orderStats = await _context.Orders
+            .Where(o => o.FreelancerID == userId)
+            .GroupBy(o => o.OrderDate.Month)
+            .Select(g => new
+            {
+                Month = g.Key,
+                TotalEarnings = g.Sum(o => o.TotalPrice),
+                OrderCount = g.Count()
+            })
+            .ToListAsync();
+
+        if (!orderStats.Any())
+        {
+            _logger.LogWarning($"No order stats found for user ID: {userId}");
+        }
+        else
+        {
+            _logger.LogInformation($"Retrieved {orderStats.Count} months of stats for user ID: {userId}");
+        }
+
+        return new OrderStatsDto
+        {
+            Months = orderStats.Select(s => s.Month).ToArray(),
+            Earnings = orderStats.Select(s => s.TotalEarnings).ToArray(),
+            OrdersCount = orderStats.Select(s => s.OrderCount).ToArray()
+        };
+    }
+
+
+
+
+
 
     private bool OrderExists(int id)
     {

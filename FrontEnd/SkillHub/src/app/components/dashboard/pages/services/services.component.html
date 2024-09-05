@@ -1,1 +1,22 @@
-<p>services works!</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Titolo</th>
+      <th>Descrizione</th>
+      <th>Categoria</th>
+      <th>Sottocategoria</th>
+      <th>Prezzo</th>
+      <th>Utente</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let service of services">
+      <td>{{ service.title }}</td>
+      <td>{{ service.description }}</td>
+      <td>{{ service.categoryName }}</td>
+      <td>{{ service.subCategoryName }}</td>
+      <td>{{ service.price | currency }}</td>
+      <td>{{ service.userName }}</td>
+    </tr>
+  </tbody>
+</table>

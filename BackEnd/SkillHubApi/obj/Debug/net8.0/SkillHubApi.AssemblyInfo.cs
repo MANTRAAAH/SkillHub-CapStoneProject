@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SkillHubApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7b619f3d3182ecea9103e5ab43c5e3a9bd0fa8ed")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b271a198d57f9b70661a6124e9212b36d0c8f23")]
 [assembly: System.Reflection.AssemblyProductAttribute("SkillHubApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SkillHubApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

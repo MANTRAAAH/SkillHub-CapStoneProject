@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkillHubApi.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 [Route("api/[controller]")]
@@ -155,6 +157,43 @@ public class ServicesController : ControllerBase
 
         return NoContent();
     }
+    // GET: api/services/user-services
+    [Authorize]
+    [HttpGet("user-services")]
+    public async Task<ActionResult<IEnumerable<ServiceDto>>> GetUserServices()
+    {
+        // Estrai l'ID dell'utente autenticato dal token JWT
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            return BadRequest("Invalid or missing User ID in token.");
+        }
+
+        int parsedUserId = int.Parse(userId);
+
+        // Ottieni tutti i servizi creati dall'utente
+        var services = await _context.Services
+            .Where(s => s.UserID == parsedUserId)
+            .Include(s => s.Category)
+            .Include(s => s.SubCategory)
+            .Select(s => new ServiceDto
+            {
+                ServiceID = s.ServiceID,
+                Title = s.Title,
+                Description = s.Description,
+                Price = s.Price,
+                CategoryName = s.Category.CategoryName,
+                SubCategoryName = s.SubCategory.SubCategoryName,
+                UserName = s.User.Username
+            })
+            .ToListAsync();
+
+        return Ok(services);
+    }
+
+
+
 
     private bool ServiceExists(int id)
     {

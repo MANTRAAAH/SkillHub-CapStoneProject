@@ -11,15 +11,15 @@
         public decimal TotalPrice { get; set; }
         public string PaymentStatus { get; set; } = "Pending"; // Pending, Paid, Failed
         public string StripePaymentID { get; set; } = "";
+        public string StripeSessionID { get; set; } = ""; // Aggiunto per gestire il Checkout Session ID di Stripe
 
         // Navigation Properties
-        public Service Service { get; set; }
-        public User Client { get; set; }
-        public User Freelancer { get; set; }
+        public Service? Service { get; set; }
+        public User? Client { get; set; }
+        public User? Freelancer { get; set; }
 
         public Review? Review { get; set; }
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public ICollection<Message> Messages { get; set; } = new List<Message>();
     }
-
 }

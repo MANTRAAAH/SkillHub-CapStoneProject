@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
+import { PaymentService } from '../../../services/payment.service'; // Importa il PaymentService
 import { Service } from '../../../models/models'; // Assicurati di avere l'interfaccia del servizio
+
+declare const Stripe: any;
 
 @Component({
   selector: 'app-service-detail',
@@ -12,7 +15,11 @@ export class ServiceDetailComponent implements OnInit {
   service: Service | undefined; // Usa il modello definito
   orderMessage: string = '';
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private apiService: ApiService,
+    private paymentService: PaymentService // Aggiungi PaymentService al costruttore
+  ) { }
 
   ngOnInit(): void {
     const serviceId = this.route.snapshot.paramMap.get('id');
@@ -21,9 +28,9 @@ export class ServiceDetailComponent implements OnInit {
     }
   }
 
-  loadServiceDetails(serviceId: number) {
+  loadServiceDetails(serviceId: number): void {
     this.apiService.getServiceById(serviceId).subscribe(
-      (data) => {
+      (data: Service) => {
         this.service = data;
       },
       (error) => {
@@ -32,7 +39,7 @@ export class ServiceDetailComponent implements OnInit {
     );
   }
 
-  placeOrder() {
+  placeOrder(): void {
     if (this.service) {
       const order = {
         serviceID: this.service.serviceID,
@@ -42,6 +49,7 @@ export class ServiceDetailComponent implements OnInit {
       this.apiService.placeOrder(order).subscribe(
         (response) => {
           this.orderMessage = 'Ordine piazzato con successo!';
+          this.checkout(response); // Passa la risposta dell'ordine per il checkout
         },
         (error) => {
           this.orderMessage = 'Errore nel piazzare l\'ordine.';
@@ -51,11 +59,25 @@ export class ServiceDetailComponent implements OnInit {
     }
   }
 
+  checkout(orderResponse: any): void {
+    this.paymentService.createCheckoutSession(orderResponse).subscribe(
+      (sessionId: { sessionId: string }) => {
+        console.log('Session ID:', sessionId); // Aggiungi questo per il debug
+        const stripe = Stripe('pk_test_51PsLxx09lO4xKTPMmZwkHDRoZi8jCSzj8IvWxlQ2M8XnkaekNCyA69jFjA9Q6q0lnk4vS0cDVFYHnOZC5FDBWw3U003DwShOJf'); // Usa la tua chiave pubblica
+        stripe.redirectToCheckout({ sessionId: sessionId.sessionId }).then((result: { error?: any }) => {
+          if (result.error) {
+            console.error('Errore durante il reindirizzamento:', result.error);
+          }
+        });
+      },
+      (error) => {
+        this.orderMessage = 'Errore durante la creazione della sessione di checkout.';
+        console.error('Errore nella creazione della sessione di checkout', error);
+      }
+    );
+  }
 
-
-
-
-  handleOrderError(error: any) {
+  handleOrderError(error: any): void {
     if (error.status === 0) {
       // Errore di rete
       this.orderMessage = 'Errore di connessione. Verifica la tua connessione internet.';
@@ -79,5 +101,4 @@ export class ServiceDetailComponent implements OnInit {
     }
     console.error('Errore dettagliato:', error);
   }
-
 }

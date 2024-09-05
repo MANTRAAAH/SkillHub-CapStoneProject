@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable,throwError  } from 'rxjs';
-import { Category, OrderDetailsDto, Service, SubCategory } from '../models/models';
+import { Category, OrderDetailsDto, OrderStatsDto, Service, SubCategory } from '../models/models';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { Order } from '../models/models';
+import { ServiceDto } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +66,30 @@ export class ApiService {
 
     return this.http.get<any>(`${this.apiUrl}/orders/user-orders`, { headers });
   }
+  getUserServices(): Observable<ServiceDto[]> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.get<ServiceDto[]>(`${this.apiUrl}/services/user-services`, { headers });
+  }
+  getOrders(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/orders`);
+  }
+  getOrderStats(): Observable<OrderStatsDto> {
+    const token = this.authService.getToken();  // Supponiamo che il token sia salvato in un servizio di autenticazione
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<OrderStatsDto>(`${this.apiUrl}/Orders/orders/stats`, { headers });
+  }
 
 
-
+  createService(serviceData: any): Observable<any> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post(`${this.apiUrl}/services`, serviceData, { headers });
+  }
 }

@@ -26,8 +26,8 @@ const routes: Routes = [
     children: [
       { path: 'orders', component: OrdersComponent },
       { path: 'profile', component: ProfileComponent },
-      { path: 'services', component: ServicesComponent, canActivate: [FreelancerGuard] },
-      { path: 'charts', component: ChartsComponent, canActivate: [FreelancerGuard] },
+      { path: 'services', component: ServicesComponent},
+      { path: 'charts', component: ChartsComponent },
       { path: '', redirectTo: 'orders', pathMatch: 'full' } // Redirect predefinito
     ]
   },

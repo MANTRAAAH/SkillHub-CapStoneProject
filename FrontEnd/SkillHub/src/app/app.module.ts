@@ -20,7 +20,11 @@ import { OrdersComponent } from './components/dashboard/pages/orders/orders.comp
 import { ProfileComponent } from './components/dashboard/pages/profile/profile.component';
 import { ServicesComponent } from './components/dashboard/pages/services/services.component';
 import { ChartsComponent } from './components/dashboard/pages/charts/charts.component';
+import { BaseChartDirective } from 'ng2-charts'; // Usa NgChartsModule
+import { Chart, registerables } from 'chart.js';
+import { PaymentComponent } from './components/payment/payment/payment.component';
 
+Chart.register(...registerables);
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,17 +39,19 @@ import { ChartsComponent } from './components/dashboard/pages/charts/charts.comp
     OrdersComponent,
     ProfileComponent,
     ServicesComponent,
-    ChartsComponent
+    ChartsComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
+    BaseChartDirective,
     AppRoutingModule,
     FormsModule,
     RouterModule,
     HttpClientModule,
     CarouselModule,  // Aggiungi il modulo del carosello
     ButtonModule,  // Aggiungi il modulo dei bottoni
-    BrowserAnimationsModule  // Aggiungi BrowserAnimationsModule se hai bisogno di animazioni
+    BrowserAnimationsModule  // Aggiungi BrowserAnimationsModule se hai bisogno di animazioni,
   ],
   providers: [],
   bootstrap: [AppComponent]

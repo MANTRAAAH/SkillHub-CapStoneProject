@@ -1,27 +1,60 @@
-<div class="orders-container">
-  <h2 *ngIf="userRole === 'User'">I tuoi ordini</h2>
-  <h2 *ngIf="userRole === 'Freelancer'">Ordini ricevuti</h2>
+<div class="filters">
+  <h3>Filtra ordini</h3>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Servizio</th>
-        <th>Cliente</th>
-        <th>Freelancer</th>
-        <th>Data</th>
-        <th>Stato</th>
-        <th>Prezzo Totale</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let order of orders">
-        <td>{{ order.serviceTitle }}</td>
-        <td>{{ order.clientUsername }}</td>
-        <td>{{ order.freelancerUsername }}</td>
-        <td>{{ order.orderDate | date }}</td>
-        <td>{{ order.status }}</td>
-        <td>{{ order.totalPrice | currency }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <label for="status">Stato</label>
+    <select id="status" [(ngModel)]="filter.status">
+      <option value="">Tutti</option>
+      <option value="Pending">Pending</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Completed">Completed</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="dateFrom">Data da</label>
+    <input type="date" id="dateFrom" [(ngModel)]="filter.dateFrom" />
+    <label for="dateTo">Data a</label>
+    <input type="date" id="dateTo" [(ngModel)]="filter.dateTo" />
+  </div>
+
+  <div>
+    <label for="price">Prezzo massimo</label>
+    <input type="number" id="price" [(ngModel)]="filter.maxPrice" />
+  </div>
+
+  <div>
+    <label for="search">Ricerca per servizio/cliente</label>
+    <input type="text" id="search" [(ngModel)]="filter.searchQuery" />
+  </div>
+
+  <button (click)="applyFilters()">Applica filtri</button>
 </div>
+
+<!-- Tabella ordini -->
+<table class="table table-striped">
+  <!-- Intestazioni -->
+  <thead>
+    <tr>
+      <th>Servizio</th>
+      <th>Cliente</th>
+      <th>Freelancer</th>
+      <th>Data</th>
+      <th>Stato</th>
+      <th>Prezzo Totale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of filteredOrders">
+      <td>{{ order.serviceTitle }}</td>
+      <!-- Cambiato da order.service.title a order.serviceTitle -->
+      <td>{{ order.clientUsername }}</td>
+      <!-- Cambiato da order.client.username a order.clientUsername -->
+      <td>{{ order.freelancerUsername }}</td>
+      <!-- Cambiato da order.freelancer.username a order.freelancerUsername -->
+      <td>{{ order.orderDate | date }}</td>
+      <td>{{ order.status }}</td>
+      <td>{{ order.totalPrice | currency }}</td>
+    </tr>
+  </tbody>
+</table>

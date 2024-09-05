@@ -50,3 +50,19 @@ export interface OrderDetailsDto {
   status: string;
   totalPrice: number;
 }
+
+export interface ServiceDto {
+  serviceID: number;
+  title: string;
+  description: string;
+  price: number;
+  categoryName: string;
+  subCategoryName: string;
+  userName: string;
+}
+
+export interface OrderStatsDto {
+  months: number[];
+  earnings: number[];
+  ordersCount: number[];
+}
