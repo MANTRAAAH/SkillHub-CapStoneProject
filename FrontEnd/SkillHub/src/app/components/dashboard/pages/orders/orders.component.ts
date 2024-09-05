@@ -21,15 +21,24 @@ export class OrdersComponent implements OnInit {
 
   loadOrders() {
     this.apiService.getUserOrders().subscribe(
-      (data) => {
-        this.orders = data; // Qui non hai più bisogno di accedere a $values
+      (data: any) => {
+        // Verifica se data.$values esiste e assegna solo l'array di ordini
+        if (data && data.$values) {
+          this.orders = data.$values; // Passiamo solo l'array di ordini
+        } else {
+          this.orders = data; // In caso non ci siano $values, usa direttamente data
+        }
+
+        // Log per confermare i dati
         console.log('Ordini caricati:', this.orders);
       },
       (error) => {
         console.error('Errore nel caricamento degli ordini', error);
+        this.orders = []; // Imposta come array vuoto in caso di errore
       }
     );
   }
+
 
 
 }

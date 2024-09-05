@@ -58,9 +58,15 @@ export class ApiService {
       );
   }
 
-  getUserOrders(): Observable<OrderDetailsDto[]> {
-    return this.http.get<OrderDetailsDto[]>(`${this.apiUrl}/orders/user-orders`);
+  getUserOrders(): Observable<any> {
+    const token = this.authService.getToken(); // Prendi il token dal servizio di autenticazione
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any>(`${this.apiUrl}/orders/user-orders`, { headers });
   }
+
 
 
 }
