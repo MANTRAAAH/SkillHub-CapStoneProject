@@ -161,6 +161,37 @@ public class UsersController : ControllerBase
         return NoContent();
     }
 
+    // PUT: api/users/update-password
+    [Authorize]
+    [HttpPut("update-password")]
+    public async Task<IActionResult> UpdatePassword([FromBody] PasswordUpdateDto passwordUpdateDto)
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var user = await _context.Users.FindAsync(userId);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        using var hmac = new HMACSHA512(user.PasswordSalt);
+        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(passwordUpdateDto.OldPassword));
+
+        for (int i = 0; i < computedHash.Length; i++)
+        {
+            if (computedHash[i] != user.PasswordHash[i])
+            {
+                return Unauthorized("Old password is incorrect.");
+            }
+        }
+
+        user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(passwordUpdateDto.NewPassword));
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+
     private async Task<bool> UserExists(string email)
     {
         return await _context.Users.AnyAsync(u => u.Email == email);

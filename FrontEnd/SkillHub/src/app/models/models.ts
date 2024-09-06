@@ -1,3 +1,13 @@
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  bio?: string;           // Campo opzionale
+  profilePicture?: string; // Campo opzionale
+}
+
+
+
 export interface Service {
 description: any;
 userName: any;
