@@ -1,17 +1,28 @@
 <div class="chat-container">
-  <h2>Chat</h2>
-
-  <div class="messages">
-    <div *ngFor="let message of messages">
-      {{ message }}
+  <div
+    *ngFor="let message of messages"
+    [ngClass]="{
+      'sent-message': message.senderId === currentUserId,
+      'received-message': message.senderId !== currentUserId
+    }"
+  >
+    <div class="message-content">
+      <strong
+        >{{
+          message.senderId === currentUserId ? "Tu" : selectedUser?.username
+        }}:</strong
+      >
+      <span>{{ message.content }}</span>
     </div>
   </div>
+</div>
 
-  <input [(ngModel)]="receiverUserId" placeholder="Receiver User ID" />
+<!-- Input per nuovo messaggio -->
+<div class="message-input">
   <input
-    [(ngModel)]="message"
-    placeholder="Type your message here"
-    (keyup.enter)="sendMessage()"
+    type="text"
+    [(ngModel)]="newMessage"
+    placeholder="Scrivi un messaggio..."
   />
-  <button (click)="sendMessage()">Send</button>
+  <button (click)="sendMessage()">Invia</button>
 </div>

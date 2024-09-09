@@ -1,9 +1,17 @@
 export interface User {
-  id: number;
+  userID: number;
   username: string;
   email: string;
   bio?: string;           // Campo opzionale
   profilePicture?: string; // Campo opzionale
+}
+
+export interface Message {
+  messageId: number;
+  senderId: number;
+  receiverId: number;
+  content: string;  // Assicurati che questa proprietà esista
+  timestamp: Date;
 }
 
 

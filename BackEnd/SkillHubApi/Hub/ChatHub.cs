@@ -7,6 +7,7 @@ using SkillHubApi.Models;
 
 public class ChatHub : Hub
 {
+    // Dizionario per tracciare le connessioni attive degli utenti
     private static readonly ConcurrentDictionary<string, string> _userConnections = new ConcurrentDictionary<string, string>();
     private readonly SkillHubContext _context;
 
@@ -18,10 +19,10 @@ public class ChatHub : Hub
     // Metodo chiamato dai client per inviare un messaggio
     public async Task SendMessage(string receiverUserId, string messageContent)
     {
-        if (string.IsNullOrEmpty(receiverUserId))
+        if (string.IsNullOrEmpty(receiverUserId) || string.IsNullOrEmpty(messageContent))
         {
-            // Gestisci il caso di userId nullo
-            await Clients.Caller.SendAsync("ReceiveMessage", "System", "Invalid receiver user ID.");
+            // Risposta al mittente se mancano dati
+            await Clients.Caller.SendAsync("ReceiveMessage", "System", "Receiver ID and message content are required.");
             return;
         }
 
@@ -29,49 +30,47 @@ public class ChatHub : Hub
 
         if (string.IsNullOrEmpty(senderUserId))
         {
-            // Gestisci il caso di senderUserId nullo
-            await Clients.Caller.SendAsync("ReceiveMessage", "System", "Invalid sender user ID.");
+            await Clients.Caller.SendAsync("ReceiveMessage", "System", "Sender ID is not valid.");
             return;
         }
 
         try
         {
-            var receiverIdInt = int.Parse(receiverUserId);
-            var senderIdInt = int.Parse(senderUserId);
+            int receiverIdInt = int.Parse(receiverUserId);
+            int senderIdInt = int.Parse(senderUserId);
 
             // Salva il messaggio nel database
             var message = new Message
             {
-                SenderID = senderIdInt,
-                ReceiverID = receiverIdInt,
+                SenderId = senderIdInt,
+                ReceiverId = receiverIdInt,
                 Content = messageContent,
-                SentDate = DateTime.UtcNow,
+                Timestamp = DateTime.UtcNow,
                 IsRead = false
             };
 
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
 
-            // Ottieni il ConnectionId dell'utente destinatario
+            // Verifica se il destinatario è online
             if (_userConnections.TryGetValue(receiverUserId, out string receiverConnectionId))
             {
-                // Invia il messaggio solo al destinatario
-                await Clients.Client(receiverConnectionId).SendAsync("ReceiveMessage", senderUserId, messageContent);
+                // Invia il messaggio al destinatario se è online
+                await Clients.Client(receiverConnectionId).SendAsync("ReceiveMessage", message);
             }
             else
             {
                 // Notifica al mittente che il destinatario non è online
-                await Clients.Caller.SendAsync("ReceiveMessage", "System", "User is not available. The message has been saved.");
+                await Clients.Caller.SendAsync("ReceiveMessage", "System", "User is not online. The message has been saved.");
             }
         }
         catch (Exception ex)
         {
-            // Logga l'errore per ulteriore diagnosi
+            // Gestione dell'errore e logging
             Console.WriteLine($"Error in SendMessage: {ex.Message}");
-            throw;
+            await Clients.Caller.SendAsync("ReceiveMessage", "System", "An error occurred while sending the message.");
         }
     }
-
 
     // Metodo chiamato quando un client si collega
     public override async Task OnConnectedAsync()
@@ -80,20 +79,20 @@ public class ChatHub : Hub
 
         if (!string.IsNullOrEmpty(userId))
         {
-            // Aggiungi o aggiorna la mappatura UserId -> ConnectionId
+            // Aggiungi o aggiorna la connessione dell'utente
             _userConnections.AddOrUpdate(userId, Context.ConnectionId, (key, oldValue) => Context.ConnectionId);
 
             // Recupera i messaggi non letti dal database
             var unreadMessages = _context.Messages
-                .Where(m => m.ReceiverID == int.Parse(userId) && !m.IsRead)
-                .OrderBy(m => m.SentDate)
+                .Where(m => m.ReceiverId == int.Parse(userId) && !m.IsRead)
+                .OrderBy(m => m.Timestamp)
                 .ToList();
 
-            // Invia i messaggi non letti al client appena connesso
+            // Invia i messaggi non letti al client
             foreach (var message in unreadMessages)
             {
-                await Clients.Caller.SendAsync("ReceiveMessage", message.SenderID.ToString(), message.Content);
-                message.IsRead = true;  // Marca il messaggio come letto
+                await Clients.Caller.SendAsync("ReceiveMessage", message.SenderId.ToString(), message.Content);
+                message.IsRead = true;  // Marca come letto
             }
 
             await _context.SaveChangesAsync();
@@ -112,17 +111,17 @@ public class ChatHub : Hub
 
         if (!string.IsNullOrEmpty(userId))
         {
-            // Rimuovi la mappatura quando l'utente si disconnette
+            // Rimuovi la connessione dell'utente
             _userConnections.TryRemove(userId, out _);
 
-            // Potresti voler notificare altri utenti che questo utente è offline
+            // Potresti voler notificare gli altri utenti che l'utente si è disconnesso
             await Clients.All.SendAsync("ReceiveMessage", "System", $"{userId} has disconnected.");
         }
 
         await base.OnDisconnectedAsync(exception);
     }
 
-    // Metodo per ottenere il ConnectionId per un dato UserId
+    // Metodo per ottenere il ConnectionId di un utente
     private string GetConnectionIdForUser(string userId)
     {
         _userConnections.TryGetValue(userId, out string connectionId);

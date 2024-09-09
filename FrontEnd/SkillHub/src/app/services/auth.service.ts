@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-// Correzione importazione jwt_decode
-import { jwtDecode } from 'jwt-decode';
-
 
 @Injectable({
   providedIn: 'root'
@@ -65,15 +62,14 @@ export class AuthService {
     return this.currentUserValue?.token || null;
   }
 
-  // Corretto: utilizzo di jwt_decode come funzione
+  // Estrai il ruolo dal token decodificato
   getRoleFromToken(): string | null {
     const token = this.getToken(); // Recupera il token
     if (token) {
-      const decodedToken: any = jwtDecode(token); // Decodifica il token
-      console.log('Token decodificato:', decodedToken); // Log del token decodificato
+      const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica il payload del token
+      console.log('Token decodificato:', payload); // Log del token decodificato
 
-      // Accedi al ruolo utilizzando il nome completo del claim
-      const role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
       console.log('Ruolo estratto:', role); // Verifica se il ruolo viene estratto
       return role || null; // Ritorna il ruolo se presente
     }
@@ -81,15 +77,15 @@ export class AuthService {
     return null;
   }
 
-
-
+  // Estrai l'ID utente dal token
   getUserId(): string | null {
-    if (this.currentUserValue && this.currentUserValue.token) {
-      const payload = JSON.parse(atob(this.currentUserValue.token.split('.')[1]));
+    const token = this.getToken();
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica il payload del token
       console.log('Payload del token:', payload); // Log del payload
-      return payload.nameid; // Assume che il JWT contenga il `nameid` come ID utente
+
+      return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"]; // Assume che il JWT contenga il `nameidentifier` come ID utente
     }
     return null;
   }
-
 }

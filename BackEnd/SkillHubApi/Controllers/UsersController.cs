@@ -190,6 +190,21 @@ public class UsersController : ControllerBase
 
         return NoContent();
     }
+    // GET: api/users/me
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<ActionResult<User>> GetCurrentUser()
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var user = await _context.Users.FindAsync(userId);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        return user;
+    }
 
 
     private async Task<bool> UserExists(string email)

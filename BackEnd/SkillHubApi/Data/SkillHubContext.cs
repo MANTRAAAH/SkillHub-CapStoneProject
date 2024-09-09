@@ -42,14 +42,14 @@ public class SkillHubContext : DbContext
         modelBuilder.Entity<Message>()
             .HasOne(m => m.Sender)
             .WithMany(u => u.SentMessages)
-            .HasForeignKey(m => m.SenderID)
+            .HasForeignKey(m => m.SenderId)
             .OnDelete(DeleteBehavior.Restrict);
 
         // Configurazione della relazione tra Message e User per Receiver (1-N)
         modelBuilder.Entity<Message>()
             .HasOne(m => m.Receiver)
             .WithMany(u => u.ReceivedMessages)
-            .HasForeignKey(m => m.ReceiverID)
+            .HasForeignKey(m => m.ReceiverId)
             .OnDelete(DeleteBehavior.Restrict);
 
         // Configurazione della relazione tra Order e User per Client (1-N)

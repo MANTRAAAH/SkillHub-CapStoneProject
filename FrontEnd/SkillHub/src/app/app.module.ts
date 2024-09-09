@@ -23,6 +23,7 @@ import { ChartsComponent } from './components/dashboard/pages/charts/charts.comp
 import { BaseChartDirective } from 'ng2-charts'; // Usa NgChartsModule
 import { Chart, registerables } from 'chart.js';
 import { PaymentComponent } from './components/payment/payment/payment.component';
+import { ChatUsersComponent } from './components/chat/chat-users/chat-users.component';
 
 Chart.register(...registerables);
 @NgModule({
@@ -40,7 +41,8 @@ Chart.register(...registerables);
     ProfileComponent,
     ServicesComponent,
     ChartsComponent,
-    PaymentComponent
+    PaymentComponent,
+    ChatUsersComponent
   ],
   imports: [
     BrowserModule,

@@ -12,11 +12,13 @@ import { ProfileComponent } from './components/dashboard/pages/profile/profile.c
 import { ServicesComponent } from './components/dashboard/pages/services/services.component';
 import { ChartsComponent } from './components/dashboard/pages/charts/charts.component';
 import { FreelancerGuard } from './guards/freelancer.guard';
+import { ChatUsersComponent } from './components/chat/chat-users/chat-users.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'chat', component: ChatComponent },
+  { path: 'chat', component: ChatUsersComponent },
+  { path: 'chat/:userId', component: ChatComponent },
   { path: 'services', component: ServicesListComponent },
   { path: 'services/:id', component: ServiceDetailComponent }, // Aggiunta della route per i dettagli del servizio
   { path: 'home', pathMatch: 'full', component: HomeComponent },

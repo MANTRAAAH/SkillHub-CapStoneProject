@@ -2,6 +2,9 @@
   <h2>Modifica il tuo profilo</h2>
 
   <form (ngSubmit)="updateProfile()">
+    <!-- Campo nascosto per l'ID utente -->
+    <input type="hidden" [(ngModel)]="user.userID" name="id" />
+
     <div class="form-group">
       <label for="username">Nome utente</label>
       <input

@@ -10,14 +10,11 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers();
-
-// Add DbContext service
+// Aggiunta del DbContext
 builder.Services.AddDbContext<SkillHubContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configurazione di Swagger
+// Aggiunta di Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -46,7 +43,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 
-    // Configura eventi per gestire il token JWT, in particolare per SignalR o altre query string
+    // Configura eventi per gestire il token JWT per SignalR
     options.Events = new JwtBearerEvents
     {
         OnMessageReceived = context =>
@@ -54,39 +51,36 @@ builder.Services.AddAuthentication(options =>
             var accessToken = context.Request.Query["access_token"];
             var path = context.HttpContext.Request.Path;
 
-            // Estrarre il token se la richiesta è diretta a /chathub o una specifica route SignalR
+            // Estrarre il token se la richiesta è diretta a /chathub o un'altra route SignalR
             if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chathub"))
             {
-                context.Token = accessToken;  // Imposta il token nel contesto
+                context.Token = accessToken;
             }
 
             return Task.CompletedTask;
         },
         OnAuthenticationFailed = context =>
         {
-            // Logging in caso di errore di autenticazione, utile per il debug
             context.Response.StatusCode = 401;
             return Task.CompletedTask;
         }
     };
 });
 
+// Configurazione di SignalR e del provider personalizzato per l'identificazione degli utenti
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
-// Aggiungi SignalR con il filtro personalizzato per impostare UserIdentifier
-builder.Services.AddSignalR(options =>
-{
-    options.AddFilter<SetUserIdentifierFilter>();
-});
-
-// Configurazione del CORS per consentire le richieste da Angular
+// Configurazione del CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularApp",
-        builder => builder
-            .WithOrigins("http://localhost:4200", "http://localhost:50313")
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials());
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200", "http://localhost:59886")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
 });
 
 var app = builder.Build();
@@ -109,6 +103,7 @@ app.UseAuthentication();
 // Middleware di autorizzazione
 app.UseAuthorization();
 
+// Mappatura dei controller e degli Hub SignalR
 app.MapControllers();
 app.MapHub<ChatHub>("/chathub");
 

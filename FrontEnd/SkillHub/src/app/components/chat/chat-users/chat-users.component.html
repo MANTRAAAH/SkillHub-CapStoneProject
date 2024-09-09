@@ -1,0 +1,9 @@
+<div class="chat-users-container">
+  <ul>
+    <li *ngFor="let user of users">
+      <a href="javascript:void(0)" (click)="onSelectUser(user)">
+        {{ user.username }}
+      </a>
+    </li>
+  </ul>
+</div>

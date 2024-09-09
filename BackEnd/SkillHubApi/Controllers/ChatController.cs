@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using SkillHubApi.Models;
+using System.Security.Claims;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -20,38 +21,84 @@ public class ChatController : ControllerBase
     [HttpPost("send")]
     public async Task<ActionResult<Message>> SendMessage([FromBody] Message message)
     {
-        // Verifica che SenderID e ReceiverID siano stati forniti
-        if (message.SenderID == 0 || message.ReceiverID == 0)
+        // Validazione del modello
+        if (!ModelState.IsValid)
         {
-            return BadRequest("SenderID and ReceiverID are required.");
+            return BadRequest(ModelState);
+        }
+
+        // Verifica che SenderId e ReceiverId siano stati forniti
+        if (message.SenderId == 0 || message.ReceiverId == 0)
+        {
+            return BadRequest("SenderId and ReceiverId are required.");
         }
 
         // Recupera il Sender dal database
-        var sender = await _context.Users.FindAsync(message.SenderID);
+        var sender = await _context.Users.FindAsync(message.SenderId);
         if (sender == null)
         {
-            return NotFound($"Sender with ID {message.SenderID} not found.");
+            return NotFound($"Sender with ID {message.SenderId} not found.");
         }
 
         // Recupera il Receiver dal database
-        var receiver = await _context.Users.FindAsync(message.ReceiverID);
+        var receiver = await _context.Users.FindAsync(message.ReceiverId);
         if (receiver == null)
         {
-            return NotFound($"Receiver with ID {message.ReceiverID} not found.");
+            return NotFound($"Receiver with ID {message.ReceiverId} not found.");
         }
 
         // Associa Sender e Receiver al messaggio
         message.Sender = sender;
         message.Receiver = receiver;
+        message.Timestamp = DateTime.UtcNow;  // Aggiungi il timestamp al messaggio
 
         // Aggiungi il messaggio al database
         _context.Messages.Add(message);
         await _context.SaveChangesAsync();
 
-        // Invia il messaggio in tempo reale tramite SignalR
-        await _hubContext.Clients.User(message.ReceiverID.ToString()).SendAsync("ReceiveMessage", message);
+        try
+        {
+            // Invia il messaggio in tempo reale tramite SignalR
+            await _hubContext.Clients.User(message.ReceiverId.ToString()).SendAsync("ReceiveMessage", message);
+        }
+        catch (Exception ex)
+        {
+            // Log dell'errore di SignalR (non interrompe l'invio del messaggio)
+            Console.WriteLine($"SignalR error: {ex.Message}");
+        }
 
-        return CreatedAtAction(nameof(GetChatHistory), new { userId1 = message.SenderID, userId2 = message.ReceiverID }, message);
+        // Restituisci il messaggio creato con il metodo GetChatHistory
+        return CreatedAtAction(nameof(GetChatHistory), new { userId1 = message.SenderId, userId2 = message.ReceiverId }, message);
+    }
+
+
+    [HttpGet("get-chatted-users")]
+    public async Task<IActionResult> GetChattedUsers()
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        // Recupera gli utenti che hanno scambiato messaggi con l'utente corrente
+        var chattedUsers = await _context.Users
+            .Where(u => _context.Messages
+                .Any(m => (m.SenderId == userId && m.ReceiverId == u.UserID) || (m.ReceiverId == userId && m.SenderId == u.UserID)))
+            .ToListAsync();
+
+        return Ok(chattedUsers);
+    }
+
+    [HttpGet("get-messages/{userId}")]
+    public async Task<IActionResult> GetMessages(int userId)
+    {
+        var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        // Recupera i messaggi tra l'utente corrente e l'utente selezionato
+        var messages = await _context.Messages
+            .Where(m => (m.SenderId == currentUserId && m.ReceiverId == userId) ||
+                        (m.SenderId == userId && m.ReceiverId == currentUserId))
+            .OrderBy(m => m.Timestamp)
+            .ToListAsync();
+
+        return Ok(messages);
     }
 
     // GET: api/chat/history/{userId1}/{userId2}
@@ -59,9 +106,9 @@ public class ChatController : ControllerBase
     public async Task<ActionResult<IEnumerable<Message>>> GetChatHistory(int userId1, int userId2)
     {
         var messages = await _context.Messages
-            .Where(m => (m.SenderID == userId1 && m.ReceiverID == userId2) ||
-                        (m.SenderID == userId2 && m.ReceiverID == userId1))
-            .OrderBy(m => m.SentDate)
+            .Where(m => (m.SenderId == userId1 && m.ReceiverId == userId2) ||
+                        (m.SenderId == userId2 && m.ReceiverId == userId1))
+            .OrderBy(m => m.Timestamp)
             .ToListAsync();
 
         return Ok(messages);

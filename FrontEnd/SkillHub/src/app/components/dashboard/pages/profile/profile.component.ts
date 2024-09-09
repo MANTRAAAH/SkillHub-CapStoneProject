@@ -1,19 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../services/user.service';
 import { User } from '../../../../models/models'; // Importa il modello User
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
-  user: User = { id: 0, username: '', email: '' };  // Inizializza con valori predefiniti
+export class ProfileComponent implements OnInit {
+  user: User = { userID: 0, username: '', email: '', bio: '', profilePicture: '' };  // Aggiungi campi mancanti
   oldPassword: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
 
   constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    // Quando il componente si inizializza, carica il profilo utente
+    this.getUserProfile();
+  }
+
+  // Metodo per caricare il profilo utente
+  getUserProfile() {
+    this.userService.getUserProfile().subscribe(
+      (data: User) => {
+        this.user = data;  // Verifica che l'ID sia presente qui
+        console.log(this.user); // Log per controllare l'ID utente
+      },
+      error => {
+        console.error('Error fetching user profile', error);
+      }
+    );
+  }
+
+
 
   // Metodo per aggiornare il profilo
   updateProfile() {
