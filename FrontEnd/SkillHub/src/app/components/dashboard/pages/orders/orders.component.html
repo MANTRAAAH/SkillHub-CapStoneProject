@@ -6,8 +6,8 @@
     <select id="status" [(ngModel)]="filter.status">
       <option value="">Tutti</option>
       <option value="Pending">Pending</option>
-      <option value="In Progress">In Progress</option>
-      <option value="Completed">Completed</option>
+      <option value="Paid">Paid</option>
+      <option value="Failed">Failed</option>
     </select>
   </div>
 
@@ -36,6 +36,7 @@
   <!-- Intestazioni -->
   <thead>
     <tr>
+      <th>Id Ordine</th>
       <th>Servizio</th>
       <th>Cliente</th>
       <th>Freelancer</th>
@@ -46,6 +47,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let order of filteredOrders">
+      <td>{{ order.orderID }}</td>
       <td>{{ order.serviceTitle }}</td>
       <!-- Cambiato da order.service.title a order.serviceTitle -->
       <td>{{ order.clientUsername }}</td>
@@ -53,7 +55,7 @@
       <td>{{ order.freelancerUsername }}</td>
       <!-- Cambiato da order.freelancer.username a order.freelancerUsername -->
       <td>{{ order.orderDate | date }}</td>
-      <td>{{ order.status }}</td>
+      <td>{{ order.paymentStatus }}</td>
       <td>{{ order.totalPrice | currency }}</td>
     </tr>
   </tbody>

@@ -68,7 +68,11 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Configurazione di SignalR e del provider personalizzato per l'identificazione degli utenti
-builder.Services.AddSignalR();
+builder.Services.AddSignalR()
+    .AddJsonProtocol(options =>
+    {
+        options.PayloadSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
 // Configurazione del CORS
@@ -76,7 +80,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200", "http://localhost:59886")
+        policy.WithOrigins("http://localhost:4200", "http://localhost:63554")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();

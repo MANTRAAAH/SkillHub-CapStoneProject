@@ -1,13 +1,19 @@
+@import '../../../../variables.scss';
+
+/* Adatta il contenuto della chat alla finestra */
 .chat-container {
   display: flex;
   flex-direction: column;
-  max-height: 500px;
-  overflow-y: auto;
+  flex-grow: 1;  /* Occupa tutto lo spazio disponibile */
+  background-color: $background-color;
+  overflow-y: auto; /* Permetti lo scroll solo nel contenitore dei messaggi */
 }
 
+/* Messaggi inviati */
 .sent-message {
   align-self: flex-end;
-  background-color: #dcf8c6;
+  background-color: $primary-color;
+  color: white;
   padding: 10px;
   border-radius: 10px;
   margin: 5px;
@@ -15,9 +21,11 @@
   text-align: right;
 }
 
+/* Messaggi ricevuti */
 .received-message {
   align-self: flex-start;
-  background-color: #f1f0f0;
+  background-color: $secondary-color;
+  color: $text-color;
   padding: 10px;
   border-radius: 10px;
   margin: 5px;
@@ -29,25 +37,46 @@
   display: inline-block;
 }
 
+/* Gestione dell'input messaggio */
 .message-input {
   display: flex;
   justify-content: space-between;
   padding: 10px;
+  background-color: $background-color;
+  border-top: 1px solid $accent-color;  /* Aggiungi un bordo superiore per separare la chat dall'input */
+  position: sticky;
+  bottom: 0; /* Posiziona l'input sempre in basso */
 }
 
 input {
   flex-grow: 1;
   padding: 10px;
   border-radius: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid $accent-color;
   margin-right: 10px;
+  color: $text-color;
+  background-color: $background-color;
 }
 
 button {
   padding: 10px 20px;
   border-radius: 20px;
-  background-color: #007bff;
+  background-color: $accent-color;
   color: white;
   border: none;
   cursor: pointer;
+}
+
+/* Aggiungi lo stile per la scrollbar solo sul contenuto della chat */
+.chat-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background-color: $accent-color;
+  border-radius: 4px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+  background-color: lighten($background-color, 10%);
 }

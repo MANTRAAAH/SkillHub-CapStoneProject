@@ -1,9 +1,76 @@
 <div class="chat-users-container">
-  <ul>
-    <li *ngFor="let user of users">
-      <a href="javascript:void(0)" (click)="onSelectUser(user)">
-        {{ user.username }}
-      </a>
-    </li>
-  </ul>
+  <!-- Barra di ricerca -->
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="searchUsers()"
+    placeholder="Cerca utente..."
+    class="form-control mb-3"
+  />
+
+  <!-- Sezione degli utenti trovati tramite la ricerca -->
+  <h4>Risultati ricerca</h4>
+  <div *ngIf="searchTerm && searchResults.length > 0">
+    <div class="card mb-2 mx-3 px-2" *ngFor="let user of searchResults">
+      <div class="row g-0 align-items-center">
+        <div class="col-auto">
+          <img
+            src="{{ user.profilePicture || 'https://via.placeholder.com/50' }}"
+            alt="Profile Picture"
+            class="img-fluid rounded-circle"
+            width="50"
+            height="50"
+          />
+        </div>
+        <div class="col">
+          <div class="card-body">
+            <h5 class="card-title">{{ user.username }}</h5>
+            <p class="card-text">
+              {{ user.bio || "Nessuna biografia disponibile." }}
+            </p>
+          </div>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary" (click)="onSelectUser(user)">
+            Chatta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p *ngIf="searchTerm && searchResults.length === 0">Nessun utente trovato.</p>
+
+  <!-- Sezione degli utenti con cui hai già chattato -->
+  <h4>Utenti con cui hai già chattato</h4>
+  <div *ngIf="chattedUsers.length > 0">
+    <div class="card mb-2 mx-3 px-2" *ngFor="let user of chattedUsers">
+      <div class="row g-0 align-items-center">
+        <div class="col-auto">
+          <img
+            src="{{ user.profilePicture || 'https://via.placeholder.com/50' }}"
+            alt="Profile Picture"
+            class="img-fluid rounded-circle"
+            width="50"
+            height="50"
+          />
+        </div>
+        <div class="col">
+          <div class="card-body">
+            <h5 class="card-title">{{ user.username }}</h5>
+            <p class="card-text">
+              {{ user.bio || "Nessuna biografia disponibile." }}
+            </p>
+          </div>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary" (click)="onSelectUser(user)">
+            Chatta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p *ngIf="chattedUsers.length === 0">
+    Non hai ancora chattato con nessun utente.
+  </p>
 </div>

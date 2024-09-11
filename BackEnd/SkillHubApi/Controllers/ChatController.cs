@@ -50,7 +50,10 @@ public class ChatController : ControllerBase
         // Associa Sender e Receiver al messaggio
         message.Sender = sender;
         message.Receiver = receiver;
-        message.Timestamp = DateTime.UtcNow;  // Aggiungi il timestamp al messaggio
+
+        // Imposta il Timestamp e SentDate in UTC, arrotondando ai minuti
+        message.SentDate = DateTime.UtcNow.AddSeconds(-DateTime.UtcNow.Second);
+        message.Timestamp = DateTime.UtcNow.AddSeconds(-DateTime.UtcNow.Second);
 
         // Aggiungi il messaggio al database
         _context.Messages.Add(message);
@@ -71,6 +74,24 @@ public class ChatController : ControllerBase
         return CreatedAtAction(nameof(GetChatHistory), new { userId1 = message.SenderId, userId2 = message.ReceiverId }, message);
     }
 
+    // GET: api/chat/get-messages/{userId}
+    [HttpGet("get-messages/{userId}")]
+    public async Task<IActionResult> GetMessages(int userId)
+    {
+        var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        // Recupera i messaggi tra l'utente corrente e l'utente selezionato
+        var messages = await _context.Messages
+            .Where(m => (m.SenderId == currentUserId && m.ReceiverId == userId) ||
+                        (m.SenderId == userId && m.ReceiverId == currentUserId))
+            .OrderBy(m => m.Timestamp)
+            .ToListAsync();
+
+        // Le date sono già in UTC, il client le convertirà in ora locale
+        return Ok(messages);
+    }
+
+
 
     [HttpGet("get-chatted-users")]
     public async Task<IActionResult> GetChattedUsers()
@@ -85,22 +106,6 @@ public class ChatController : ControllerBase
 
         return Ok(chattedUsers);
     }
-
-    [HttpGet("get-messages/{userId}")]
-    public async Task<IActionResult> GetMessages(int userId)
-    {
-        var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-        // Recupera i messaggi tra l'utente corrente e l'utente selezionato
-        var messages = await _context.Messages
-            .Where(m => (m.SenderId == currentUserId && m.ReceiverId == userId) ||
-                        (m.SenderId == userId && m.ReceiverId == currentUserId))
-            .OrderBy(m => m.Timestamp)
-            .ToListAsync();
-
-        return Ok(messages);
-    }
-
     // GET: api/chat/history/{userId1}/{userId2}
     [HttpGet("history/{userId1}/{userId2}")]
     public async Task<ActionResult<IEnumerable<Message>>> GetChatHistory(int userId1, int userId2)

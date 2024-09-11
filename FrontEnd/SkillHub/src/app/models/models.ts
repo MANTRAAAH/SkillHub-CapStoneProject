@@ -7,9 +7,10 @@ export interface User {
 }
 
 export interface Message {
-  messageId: number;
+  messageID: number;
   senderId: number;
   receiverId: number;
+  isRead: boolean;
   content: string;  // Assicurati che questa proprietà esista
   timestamp: Date;
 }
@@ -65,8 +66,8 @@ export interface OrderDetailsDto {
   clientUsername: string;
   freelancerUsername: string;
   orderDate: Date;
-  status: string;
   totalPrice: number;
+  paymentStatus: string;
 }
 
 export interface ServiceDto {

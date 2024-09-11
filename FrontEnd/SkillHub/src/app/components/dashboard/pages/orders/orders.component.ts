@@ -54,7 +54,7 @@ export class OrdersComponent implements OnInit {
 
   applyFilters() {
     this.filteredOrders = this.orders.filter(order => {
-      const matchesStatus = this.filter.status ? order.status === this.filter.status : true;
+      const matchesStatus = this.filter.status ? order.paymentStatus === this.filter.status : true;
       const matchesDateFrom = this.filter.dateFrom ? new Date(order.orderDate) >= new Date(this.filter.dateFrom) : true;
       const matchesDateTo = this.filter.dateTo ? new Date(order.orderDate) <= new Date(this.filter.dateTo) : true;
       const matchesPrice = this.filter.maxPrice ? order.totalPrice <= this.filter.maxPrice : true;

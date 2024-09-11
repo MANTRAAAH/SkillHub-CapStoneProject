@@ -1,28 +1,35 @@
-<div class="chat-container">
+<!-- Contenitore della chat -->
+<div class="chat-container vh-100 p-3 bg-white">
   <div
     *ngFor="let message of messages"
     [ngClass]="{
       'sent-message': message.senderId === currentUserId,
-      'received-message': message.senderId !== currentUserId
+      'received-message': message.senderId !== currentUserId,
+      'read-message': message.isRead,
+      'unread-message': !message.isRead
     }"
+    class="message p-2 mb-2 rounded"
   >
     <div class="message-content">
-      <strong
-        >{{
-          message.senderId === currentUserId ? "Tu" : selectedUser?.username
-        }}:</strong
-      >
-      <span>{{ message.content }}</span>
+      <span class="fs-5">
+        {{ message.content }}
+        <span class="text-muted fs-6 mx-1 mt-3">
+          {{ formatDate(message.timestamp) }}
+        </span>
+      </span>
     </div>
   </div>
 </div>
 
 <!-- Input per nuovo messaggio -->
-<div class="message-input">
+<div
+  class="message-input position-relative p-2 bg-light d-flex align-items-center"
+>
   <input
     type="text"
     [(ngModel)]="newMessage"
     placeholder="Scrivi un messaggio..."
+    class="form-control me-2"
   />
-  <button (click)="sendMessage()">Invia</button>
+  <button (click)="sendMessage()" class="btn btn-primary">Invia</button>
 </div>

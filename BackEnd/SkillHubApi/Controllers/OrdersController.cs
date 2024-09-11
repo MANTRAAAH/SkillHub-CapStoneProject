@@ -78,7 +78,7 @@ public class OrdersController : ControllerBase
                 ClientUsername = o.Client.Username,
                 FreelancerUsername = o.Freelancer.Username,
                 OrderDate = o.OrderDate,
-                Status = o.Status,
+                PaymentStatus = o.PaymentStatus,
                 TotalPrice = o.TotalPrice
             })
             .ToListAsync();

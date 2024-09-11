@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { tap, map, catchError } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Message, User } from '../models/models';
 
@@ -15,11 +15,12 @@ export class ChatService {
 
   private hubConnection: signalR.HubConnection | null = null;
 
-  // Messages Source per gestire i messaggi in tempo reale
-  private messagesSource = new BehaviorSubject<Message[]>([]);
-  currentMessages = this.messagesSource.asObservable();
+  private messagesSubject = new BehaviorSubject<Message[]>([]);
 
   private apiUrl = 'https://localhost:7117/api/chat';  // Definisci l'API URL
+
+  // Mantiene l'elenco di messaggi senza duplicati
+  private allMessages: Message[] = [];
 
   constructor(private authService: AuthService, private http: HttpClient) {
     this.startConnection();
@@ -39,40 +40,94 @@ export class ChatService {
         }
       })
       .configureLogging(signalR.LogLevel.Information)
-      .withAutomaticReconnect([0, 2000, 10000, 30000])
+      .withAutomaticReconnect([0, 2000, 10000, 30000])  // Gestione delle riconnessioni
       .build();
 
-    // Avvia la connessione e gestisci eventuali errori
-    this.hubConnection.start().catch(err => console.error('Error while starting connection: ' + err));
+    this.hubConnection.start()
+      .then(() => {
+        console.log('Connection started successfully.');
+      })
+      .catch(err => {
+        console.error('Error while starting connection:', err);
+      });
+
+    this.hubConnection.onreconnecting(() => {
+      console.warn('Attempting to reconnect...');
+    });
+
+    this.hubConnection.onreconnected(() => {
+      console.log('Reconnected to SignalR hub.');
+    });
+
+    this.hubConnection.onclose((error) => {
+      console.error('Connection closed:', error);
+      this.startConnection();
+    });
   }
 
   // Registra gli eventi di SignalR
   private registerSignalREvents() {
     if (this.hubConnection) {
-      // Gestione degli eventi in arrivo da SignalR
-      this.hubConnection.on('ReceiveMessage', (senderId: string, content: string) => {
-        console.log('Real-time message received from:', senderId, 'Content:', content);
-
-        const currentUserId = this.authService.getUserId() || 0; // Garantisce che sia sempre un numero valido
-
-        const newMessage: Message = {
-          messageId: 0,  // Placeholder, aggiornato con l'ID reale dal server
-          senderId: Number(senderId),
-          receiverId: Number(currentUserId),  // Usa sempre un numero
-          content: content,
-          timestamp: new Date()  // Timestamp locale o proveniente dal server
-        };
-
-        this.addMessageToList(newMessage);
+      this.hubConnection.off('ReceiveMessage'); // Rimuove eventuali handler duplicati
+      this.hubConnection.on('ReceiveMessage', (message: Message) => {
+        console.log('Real-time message received:', message);
+        this.addMessageWithoutDuplicate(message);
       });
     }
   }
+  // Metodo per cercare utenti nel database
+  searchUsers(searchTerm: string): Observable<User[]> {
+    return this.http.get<any>(`https://localhost:7117/api/users/search?searchTerm=${searchTerm}`, {
+      headers: this.getAuthHeaders(),
+    }).pipe(
+      map(response => {
+        // Estrai l'array da $values se presente
+        if (response && response.$values && Array.isArray(response.$values)) {
+          return response.$values;
+        } else if (Array.isArray(response)) {
+          return response;
+        } else {
+          throw new Error('Formato di risposta non valido');
+        }
+      }),
+      catchError(error => {
+        console.error('Error during search:', error);
+        return throwError(error);
+      })
+    );
+  }
 
 
-  // Aggiunge un messaggio alla lista locale
-  private addMessageToList(message: Message) {
-    const currentMessages = this.messagesSource.value;
-    this.messagesSource.next([...currentMessages, message]);
+
+  // Metodo per ottenere tutti gli utenti
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`https://localhost:7117/api/users/`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  // Metodo per aggiungere un messaggio, evitando duplicati
+  private addMessageWithoutDuplicate(newMessage: Message) {
+    const existingMessages = this.allMessages;
+
+    // Verifica se il messaggio è già presente
+    const messageExists = existingMessages.some(msg => msg.messageID === newMessage.messageID);
+
+    if (!messageExists) {
+      // Aggiungi solo il nuovo messaggio
+      this.allMessages.push(newMessage);
+
+      // Aggiorna il BehaviorSubject con la lista aggiornata
+      this.messagesSubject.next([...this.allMessages]);
+      console.log('Message added:', newMessage);
+    } else {
+      console.log('Duplicate message ignored:', newMessage);
+    }
+  }
+
+  // Ottieni il flusso di messaggi aggiornato
+  getMessagesStream(): Observable<Message[]> {
+    return this.messagesSubject.asObservable();
   }
 
   // Metodo per ottenere gli utenti con cui si ha una chat attiva
@@ -80,28 +135,46 @@ export class ChatService {
     return this.http.get<any>(`${this.apiUrl}/get-chatted-users`, {
       headers: this.getAuthHeaders(),
     }).pipe(
-      tap(response => console.log('Response from server:', response)),
+      tap(response => console.log('Chatted users response:', response)),
       map((response: any) => {
-        if (response && response.$values && Array.isArray(response.$values)) {
+        if (response && response.$values) {
           return response.$values;
         } else if (Array.isArray(response)) {
           return response;
         } else {
-          throw new Error('Invalid response format');
+          throw new Error('Formato di risposta non valido');
         }
       }),
-      catchError((error: any) => {
-        console.error('Error in getChattedUsers:', error);
+      catchError(error => {
+        console.error('Error getting chatted users:', error);
         return throwError(error);
       })
     );
   }
 
-  // Metodo per ottenere i messaggi
+
+  // Metodo per ottenere i messaggi di un utente
   getMessages(userId: number): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.apiUrl}/get-messages/${userId}`, {
+    return this.http.get<any>(`${this.apiUrl}/get-messages/${userId}`, {
       headers: this.getAuthHeaders(),
     }).pipe(
+      tap(response => {
+        let messages: Message[] = [];
+
+        if (response && response.$values && Array.isArray(response.$values)) {
+          messages = response.$values;  // Prendi i valori dall'array $values
+        } else if (Array.isArray(response)) {
+          messages = response;  // Se è già un array, lo usiamo direttamente
+        } else {
+          console.error("Formato di risposta non previsto:", response);
+        }
+
+        if (Array.isArray(messages)) {
+          messages.forEach(msg => this.addMessageWithoutDuplicate(msg)); // Aggiungi i messaggi senza duplicati
+        } else {
+          console.error("La risposta non è un array di messaggi:", messages);
+        }
+      }),
       catchError((error: any) => {
         console.error('Error getting messages:', error);
         return throwError(error);
@@ -110,12 +183,7 @@ export class ChatService {
   }
 
   // Metodo per inviare un messaggio
-  sendMessage(payload: { SenderId: number; ReceiverId: number; Content: string }): Observable<any> {
-    if (!this.hubConnection || this.hubConnection.state !== signalR.HubConnectionState.Connected) {
-      console.error("Connection is not in the 'Connected' state. Trying to reconnect...");
-      return throwError(() => new Error("Connection is not in the 'Connected' state."));
-    }
-
+  public sendMessage(payload: { SenderId: number; ReceiverId: number; Content: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/send`, payload, {
       headers: this.getAuthHeaders(),
     }).pipe(
@@ -130,7 +198,7 @@ export class ChatService {
   }
 
   // Metodo per selezionare l'utente
-  selectUser(user: User) {
+  selectUser(user: User | null) {
     this.selectedUserSource.next(user);
   }
 

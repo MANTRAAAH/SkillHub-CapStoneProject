@@ -52,11 +52,21 @@ public class ChatHub : Hub
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
 
+            // Crea il DTO da inviare al client
+            var messageDto = new MessageDto
+            {
+                MessageId = message.MessageID,
+                SenderId = message.SenderId,
+                ReceiverId = message.ReceiverId,
+                Content = message.Content,
+                Timestamp = message.Timestamp
+            };
+
             // Verifica se il destinatario è online
             if (_userConnections.TryGetValue(receiverUserId, out string receiverConnectionId))
             {
                 // Invia il messaggio al destinatario se è online
-                await Clients.Client(receiverConnectionId).SendAsync("ReceiveMessage", message);
+                await Clients.Client(receiverConnectionId).SendAsync("ReceiveMessage", messageDto);
             }
             else
             {
@@ -71,6 +81,7 @@ public class ChatHub : Hub
             await Clients.Caller.SendAsync("ReceiveMessage", "System", "An error occurred while sending the message.");
         }
     }
+
 
     // Metodo chiamato quando un client si collega
     public override async Task OnConnectedAsync()

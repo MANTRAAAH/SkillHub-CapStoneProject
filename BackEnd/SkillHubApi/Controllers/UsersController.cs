@@ -23,7 +23,7 @@ public class UsersController : ControllerBase
     }
 
     // GET: api/users
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<User>>> GetUsers()
     {
@@ -206,6 +206,20 @@ public class UsersController : ControllerBase
         return user;
     }
 
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchUsers([FromQuery] string searchTerm)
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+        {
+            return BadRequest("Search term cannot be empty.");
+        }
+
+        var users = await _context.Users
+            .Where(u => u.Username.Contains(searchTerm))
+            .ToListAsync();
+
+        return Ok(users);
+    }
 
     private async Task<bool> UserExists(string email)
     {
