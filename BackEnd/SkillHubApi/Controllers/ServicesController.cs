@@ -32,6 +32,8 @@ public class ServicesController : ControllerBase
                 Title = s.Title,
                 Description = s.Description,
                 Price = s.Price,
+                CategoryId = s.CategoryID,
+                SubCategoryId = s.SubCategoryID,
                 CategoryName = s.Category.CategoryName,
                 SubCategoryName = s.SubCategory.SubCategoryName,
                 UserName = s.User.Username
@@ -54,9 +56,12 @@ public class ServicesController : ControllerBase
             .Select(s => new ServiceDto
             {
                 ServiceID = s.ServiceID,
+                UserID= s.UserID,
                 Title = s.Title,
                 Description = s.Description,
                 Price = s.Price,
+                CategoryId = s.CategoryID,
+                SubCategoryId = s.SubCategoryID,
                 CategoryName = s.Category.CategoryName,
                 SubCategoryName = s.SubCategory.SubCategoryName,
                 UserName = s.User.Username
@@ -101,6 +106,8 @@ public class ServicesController : ControllerBase
                                          Title = s.Title,
                                          Description = s.Description,
                                          Price = s.Price,
+                                         CategoryId= s.CategoryID,
+                                         SubCategoryId = s.SubCategoryID,
                                          CategoryName = s.Category.CategoryName,
                                          SubCategoryName = s.SubCategory.SubCategoryName,
                                          UserName = s.User.Username
@@ -111,7 +118,6 @@ public class ServicesController : ControllerBase
     }
 
 
-
     // PUT: api/services/5
     [HttpPut("{id}")]
     public async Task<IActionResult> PutService(int id, Service service)
@@ -119,6 +125,13 @@ public class ServicesController : ControllerBase
         if (id != service.ServiceID)
         {
             return BadRequest();
+        }
+
+        // Verifica che l'utente esista nel database
+        var userExists = await _context.Users.AnyAsync(u => u.UserID == service.UserID);
+        if (!userExists)
+        {
+            return BadRequest("Utente non trovato.");
         }
 
         _context.Entry(service).State = EntityState.Modified;
@@ -141,6 +154,8 @@ public class ServicesController : ControllerBase
 
         return NoContent();
     }
+
+
 
     // DELETE: api/services/5
     [HttpDelete("{id}")]
@@ -175,14 +190,14 @@ public class ServicesController : ControllerBase
         // Ottieni tutti i servizi creati dall'utente
         var services = await _context.Services
             .Where(s => s.UserID == parsedUserId)
-            .Include(s => s.Category)
-            .Include(s => s.SubCategory)
             .Select(s => new ServiceDto
             {
                 ServiceID = s.ServiceID,
                 Title = s.Title,
                 Description = s.Description,
                 Price = s.Price,
+                CategoryId = s.CategoryID,
+                SubCategoryId = s.SubCategoryID,
                 CategoryName = s.Category.CategoryName,
                 SubCategoryName = s.SubCategory.SubCategoryName,
                 UserName = s.User.Username

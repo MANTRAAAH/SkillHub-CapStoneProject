@@ -17,7 +17,7 @@ export class ChatService {
 
   private messagesSubject = new BehaviorSubject<Message[]>([]);
 
-  private apiUrl = 'https://localhost:7117/api/chat';  // Definisci l'API URL
+  private apiUrl = 'http://localhost:7117/api/chat';  // Definisci l'API URL
 
   // Mantiene l'elenco di messaggi senza duplicati
   private allMessages: Message[] = [];
@@ -30,7 +30,7 @@ export class ChatService {
   // Avvia la connessione a SignalR
   private startConnection() {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:7117/chathub', {
+      .withUrl('http://localhost:7117/chathub', {
         accessTokenFactory: () => {
           const token = this.authService.getToken();
           if (!token) {
@@ -77,7 +77,7 @@ export class ChatService {
   }
   // Metodo per cercare utenti nel database
   searchUsers(searchTerm: string): Observable<User[]> {
-    return this.http.get<any>(`https://localhost:7117/api/users/search?searchTerm=${searchTerm}`, {
+    return this.http.get<any>(`http://localhost:7117/api/users/search?searchTerm=${searchTerm}`, {
       headers: this.getAuthHeaders(),
     }).pipe(
       map(response => {

@@ -1,22 +1,177 @@
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Titolo</th>
-      <th>Descrizione</th>
-      <th>Categoria</th>
-      <th>Sottocategoria</th>
-      <th>Prezzo</th>
-      <th>Utente</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let service of services">
-      <td>{{ service.title }}</td>
-      <td>{{ service.description }}</td>
-      <td>{{ service.categoryName }}</td>
-      <td>{{ service.subCategoryName }}</td>
-      <td>{{ service.price | currency }}</td>
-      <td>{{ service.userName }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="services-container">
+  <!-- Campo di ricerca -->
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    placeholder="Cerca servizi..."
+    class="form-control mb-3"
+  />
+
+  <!-- Mostra il caricamento -->
+  <div *ngIf="isLoading" class="text-center">
+    <p>Caricamento servizi...</p>
+  </div>
+
+  <!-- Messaggio di errore -->
+  <div *ngIf="errorMessage" class="text-center text-danger">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- Tabella dei servizi - Nascondi la tabella durante il refreshing -->
+  <table
+    *ngIf="
+      !isLoading &&
+      !errorMessage &&
+      filteredServices().length > 0 &&
+      !isRefreshing
+    "
+    class="table table-striped"
+  >
+    <thead>
+      <tr>
+        <th>Titolo</th>
+        <th>Descrizione</th>
+        <th>Categoria</th>
+        <th>Sottocategoria</th>
+        <th>Prezzo</th>
+        <th>Utente</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let service of filteredServices()">
+        <td>{{ service.title }}</td>
+        <td>{{ service.description }}</td>
+        <td>
+          {{ getCategoryNameById(service.categoryId) || "Nessuna categoria" }}
+        </td>
+        <td>
+          {{
+            getSubCategoryNameById(service.subCategoryId) ||
+              "Nessuna sottocategoria"
+          }}
+        </td>
+        <td>{{ service.price | currency }}</td>
+        <td>{{ service.userName }}</td>
+        <td>
+          <button (click)="editService(service)" class="btn btn-sm btn-warning">
+            Modifica
+          </button>
+          <button
+            (click)="deleteService(service.serviceID)"
+            class="btn btn-sm btn-danger"
+          >
+            Elimina
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Spinner di caricamento durante il refresh -->
+  <div *ngIf="isRefreshing" class="text-center">
+    <p>Aggiornamento in corso...</p>
+    <div class="spinner-border" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
+
+  <!-- Messaggio per servizi filtrati vuoti -->
+  <p *ngIf="!isLoading && !errorMessage && filteredServices().length === 0">
+    Nessun servizio corrisponde alla ricerca.
+  </p>
+
+  <!-- Form per aggiungere/modificare un servizio -->
+  <div class="service-form mt-4">
+    <h3 *ngIf="isEditing">Modifica servizio</h3>
+    <h3 *ngIf="!isEditing">Aggiungi nuovo servizio</h3>
+
+    <form (ngSubmit)="isEditing ? updateService() : addService()">
+      <div class="form-group">
+        <label for="title">Titolo</label>
+        <input
+          type="text"
+          [(ngModel)]="currentService.title"
+          name="title"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="description">Descrizione</label>
+        <textarea
+          [(ngModel)]="currentService.description"
+          name="description"
+          class="form-control"
+          required
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="price">Prezzo</label>
+        <input
+          type="number"
+          [(ngModel)]="currentService.price"
+          name="price"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <!-- Seleziona la categoria -->
+      <div class="form-group">
+        <label for="category">Categoria</label>
+        <select
+          [(ngModel)]="currentService.categoryId"
+          name="categoryId"
+          class="form-control"
+          (change)="onCategoryChange($event)"
+          required
+        >
+          <!-- Valore di default -->
+          <option value="" selected>-- Seleziona una categoria --</option>
+          <option
+            *ngFor="let category of categories"
+            [value]="category.categoryID"
+          >
+            {{ category.categoryName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Seleziona la sottocategoria -->
+      <div class="form-group">
+        <label for="subCategory">Sottocategoria</label>
+        <select
+          [(ngModel)]="currentService.subCategoryId"
+          name="subCategoryId"
+          class="form-control"
+          required
+        >
+          <!-- Valore di default -->
+          <option value="" selected>-- Seleziona una sottocategoria --</option>
+          <option
+            *ngFor="let subCategory of filteredSubCategories"
+            [value]="subCategory.subCategoryID"
+          >
+            {{ subCategory.subCategoryName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Campo nascosto per lo UserID -->
+      <input type="hidden" [(ngModel)]="currentService.UserID" name="userID" />
+
+      <button type="submit" class="btn btn-primary">
+        {{ isEditing ? "Aggiorna" : "Aggiungi" }}
+      </button>
+      <button
+        *ngIf="isEditing"
+        type="button"
+        (click)="cancelEdit()"
+        class="btn btn-secondary"
+      >
+        Annulla
+      </button>
+    </form>
+  </div>
+</div>

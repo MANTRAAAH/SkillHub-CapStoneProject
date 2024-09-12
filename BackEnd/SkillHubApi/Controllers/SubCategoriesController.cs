@@ -17,10 +17,22 @@ public class SubCategoriesController : ControllerBase
 
     // GET: api/subcategories
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<SubCategory>>> GetSubCategories()
+    public async Task<ActionResult<IEnumerable<SubCategoryDto>>> GetSubCategories()
     {
-        return await _context.SubCategories.Include(sc => sc.Category).ToListAsync();
+        var subCategories = await _context.SubCategories
+            .Include(sc => sc.Category)
+            .Select(sc => new SubCategoryDto
+            {
+                SubCategoryID = sc.SubCategoryID,
+                SubCategoryName = sc.SubCategoryName,
+                CategoryID = sc.CategoryID,
+                CategoryName = sc.Category.CategoryName
+            })
+            .ToListAsync();
+
+        return Ok(subCategories);
     }
+
 
     // GET: api/subcategories/5
     [HttpGet("{id}")]

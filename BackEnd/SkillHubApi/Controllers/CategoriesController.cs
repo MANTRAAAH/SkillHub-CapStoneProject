@@ -16,18 +16,40 @@ public class CategoriesController : ControllerBase
     }
 
     // GET: api/categories
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+    [HttpGet("categories")]
+    public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
     {
-        return await _context.Categories.Include(c => c.SubCategories).ToListAsync();
-    }
+        var categories = await _context.Categories
+            .Select(c => new CategoryDto
+            {
+                CategoryID = c.CategoryID,
+                CategoryName = c.CategoryName,
+                SubCategories = c.SubCategories.Select(sc => new SubCategoryDto
+                {
+                    SubCategoryID = sc.SubCategoryID,
+                    SubCategoryName = sc.SubCategoryName
+                }).ToList()
+            })
+            .ToListAsync();
 
+        return Ok(categories);
+    }
     // GET: api/categories/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Category>> GetCategory(int id)
+    public async Task<ActionResult<CategoryDto>> GetCategory(int id)
     {
         var category = await _context.Categories
             .Include(c => c.SubCategories)
+            .Select(c => new CategoryDto
+            {
+                CategoryID = c.CategoryID,
+                CategoryName = c.CategoryName,
+                SubCategories = c.SubCategories.Select(sc => new SubCategoryDto
+                {
+                    SubCategoryID = sc.SubCategoryID,
+                    SubCategoryName = sc.SubCategoryName
+                }).ToList()
+            })
             .FirstOrDefaultAsync(c => c.CategoryID == id);
 
         if (category == null)
@@ -35,8 +57,9 @@ public class CategoriesController : ControllerBase
             return NotFound();
         }
 
-        return category;
+        return Ok(category);
     }
+
 
     // POST: api/categories
     [HttpPost]

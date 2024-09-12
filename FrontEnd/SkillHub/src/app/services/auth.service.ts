@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>('https://localhost:7117/api/Users/login', { email, password })
+    return this.http.post<any>('http://localhost:7117/api/Users/login', { email, password })
       .pipe(map(user => {
         if (user && user.token) {
           localStorage.setItem('currentUser', JSON.stringify(user));
@@ -38,7 +38,7 @@ export class AuthService {
   }
 
   register(username: string, email: string, password: string, role: string): Observable<any> {
-    return this.http.post<any>('https://localhost:7117/api/Users/register', { username, email, password, role })
+    return this.http.post<any>('http://localhost:7117/api/Users/register', { username, email, password, role })
       .pipe(map(user => {
         if (user && user.token) {
           localStorage.setItem('currentUser', JSON.stringify(user));
@@ -78,14 +78,16 @@ export class AuthService {
   }
 
   // Estrai l'ID utente dal token
-  getUserId(): string | null {
-    const token = this.getToken();
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica il payload del token
-      console.log('Payload del token:', payload); // Log del payload
+getUserId(): number | null {
+  const token = this.getToken();
+  if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica il payload del token
+    console.log('Payload del token:', payload); // Log del payload
 
-      return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"]; // Assume che il JWT contenga il `nameidentifier` come ID utente
-    }
-    return null;
+    const userId = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+    return userId ? parseInt(userId, 10) : null;  // Converti l'ID utente in numero
   }
+  return null;
+}
+
 }

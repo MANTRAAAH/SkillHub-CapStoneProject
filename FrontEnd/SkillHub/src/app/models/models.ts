@@ -27,16 +27,6 @@ userName: any;
   price: number;
 }
 
-export interface Category {
-  id: number;
-  categoryName: string;
-}
-
-export interface SubCategory {
-  id: number;
-  subCategoryName: string;
-  categoryId: number;  // Collegamento alla categoria
-}
 
 export interface Order {
   orderID: number;
@@ -72,16 +62,44 @@ export interface OrderDetailsDto {
 
 export interface ServiceDto {
   serviceID: number;
+  UserID: number;
   title: string;
   description: string;
   price: number;
-  categoryName: string;
-  subCategoryName: string;
+  categoryId: number;  // ID della categoria
+  subCategoryId: number;  // ID della sottocategoria
+  categoryName?: string;  // Nome della categoria (opzionale)
+  subCategoryName?: string;  // Nome della sottocategoria (opzionale)
   userName: string;
 }
+
 
 export interface OrderStatsDto {
   months: number[];
   earnings: number[];
   ordersCount: number[];
 }
+
+export interface Category {
+  categoryID: number;
+  categoryName: string;
+}
+
+export interface SubCategory {
+  subCategoryID: number;
+  subCategoryName: string;
+  categoryID: number;
+}
+
+export interface SubCategoryDto {
+  subCategoryID: number;
+  subCategoryName: string;
+  categoryID: number;
+}
+
+export interface CategoryDto {
+  categoryID: number;
+  categoryName: string;
+  subCategories: SubCategoryDto[];  // Ogni categoria ha una lista di sottocategorie
+}
+
