@@ -1,4 +1,7 @@
 <app-header></app-header>
+<div *ngIf="notificationMessage" class="alert alert-info" role="alert">
+  {{ notificationMessage }}
+</div>
 <router-outlet></router-outlet>
 <app-chat-window></app-chat-window>
 <!-- Include Stripe.js -->

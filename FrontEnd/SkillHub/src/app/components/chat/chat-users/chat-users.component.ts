@@ -1,6 +1,8 @@
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChatService } from '../../../services/chat.service';
+import { UserService } from '../../../services/user.service';  // Importa il servizio UserService
 import { User } from '../../../models/models';
 
 @Component({
@@ -14,7 +16,7 @@ export class ChatUsersComponent implements OnInit {
   selectedUser: User | null = null;
   searchTerm: string = '';
 
-  constructor(private chatService: ChatService, private router: Router) {}
+  constructor(private chatService: ChatService, private router: Router, private UserService:UserService) {}
 
   ngOnInit(): void {
     this.loadChattedUsers();  // Carica gli utenti con cui hai già chattato
@@ -63,5 +65,8 @@ export class ChatUsersComponent implements OnInit {
   // Seleziona l'utente e naviga alla chat
   onSelectUser(user: User) {
     this.chatService.selectUser(user);
+  }
+  getProfilePicture(user: User): string {
+    return this.UserService.getProfilePicture(user);
   }
 }

@@ -129,6 +129,28 @@ namespace SkillHubApi.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("SkillHubApi.Models.OrderFile", b =>
+                {
+                    b.Property<int>("OrderFileID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderFileID"));
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderID")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderFileID");
+
+                    b.HasIndex("OrderID");
+
+                    b.ToTable("OrderFiles");
+                });
+
             modelBuilder.Entity("SkillHubApi.Models.Review", b =>
                 {
                     b.Property<int>("ReviewID")
@@ -335,6 +357,17 @@ namespace SkillHubApi.Migrations
                     b.Navigation("Service");
                 });
 
+            modelBuilder.Entity("SkillHubApi.Models.OrderFile", b =>
+                {
+                    b.HasOne("SkillHubApi.Models.Order", "Order")
+                        .WithMany("Files")
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("SkillHubApi.Models.Review", b =>
                 {
                     b.HasOne("SkillHubApi.Models.Order", "Order")
@@ -405,6 +438,8 @@ namespace SkillHubApi.Migrations
 
             modelBuilder.Entity("SkillHubApi.Models.Order", b =>
                 {
+                    b.Navigation("Files");
+
                     b.Navigation("Messages");
 
                     b.Navigation("Review");

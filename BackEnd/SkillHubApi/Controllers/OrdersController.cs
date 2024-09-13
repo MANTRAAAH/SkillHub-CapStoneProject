@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using SkillHubApi.Models;
 using System.Security.Claims;
 
-[Route("api/[controller]")]
+[Route("api/orders")]
 [ApiController]
 public class OrdersController : ControllerBase
 {
@@ -78,14 +79,123 @@ public class OrdersController : ControllerBase
                 ClientUsername = o.Client.Username,
                 FreelancerUsername = o.Freelancer.Username,
                 OrderDate = o.OrderDate,
+                Status = o.Status,
                 PaymentStatus = o.PaymentStatus,
-                TotalPrice = o.TotalPrice
+                TotalPrice = o.TotalPrice,
+                OrderFiles = o.Files.Select(f => new OrderFileDto
+                {
+                    OrderFileID = f.OrderFileID,
+                    FilePath = f.FilePath
+                }).ToList()
             })
             .ToListAsync();
 
         return Ok(orders);
     }
 
+    // POST: api/orders/{orderId}/upload-files
+    [Authorize(Roles = "Freelancer")]
+    [HttpPost("{orderId}/upload-files")]
+    public async Task<IActionResult> UploadOrderFiles(int orderId, List<IFormFile> files)
+    {
+        if (files == null || files.Count == 0)
+        {
+            return BadRequest("Nessun file è stato caricato.");
+        }
+
+        var order = await _context.Orders.FindAsync(orderId);
+        if (order == null)
+        {
+            return NotFound("Ordine non trovato.");
+        }
+
+        foreach (var file in files)
+        {
+            var fileName = $"{orderId}_{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+            var filePath = Path.Combine("wwwroot", "files", "orders", fileName);
+
+            if (!Directory.Exists(Path.Combine("wwwroot", "files", "orders")))
+            {
+                Directory.CreateDirectory(Path.Combine("wwwroot", "files", "orders"));
+            }
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var orderFile = new OrderFile
+            {
+                OrderID = orderId,
+                FilePath = $"/files/orders/{fileName}"
+            };
+
+            _context.OrderFiles.Add(orderFile);
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new {message ="File caricati con successo." });
+    }
+
+    // GET: api/orders/{orderId}/download-file/{fileId}
+    [Authorize]
+    [HttpGet("{orderId}/download-file/{fileId}")]
+    public async Task<IActionResult> DownloadOrderFile(int orderId, int fileId)
+    {
+        var orderFile = await _context.OrderFiles
+                                      .Where(of => of.OrderID == orderId && of.OrderFileID == fileId)
+                                      .FirstOrDefaultAsync();
+
+        if (orderFile == null)
+        {
+            return NotFound("File dell'ordine non trovato.");
+        }
+
+        var filePath = Path.Combine("wwwroot", orderFile.FilePath.TrimStart('/'));
+
+        if (!System.IO.File.Exists(filePath))
+        {
+            return NotFound("File non trovato.");
+        }
+
+        var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
+        var fileExtension = Path.GetExtension(orderFile.FilePath);
+        var contentType = fileExtension switch
+        {
+            ".jpg" => "image/jpeg",
+            ".png" => "image/png",
+            ".pdf" => "application/pdf",
+            _ => "application/octet-stream"
+        };
+
+        return File(fileBytes, contentType, Path.GetFileName(orderFile.FilePath));
+    }
+    // DELETE: api/orders/{orderId}/delete-file/{fileId}
+    [Authorize]
+    [HttpDelete("{orderId}/delete-file/{fileId}")]
+    public async Task<IActionResult> DeleteOrderFile(int orderId, int fileId)
+    {
+        var orderFile = await _context.OrderFiles
+                                      .FirstOrDefaultAsync(of => of.OrderID == orderId && of.OrderFileID == fileId);
+
+        if (orderFile == null)
+        {
+            return NotFound("File non trovato.");
+        }
+
+        var filePath = Path.Combine("wwwroot", orderFile.FilePath.TrimStart('/'));
+
+        if (System.IO.File.Exists(filePath))
+        {
+            System.IO.File.Delete(filePath);
+        }
+
+        _context.OrderFiles.Remove(orderFile);
+        await _context.SaveChangesAsync();
+
+        return Ok(new {message = "File eliminato con successo." });
+    }
 
 
     // GET: api/orders/5
@@ -273,6 +383,28 @@ public class OrdersController : ControllerBase
         };
     }
 
+
+    [HttpPost("{orderId}/complete")]
+    public async Task<IActionResult> CompleteOrder(int orderId)
+    {
+        var order = await _context.Orders.FindAsync(orderId);
+        if (order == null)
+        {
+            return NotFound();
+        }
+
+        // Imposta lo stato dell'ordine come completato
+        order.Status = "Completed";
+        await _context.SaveChangesAsync();
+
+        var clientId = order.ClientID.ToString();
+
+        var notificationHubContext = (IHubContext<NotificationHub>)HttpContext.RequestServices.GetService(typeof(IHubContext<NotificationHub>));
+        await notificationHubContext.Clients.User(clientId).SendAsync("ReceiveNotification", $"Il tuo ordine #{orderId} è stato completato!");
+
+
+        return Ok(order);
+    }
 
 
 

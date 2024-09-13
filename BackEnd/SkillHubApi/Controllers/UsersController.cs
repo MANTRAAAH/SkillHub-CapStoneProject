@@ -220,6 +220,60 @@ public class UsersController : ControllerBase
 
         return Ok(users);
     }
+    [HttpPost("upload-profile-image")]
+    public async Task<IActionResult> UploadProfileImage(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("Nessun file è stato caricato.");
+        }
+
+        // Verifica se il file è un'immagine
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+        var extension = Path.GetExtension(file.FileName).ToLower();
+        if (!allowedExtensions.Contains(extension))
+        {
+            return BadRequest("Solo file immagine (.jpg, .jpeg, .png) sono accettati.");
+        }
+
+        // Definisci un nome unico per l'immagine
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; // Assicurati che l'ID utente sia disponibile
+        var fileName = $"{userId}_{Guid.NewGuid()}{extension}";
+
+        // Percorso dove salvare l'immagine
+        var directoryPath = Path.Combine("wwwroot", "images", "profiles");
+
+        // Crea la directory se non esiste
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        var filePath = Path.Combine(directoryPath, fileName);
+
+        // Salva l'immagine nel file system
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        // Salva il percorso dell'immagine nel database
+        var user = await _context.Users.FindAsync(int.Parse(userId));  // Usa _context invece di _userRepository
+        if (user == null)
+        {
+            return NotFound("Utente non trovato.");
+        }
+
+        user.ProfilePicture = $"/images/profiles/{fileName}";  // Salva il percorso relativo
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { path = user.ProfilePicture });
+        Console.WriteLine($"Immagine salvata in: {filePath}");
+
+    }
+
+
 
     private async Task<bool> UserExists(string email)
     {

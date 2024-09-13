@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using SkillHubApi.Filters;
 using SkillHubApi.Models;
@@ -80,7 +81,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200", "http://localhost:63554")
+        policy.WithOrigins("http://localhost:4200", "http://localhost:49714")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -88,6 +89,13 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+app.UseStaticFiles(); // Serve la cartella wwwroot
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+    RequestPath = "/images"
+});
 
 // Configurazione della pipeline HTTP
 if (app.Environment.IsDevelopment())
@@ -110,5 +118,7 @@ app.UseAuthorization();
 // Mappatura dei controller e degli Hub SignalR
 app.MapControllers();
 app.MapHub<ChatHub>("/chathub");
+app.MapHub<NotificationHub>("/notificationhub");
+app.MapHub<MainHub>("/mainhub");
 
 app.Run();

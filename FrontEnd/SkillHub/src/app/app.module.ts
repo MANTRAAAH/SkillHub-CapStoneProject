@@ -25,6 +25,7 @@ import { Chart, registerables } from 'chart.js';
 import { PaymentComponent } from './components/payment/payment/payment.component';
 import { ChatUsersComponent } from './components/chat/chat-users/chat-users.component';
 import { ChatWindowComponent } from './components/chat/chat-window/chat-window.component';
+import { ToastrModule } from 'ngx-toastr';
 
 Chart.register(...registerables);
 @NgModule({
@@ -55,7 +56,13 @@ Chart.register(...registerables);
     HttpClientModule,
     CarouselModule,  // Aggiungi il modulo del carosello
     ButtonModule,  // Aggiungi il modulo dei bottoni
-    BrowserAnimationsModule  // Aggiungi BrowserAnimationsModule se hai bisogno di animazioni,
+    BrowserAnimationsModule, // Aggiungi BrowserAnimationsModule se hai bisogno di animazioni
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      closeButton: true
+    })  // Aggiungi il modulo ToastrModule per le notifiche
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -28,11 +28,13 @@
     <input type="text" id="search" [(ngModel)]="filter.searchQuery" />
   </div>
 
-  <button (click)="applyFilters()">Applica filtri</button>
+  <button class="btn btn-primary" (click)="applyFilters()">
+    Applica filtri
+  </button>
 </div>
 
 <!-- Tabella ordini -->
-<table class="table table-striped">
+<table class="table table-striped mt-4">
   <!-- Intestazioni -->
   <thead>
     <tr>
@@ -41,22 +43,88 @@
       <th>Cliente</th>
       <th>Freelancer</th>
       <th>Data</th>
-      <th>Stato</th>
+      <th>Stato Ordine</th>
+      <th>Stato Pagamento</th>
       <th>Prezzo Totale</th>
+      <th>Azioni</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let order of filteredOrders">
       <td>{{ order.orderID }}</td>
       <td>{{ order.serviceTitle }}</td>
-      <!-- Cambiato da order.service.title a order.serviceTitle -->
       <td>{{ order.clientUsername }}</td>
-      <!-- Cambiato da order.client.username a order.clientUsername -->
       <td>{{ order.freelancerUsername }}</td>
-      <!-- Cambiato da order.freelancer.username a order.freelancerUsername -->
       <td>{{ order.orderDate | date }}</td>
+      <td>
+        <!-- Mostra un badge colorato in base allo stato -->
+        <span
+          [ngClass]="{
+            'badge bg-success': order.status === 'Completed',
+            'badge bg-warning': order.status === 'Pending'
+          }"
+        >
+          {{ order.status }}
+        </span>
+      </td>
       <td>{{ order.paymentStatus }}</td>
       <td>{{ order.totalPrice | currency }}</td>
+      <!-- Condizione per applicare la classe bg-success se ci sono file -->
+      <td [ngClass]="{ 'bg-success': order.files && order.files.length > 0 }">
+        <!-- Mostra l'opzione di caricamento solo se l'utente è un freelancer e non ci sono file -->
+        <div *ngIf="isFreelancer && (!order.files || order.files.length === 0)">
+          <input type="file" (change)="onFileSelected($event)" multiple />
+          <button
+            class="btn btn-primary btn-sm"
+            (click)="uploadFiles(order.orderID)"
+          >
+            Carica File
+          </button>
+        </div>
+
+        <!-- Mostra i file caricati -->
+        <div *ngIf="order.files && order.files.length > 0">
+          <h5>File caricati:</h5>
+          <ul>
+            <li *ngFor="let file of order.files">
+              <button
+                class="btn btn-sm btn-warning"
+                (click)="downloadFile(order.orderID, file.orderFileID)"
+              >
+                Scarica {{ file.filePath.split("/").pop() }}
+              </button>
+              <!-- Mostra il pulsante "Elimina" solo se l'utente è un freelancer -->
+              <button
+                *ngIf="isFreelancer"
+                class="btn btn-sm btn-danger"
+                (click)="deleteFile(order.orderID, file.orderFileID)"
+              >
+                Elimina
+              </button>
+            </li>
+          </ul>
+        </div>
+      </td>
+      <td>
+        <!-- Mostra il pulsante di completamento se l'utente è un freelancer e l'ordine ha dei file -->
+        <button
+          *ngIf="
+            isFreelancer &&
+            order.files &&
+            order.files.length > 0 &&
+            order.status !== 'Completed'
+          "
+          class="btn btn-success btn-sm"
+          (click)="completeOrder(order.orderID)"
+        >
+          Completa Ordine
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>
+
+<!-- Mostra un messaggio se non ci sono ordini filtrati -->
+<p *ngIf="filteredOrders.length === 0" class="text-center">
+  Nessun ordine trovato.
+</p>

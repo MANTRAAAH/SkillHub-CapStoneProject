@@ -37,7 +37,6 @@ export class UserService {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    // Utilizza `user.userID` per identificare l'utente nell'URL
     return this.http.put(`${this.apiUrl}/${user.userID}`, user, { headers }).pipe(
       catchError(error => {
         console.error('Error updating profile', error);
@@ -45,7 +44,6 @@ export class UserService {
       })
     );
   }
-
 
   // Metodo per aggiornare la password
   updateUserPassword(oldPassword: string, newPassword: string): Observable<any> {
@@ -64,4 +62,26 @@ export class UserService {
       })
     );
   }
+
+  // Metodo per caricare l'immagine del profilo
+  uploadProfileImage(formData: FormData): Observable<any> {
+    const token = this.authService.getToken();  // Recupera il token dall'AuthService
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.post(`${this.apiUrl}/upload-profile-image`, formData, { headers }).pipe(
+      catchError(error => {
+        console.error('Error uploading profile image', error);
+        return throwError(error);
+      })
+    );
+  }
+  // Metodo per ottenere il percorso dell'immagine del profilo
+  getProfilePicture(user: User): string {
+    if (user.profilePicture) {
+      return `http://localhost:7117${user.profilePicture}`;
+    } else {
+      return 'http://localhost:7117/images/profiles/default-profile-picture.jpg';
+    }
+  }
+
 }

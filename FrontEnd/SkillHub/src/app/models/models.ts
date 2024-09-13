@@ -58,6 +58,8 @@ export interface OrderDetailsDto {
   orderDate: Date;
   totalPrice: number;
   paymentStatus: string;
+  files?: OrderFile[];  // Aggiungi la proprietà files
+  status: string;
 }
 
 export interface ServiceDto {
@@ -72,7 +74,10 @@ export interface ServiceDto {
   subCategoryName?: string;  // Nome della sottocategoria (opzionale)
   userName: string;
 }
-
+export interface OrderFile {
+  orderFileID: number;
+  filePath: string;
+}
 
 export interface OrderStatsDto {
   months: number[];

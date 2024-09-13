@@ -10,6 +10,7 @@ public class SkillHubContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Service> Services { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderFile> OrderFiles { get; set; } // Aggiungi questo DbSet per OrderFile
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Message> Messages { get; set; }
     public DbSet<Category> Categories { get; set; }

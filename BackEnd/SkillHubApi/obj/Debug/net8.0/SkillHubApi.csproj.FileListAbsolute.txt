@@ -414,3 +414,4 @@ C:\Users\antan\Desktop\EPICODE\SkillHub-CapStoneProject\BackEnd\SkillHubApi\obj\
 C:\Users\antan\Desktop\EPICODE\SkillHub-CapStoneProject\BackEnd\SkillHubApi\obj\Debug\net8.0\ref\SkillHubApi.dll
 C:\Users\antan\Desktop\EPICODE\SkillHub-CapStoneProject\BackEnd\SkillHubApi\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\antan\Desktop\EPICODE\SkillHub-CapStoneProject\BackEnd\SkillHubApi\bin\Debug\net8.0\Stripe.net.dll
+C:\Users\antan\Desktop\EPICODE\SkillHub-CapStoneProject\BackEnd\SkillHubApi\bin\Debug\net8.0\SkillHubApi.staticwebassets.runtime.json

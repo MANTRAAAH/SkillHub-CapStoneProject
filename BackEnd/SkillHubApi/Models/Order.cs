@@ -21,5 +21,6 @@
         public Review? Review { get; set; }
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public ICollection<Message> Messages { get; set; } = new List<Message>();
+        public ICollection<OrderFile>? Files { get; set; } = new List<OrderFile>(); // Relazione con i file
     }
 }

@@ -15,7 +15,10 @@
       <div class="row g-0 align-items-center">
         <div class="col-auto">
           <img
-            src="{{ user.profilePicture || 'https://via.placeholder.com/50' }}"
+            [src]="
+              getProfilePicture(user) ||
+              'http://localhost:7117/images/profiles/default-profile-picture.jpg'
+            "
             alt="Profile Picture"
             class="img-fluid rounded-circle"
             width="50"
@@ -47,7 +50,7 @@
       <div class="row g-0 align-items-center">
         <div class="col-auto">
           <img
-            src="{{ user.profilePicture || 'https://via.placeholder.com/50' }}"
+            [src]="getProfilePicture(user)"
             alt="Profile Picture"
             class="img-fluid rounded-circle"
             width="50"

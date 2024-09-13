@@ -1,6 +1,36 @@
 <div class="profile-form">
   <h2>Modifica il tuo profilo</h2>
 
+  <!-- Form per caricare l'immagine del profilo -->
+  <div class="profile-picture-upload text-center">
+    <!-- Anteprima dell'immagine caricata -->
+    <div *ngIf="user?.profilePicture">
+      <h4>Immagine Profilo Attuale:</h4>
+      <img
+        [src]="
+          getProfilePictureUrl() ||
+          'http://localhost:7117/images/profiles/default-profile-picture.jpg'
+        "
+        alt="Profile Picture"
+        class="profile-image rounded-5 w-50"
+      />
+    </div>
+    <h3>Carica Immagine Profilo</h3>
+    <form (ngSubmit)="uploadProfileImage()">
+      <div class="form-group">
+        <input
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/png, image/jpeg"
+          class="form-control"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!selectedFile">
+        Carica Immagine
+      </button>
+    </form>
+  </div>
+
   <form (ngSubmit)="updateProfile()">
     <!-- Campo nascosto per l'ID utente -->
     <input type="hidden" [(ngModel)]="user.userID" name="id" />
@@ -27,19 +57,6 @@
         rows="4"
       ></textarea>
     </div>
-
-    <div class="form-group">
-      <label for="profilePicture">Foto del profilo</label>
-      <input
-        type="text"
-        id="profilePicture"
-        class="form-control"
-        [(ngModel)]="user.profilePicture"
-        name="profilePicture"
-        placeholder="URL dell'immagine"
-      />
-    </div>
-
     <button type="submit" class="btn btn-primary">Aggiorna profilo</button>
   </form>
 </div>

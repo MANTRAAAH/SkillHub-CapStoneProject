@@ -8,10 +8,12 @@ import { User } from '../../../../models/models'; // Importa il modello User
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  user: User = { userID: 0, username: '', email: '', bio: '', profilePicture: '' };  // Aggiungi campi mancanti
+  user: User = { userID: 0, username: '', email: '', bio: '', profilePicture: '' };  // Dati utente
   oldPassword: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
+
+  selectedFile: File | null = null;  // Per gestire il file selezionato
 
   constructor(private userService: UserService) {}
 
@@ -24,7 +26,7 @@ export class ProfileComponent implements OnInit {
   getUserProfile() {
     this.userService.getUserProfile().subscribe(
       (data: User) => {
-        this.user = data;  // Verifica che l'ID sia presente qui
+        this.user = data;
         console.log(this.user); // Log per controllare l'ID utente
       },
       error => {
@@ -32,8 +34,6 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
-
-
 
   // Metodo per aggiornare il profilo
   updateProfile() {
@@ -63,4 +63,35 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
+
+  // Gestione del file selezionato per il caricamento dell'immagine
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  // Metodo per caricare l'immagine del profilo
+  uploadProfileImage() {
+    if (!this.selectedFile) {
+      console.error('Nessun file selezionato');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile, this.selectedFile.name);
+
+    this.userService.uploadProfileImage(formData).subscribe(
+      (response: any) => {
+        console.log('Immagine caricata con successo:', response);
+        this.user.profilePicture = response.path;  // Aggiorna il percorso dell'immagine
+      },
+      (error: any) => {
+        console.error('Errore durante il caricamento dell\'immagine', error);
+      }
+    );
+  }
+  getProfilePictureUrl(): string {
+    return this.userService.getProfilePicture(this.user);
+  }
+
+
 }

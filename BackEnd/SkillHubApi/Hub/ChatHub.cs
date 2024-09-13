@@ -21,7 +21,6 @@ public class ChatHub : Hub
     {
         if (string.IsNullOrEmpty(receiverUserId) || string.IsNullOrEmpty(messageContent))
         {
-            // Risposta al mittente se mancano dati
             await Clients.Caller.SendAsync("ReceiveMessage", "System", "Receiver ID and message content are required.");
             return;
         }
@@ -67,20 +66,27 @@ public class ChatHub : Hub
             {
                 // Invia il messaggio al destinatario se è online
                 await Clients.Client(receiverConnectionId).SendAsync("ReceiveMessage", messageDto);
+                Console.WriteLine($"Messaggio inviato a: {receiverUserId}");
             }
             else
             {
-                // Notifica al mittente che il destinatario non è online
                 await Clients.Caller.SendAsync("ReceiveMessage", "System", "User is not online. The message has been saved.");
+                Console.WriteLine($"Destinatario {receiverUserId} non è online.");
             }
+
+            // Log per la notifica
+            Console.WriteLine($"[SERVER] Tentativo di invio notifica a: {receiverUserId}");
+            await Clients.User(receiverUserId).SendAsync("ReceiveNotification", "Hai ricevuto un nuovo messaggio!");
+            Console.WriteLine($"[SERVER] Notifica inviata a: {receiverUserId}");
         }
         catch (Exception ex)
         {
-            // Gestione dell'errore e logging
-            Console.WriteLine($"Error in SendMessage: {ex.Message}");
+            Console.WriteLine($"Errore nell'invio del messaggio: {ex.Message}");
             await Clients.Caller.SendAsync("ReceiveMessage", "System", "An error occurred while sending the message.");
         }
     }
+
+
 
 
     // Metodo chiamato quando un client si collega
