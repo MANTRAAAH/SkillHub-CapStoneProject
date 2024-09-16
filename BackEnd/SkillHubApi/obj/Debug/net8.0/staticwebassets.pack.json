@@ -1,18 +1,6 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\files\\orders\\1_1fdad179-8a27-4f36-99a8-d0a6236e9a0e.jpeg",
-      "PackagePath": "staticwebassets\\files\\orders\\1_1fdad179-8a27-4f36-99a8-d0a6236e9a0e.jpeg"
-    },
-    {
-      "Id": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\files\\orders\\1_b02d0d40-2f03-403f-8722-e04739d4508a.pdf",
-      "PackagePath": "staticwebassets\\files\\orders\\1_b02d0d40-2f03-403f-8722-e04739d4508a.pdf"
-    },
-    {
-      "Id": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\files\\orders\\1_b9366d6c-0c44-4dec-a577-91858ac9c732.jpg",
-      "PackagePath": "staticwebassets\\files\\orders\\1_b9366d6c-0c44-4dec-a577-91858ac9c732.jpg"
-    },
-    {
       "Id": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\images\\profiles\\10_159cb5fa-70e3-48c7-abd0-5c3aa6467aa6.png",
       "PackagePath": "staticwebassets\\images\\profiles\\10_159cb5fa-70e3-48c7-abd0-5c3aa6467aa6.png"
     },
@@ -59,6 +47,10 @@
     {
       "Id": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\images\\profiles\\default-profile-picture.jpg",
       "PackagePath": "staticwebassets\\images\\profiles\\default-profile-picture.jpg"
+    },
+    {
+      "Id": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\images\\services\\Pizza_marinara.jpg",
+      "PackagePath": "staticwebassets\\images\\services\\Pizza_marinara.jpg"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.SkillHubApi.Microsoft.AspNetCore.StaticWebAssets.props",

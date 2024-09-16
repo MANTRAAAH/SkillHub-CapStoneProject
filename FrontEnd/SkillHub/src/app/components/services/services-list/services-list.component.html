@@ -5,61 +5,82 @@
   <div class="row mb-4">
     <div class="col-md-4">
       <label for="category">Categoria</label>
-      <select id="category" class="form-control" [(ngModel)]="filter.category">
-        <option value="">Tutte le categorie</option>
-        <option *ngFor="let cat of categories" [value]="cat.categoryName">
-          {{ cat.categoryName }}
-        </option>
-      </select>
+      <p-dropdown
+        [(ngModel)]="filter.category"
+        [options]="categories"
+        optionLabel="categoryName"
+        placeholder="Tutte le categorie"
+      ></p-dropdown>
     </div>
 
     <div class="col-md-4">
       <label for="subcategory">Sottocategoria</label>
-      <select
-        id="subcategory"
-        class="form-control"
+      <p-dropdown
         [(ngModel)]="filter.subCategory"
-      >
-        <option value="">Tutte le sottocategorie</option>
-        <option
-          *ngFor="let subcat of subCategories"
-          [value]="subcat.subCategoryName"
-        >
-          {{ subcat.subCategoryName }}
-        </option>
-      </select>
+        [options]="subCategories"
+        optionLabel="subCategoryName"
+        placeholder="Tutte le sottocategorie"
+      ></p-dropdown>
     </div>
 
     <div class="col-md-4">
       <label for="price">Prezzo Massimo</label>
-      <input
-        type="number"
-        id="price"
-        class="form-control"
+      <p-inputNumber
+        name="maxPrice"
         [(ngModel)]="filter.maxPrice"
-      />
+        mode="currency"
+        currency="EUR"
+        locale="it"
+      ></p-inputNumber>
     </div>
+  </div>
+
+  <!-- Pulsante per applicare i filtri -->
+  <div class="text-center mb-4">
+    <button
+      pButton
+      type="button"
+      label="Applica Filtri"
+      icon="pi pi-filter"
+      class="p-button-primary"
+      (click)="applyFilters()"
+    ></button>
   </div>
 
   <!-- Lista servizi -->
   <div class="row">
     <div class="col-md-4" *ngFor="let service of filteredServices">
-      <div class="card mb-4 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">{{ service.title }}</h5>
-          <p class="card-text">
-            Categoria: {{ service.categoryName }} <br />
-            Sottocategoria: {{ service.subCategoryName }} <br />
-            Freelancer: {{ service.userName }} <br />
-            Prezzo: €{{ service.price }}
-          </p>
-          <a
+      <p-card class="mb-4 shadow-sm">
+        <!-- Intestazione con immagine e titolo -->
+        <ng-template pTemplate="header">
+          <img
+            *ngIf="service.imagePath"
+            [src]="service.imagePath"
+            alt="Immagine Servizio"
+            style="width: 100%; height: 150px; object-fit: cover"
+          />
+        </ng-template>
+
+        <!-- Corpo del card -->
+        <h5>{{ service.title }}</h5>
+        <h6>Freelancer: {{ service.userName }}</h6>
+        <p>
+          Categoria: {{ service.categoryName }} <br />
+          Sottocategoria: {{ service.subCategoryName }} <br />
+          Prezzo: €{{ service.price }}
+        </p>
+
+        <!-- Footer con pulsante -->
+        <p-footer>
+          <button
+            pButton
+            label="Vedi Dettagli"
+            icon="pi pi-eye"
             [routerLink]="['/services', service.serviceID]"
-            class="btn btn-primary"
-            >Vedi Dettagli</a
-          >
-        </div>
-      </div>
+            class="p-button-primary"
+          ></button>
+        </p-footer>
+      </p-card>
     </div>
   </div>
 </div>

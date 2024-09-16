@@ -1,0 +1,32 @@
+@import '../../../../variables.scss';
+
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: $primary-color; // Usa la tua variabile di colore primaria
+
+  &:hover {
+    text-decoration: none;
+    color: darken($primary-color, 10%);
+  }
+}
+
+.p-menubar {
+  background-color: $background-color; // Colore di sfondo personalizzato
+  border: none;
+
+  .p-menuitem-link {
+    color: $text-color; // Colore del testo
+
+    &:hover {
+      background-color: lighten($background-color, 10%);
+    }
+  }
+
+  .p-menuitem {
+    &.p-highlight {
+      background-color: $primary-color;
+    }
+  }
+}

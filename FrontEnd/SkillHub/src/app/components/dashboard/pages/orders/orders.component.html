@@ -1,67 +1,109 @@
-<div class="filters">
-  <h3>Filtra ordini</h3>
+<p-fieldset legend="Filtra ordini" [toggleable]="true" [collapsed]="false">
+  <div class="filters-content">
+    <div class="filter-group">
+      <label for="status">Stato Pagamento</label>
+      <select id="status" [(ngModel)]="filter.status" class="form-control">
+        <option value="">Tutti</option>
+        <option value="Pending">Pending</option>
+        <option value="Paid">Paid</option>
+        <option value="Failed">Failed</option>
+      </select>
+    </div>
 
-  <div>
-    <label for="status">Stato</label>
-    <select id="status" [(ngModel)]="filter.status">
-      <option value="">Tutti</option>
-      <option value="Pending">Pending</option>
-      <option value="Paid">Paid</option>
-      <option value="Failed">Failed</option>
-    </select>
+    <div class="filter-group">
+      <label for="dateFrom">Data da</label>
+      <input
+        type="date"
+        id="dateFrom"
+        [(ngModel)]="filter.dateFrom"
+        class="form-control"
+      />
+      <label for="dateTo">Data a</label>
+      <input
+        type="date"
+        id="dateTo"
+        [(ngModel)]="filter.dateTo"
+        class="form-control"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label for="price">Prezzo massimo</label>
+      <input
+        type="number"
+        id="price"
+        [(ngModel)]="filter.maxPrice"
+        class="form-control"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label for="search">Ricerca per servizio/cliente</label>
+      <input
+        type="text"
+        id="search"
+        [(ngModel)]="filter.searchQuery"
+        class="form-control"
+      />
+    </div>
+
+    <button class="btn btn-primary" (click)="applyFilters()">
+      Applica filtri
+    </button>
   </div>
-
-  <div>
-    <label for="dateFrom">Data da</label>
-    <input type="date" id="dateFrom" [(ngModel)]="filter.dateFrom" />
-    <label for="dateTo">Data a</label>
-    <input type="date" id="dateTo" [(ngModel)]="filter.dateTo" />
-  </div>
-
-  <div>
-    <label for="price">Prezzo massimo</label>
-    <input type="number" id="price" [(ngModel)]="filter.maxPrice" />
-  </div>
-
-  <div>
-    <label for="search">Ricerca per servizio/cliente</label>
-    <input type="text" id="search" [(ngModel)]="filter.searchQuery" />
-  </div>
-
-  <button class="btn btn-primary" (click)="applyFilters()">
-    Applica filtri
-  </button>
-</div>
+</p-fieldset>
 
 <!-- Tabella ordini -->
-<table class="table table-striped mt-4">
-  <!-- Intestazioni -->
-  <thead>
+<p-table
+  [value]="filteredOrders"
+  [paginator]="true"
+  [rows]="10"
+  [responsiveLayout]="'scroll'"
+  [sortMode]="'multiple'"
+  class="orders-table"
+  [filters]="filters"
+  [(selection)]="selectedOrders"
+  dataKey="orderID"
+>
+  <ng-template pTemplate="header">
     <tr>
-      <th>Id Ordine</th>
-      <th>Servizio</th>
-      <th>Cliente</th>
-      <th>Freelancer</th>
-      <th>Data</th>
+      <th pSortableColumn="orderID">
+        Id Ordine <p-sortIcon field="orderID"></p-sortIcon>
+      </th>
+      <th pSortableColumn="serviceTitle">
+        Servizio <p-sortIcon field="serviceTitle"></p-sortIcon>
+      </th>
+      <th pSortableColumn="clientUsername">
+        Cliente <p-sortIcon field="clientUsername"></p-sortIcon>
+      </th>
+      <th pSortableColumn="freelancerUsername">
+        Freelancer <p-sortIcon field="freelancerUsername"></p-sortIcon>
+      </th>
+      <th pSortableColumn="orderDate">
+        Data <p-sortIcon field="orderDate"></p-sortIcon>
+      </th>
       <th>Stato Ordine</th>
       <th>Stato Pagamento</th>
-      <th>Prezzo Totale</th>
+      <th pSortableColumn="totalPrice">
+        Prezzo Totale <p-sortIcon field="totalPrice"></p-sortIcon>
+      </th>
       <th>Azioni</th>
     </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let order of filteredOrders">
+  </ng-template>
+
+  <ng-template pTemplate="body" let-order>
+    <tr>
       <td>{{ order.orderID }}</td>
       <td>{{ order.serviceTitle }}</td>
       <td>{{ order.clientUsername }}</td>
       <td>{{ order.freelancerUsername }}</td>
       <td>{{ order.orderDate | date }}</td>
       <td>
-        <!-- Mostra un badge colorato in base allo stato -->
         <span
           [ngClass]="{
-            'badge bg-success': order.status === 'Completed',
-            'badge bg-warning': order.status === 'Pending'
+            'badge badge-success': order.status === 'Completed',
+            'badge badge-warning': order.status === 'Pending',
+            'badge badge-danger': order.status === 'Failed'
           }"
         >
           {{ order.status }}
@@ -69,43 +111,53 @@
       </td>
       <td>{{ order.paymentStatus }}</td>
       <td>{{ order.totalPrice | currency }}</td>
-      <!-- Condizione per applicare la classe bg-success se ci sono file -->
-      <td [ngClass]="{ 'bg-success': order.files && order.files.length > 0 }">
-        <!-- Mostra l'opzione di caricamento solo se l'utente è un freelancer e non ci sono file -->
-        <div *ngIf="isFreelancer && (!order.files || order.files.length === 0)">
-          <input type="file" (change)="onFileSelected($event)" multiple />
-          <button
-            class="btn btn-primary btn-sm"
-            (click)="uploadFiles(order.orderID)"
-          >
-            Carica File
-          </button>
-        </div>
-
-        <!-- Mostra i file caricati -->
-        <div *ngIf="order.files && order.files.length > 0">
-          <h5>File caricati:</h5>
-          <ul>
-            <li *ngFor="let file of order.files">
-              <button
-                class="btn btn-sm btn-warning"
-                (click)="downloadFile(order.orderID, file.orderFileID)"
-              >
-                Scarica {{ file.filePath.split("/").pop() }}
-              </button>
-              <!-- Mostra il pulsante "Elimina" solo se l'utente è un freelancer -->
-              <button
-                *ngIf="isFreelancer"
-                class="btn btn-sm btn-danger"
-                (click)="deleteFile(order.orderID, file.orderFileID)"
-              >
-                Elimina
-              </button>
-            </li>
-          </ul>
-        </div>
-      </td>
       <td>
+        <!-- Azioni personalizzate -->
+        <!-- Condizione per applicare la classe bg-success se ci sono file -->
+        <div
+          [ngClass]="{ 'bg-success': order.files && order.files.length > 0 }"
+        >
+          <!-- Mostra l'opzione di caricamento solo se l'utente è un freelancer e non ci sono file -->
+          <div
+            *ngIf="isFreelancer && (!order.files || order.files.length === 0)"
+          >
+            <input
+              type="file"
+              (change)="onFileSelected($event)"
+              multiple
+              class="form-control-file"
+            />
+            <button
+              class="btn btn-primary btn-sm mt-2"
+              (click)="uploadFiles(order.orderID)"
+            >
+              Carica File
+            </button>
+          </div>
+
+          <!-- Mostra i file caricati -->
+          <div *ngIf="order.files && order.files.length > 0">
+            <h5>File caricati:</h5>
+            <ul class="uploaded-files">
+              <li *ngFor="let file of order.files">
+                <button
+                  class="btn btn-sm btn-warning"
+                  (click)="downloadFile(order.orderID, file.orderFileID)"
+                >
+                  Scarica {{ file.filePath.split("/").pop() }}
+                </button>
+                <!-- Mostra il pulsante "Elimina" solo se l'utente è un freelancer -->
+                <button
+                  *ngIf="isFreelancer"
+                  class="btn btn-sm btn-danger"
+                  (click)="deleteFile(order.orderID, file.orderFileID)"
+                >
+                  Elimina
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
         <!-- Mostra il pulsante di completamento se l'utente è un freelancer e l'ordine ha dei file -->
         <button
           *ngIf="
@@ -121,8 +173,15 @@
         </button>
       </td>
     </tr>
-  </tbody>
-</table>
+  </ng-template>
+
+  <!-- Opzionale: Template per il messaggio quando non ci sono dati -->
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="9" class="text-center">Nessun ordine trovato.</td>
+    </tr>
+  </ng-template>
+</p-table>
 
 <!-- Mostra un messaggio se non ci sono ordini filtrati -->
 <p *ngIf="filteredOrders.length === 0" class="text-center">

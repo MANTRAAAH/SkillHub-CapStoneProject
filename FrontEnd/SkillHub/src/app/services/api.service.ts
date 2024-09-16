@@ -111,11 +111,13 @@ export class ApiService {
   }
 
   // **Aggiorna un servizio esistente** (Update)
-  updateService(serviceId: number, serviceData: any): Observable<any> {
+  updateService(serviceId: number, serviceData: FormData): Observable<any> {
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
+
+    // Non impostare manualmente il Content-Type, perché il browser lo gestisce automaticamente per FormData
     return this.http.put(`${this.apiUrl}/services/${serviceId}`, serviceData, { headers })
       .pipe(
         catchError(error => {
@@ -124,6 +126,7 @@ export class ApiService {
         })
       );
   }
+
 
   // **Elimina un servizio** (Delete)
   deleteService(serviceId: number): Observable<any> {

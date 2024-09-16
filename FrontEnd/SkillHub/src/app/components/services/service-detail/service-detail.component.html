@@ -1,21 +1,40 @@
 <div class="container mt-5" *ngIf="service">
   <div class="row">
-    <div class="col-md-8">
+    <!-- Immagine del servizio a sinistra -->
+    <div class="col-md-6">
+      <div class="service-image">
+        <img
+          *ngIf="service.imagePath"
+          [src]="service.imagePath"
+          alt="Immagine del servizio"
+          style="width: 100%; height: auto; object-fit: cover"
+        />
+      </div>
+    </div>
+
+    <!-- Dettagli del servizio a destra -->
+    <div class="col-md-6">
       <h2>{{ service.title }}</h2>
       <p>{{ service.description }}</p>
-      <p>Categoria: {{ service.categoryName }}</p>
-      <p>Sottocategoria: {{ service.subCategoryName }}</p>
-      <p>Freelancer: {{ service.userName }}</p>
-      <p>Prezzo: €{{ service.price }}</p>
-    </div>
-  </div>
+      <p><strong>Categoria:</strong> {{ service.categoryName }}</p>
+      <p><strong>Sottocategoria:</strong> {{ service.subCategoryName }}</p>
+      <p><strong>Freelancer:</strong> {{ service.userName }}</p>
+      <p><strong>Prezzo:</strong> €{{ service.price }}</p>
 
-  <div class="row mt-4">
-    <div class="col-md-6">
-      <button class="btn btn-primary" (click)="placeOrder()">
-        Piazza Ordine
-      </button>
-      <div class="alert mt-3" *ngIf="orderMessage">{{ orderMessage }}</div>
+      <!-- Bottone per piazzare l'ordine -->
+      <button
+        pButton
+        type="button"
+        label="Piazza Ordine"
+        icon="pi pi-shopping-cart"
+        (click)="placeOrder()"
+        class="p-button-primary"
+      ></button>
+
+      <!-- Messaggio d'ordine -->
+      <div class="p-message p-message-info mt-3" *ngIf="orderMessage">
+        {{ orderMessage }}
+      </div>
     </div>
   </div>
 </div>

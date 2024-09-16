@@ -1,9 +1,10 @@
-﻿namespace SkillHubApi.Models
+﻿using System.Text.Json.Serialization;
+
+namespace SkillHubApi.Models
 {
     public class ServiceDto
     {
         public int ServiceID { get; set; }
-
         public int UserID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -13,6 +14,9 @@
         public int CategoryId { get; set; }
         public int SubCategoryId { get; set; }
         public string UserName { get; set; }
-    }
 
+        // Aggiungere il campo per l'immagine
+        [JsonPropertyName("imagePath")]
+        public string? ImagePath { get; set; }
+    }
 }

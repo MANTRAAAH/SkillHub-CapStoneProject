@@ -23,7 +23,8 @@ export class OrdersComponent implements OnInit {
     maxPrice: null as number | null,
     searchQuery: ''
   };
-
+  filters: any = {}; // Puoi specificare il tipo appropriato
+  selectedOrders: OrderDetailsDto[] = [];
   constructor(private apiService: ApiService, private authService: AuthService , private orderService: OrderService) {}
 
   ngOnInit(): void {

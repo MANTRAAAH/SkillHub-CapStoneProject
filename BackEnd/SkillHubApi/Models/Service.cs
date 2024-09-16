@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SkillHubApi.Models
+﻿namespace SkillHubApi.Models
 {
     public class Service
     {
         public int ServiceID { get; set; }
-
-        // Foreign Keys
         public int UserID { get; set; }
         public int CategoryID { get; set; }
         public int SubCategoryID { get; set; }
-
-        // Properties
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+
+        // Aggiungere il campo per l'immagine
+        public string? ImagePath { get; set; } // Percorso o URL dell'immagine
 
         // Navigation Properties
         public virtual User? User { get; set; }

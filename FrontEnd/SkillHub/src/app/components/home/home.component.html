@@ -21,17 +21,25 @@
     [numVisible]="3"
     [numScroll]="3"
     [showIndicators]="false"
+    [responsiveOptions]="responsiveOptions"
   >
     <ng-template pTemplate="item" let-service>
       <div class="service-card mt-3 mx-2">
+        <div class="card-img">
+          <img
+            [src]="'http://localhost:7117' + service.imagePath"
+            alt="Immagine Servizio"
+            class="img-fluid service-image"
+          />
+        </div>
         <h5>{{ service.title }}</h5>
-        <p>Category: {{ service.categoryName }}</p>
-        <!-- Usa categoryName -->
-        <p>Subcategory: {{ service.subCategoryName }}</p>
-        <!-- Usa subCategoryName -->
+        <p>
+          Categoria: {{ service.categoryName }}
+          <i class="pi pi-angle-right custom-icon"></i>
+          {{ service.subCategoryName }}
+        </p>
         <p>Freelancer: {{ service.userName }}</p>
-        <!-- Usa userName -->
-        <p>Price: ${{ service.price }}</p>
+        <p>Prezzo: ${{ service.price }}</p>
       </div>
     </ng-template>
   </p-carousel>

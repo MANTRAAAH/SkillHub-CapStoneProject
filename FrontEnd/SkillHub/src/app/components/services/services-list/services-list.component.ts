@@ -1,6 +1,7 @@
+import { CategoryService } from './../../../services/category.service';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
-import { Service, Category, SubCategory } from '../../../models/models';  // Importa le interfacce
+import { Service, Category, SubCategory, ServiceDto } from '../../../models/models';  // Importa le interfacce
 
 @Component({
   selector: 'app-services-list',
@@ -8,7 +9,7 @@ import { Service, Category, SubCategory } from '../../../models/models';  // Imp
   styleUrls: ['./services-list.component.scss']
 })
 export class ServicesListComponent implements OnInit {
-  services: Service[] = [];  // Usa l'interfaccia
+  services: ServiceDto[] = [];  // Usa l'interfaccia
   categories: Category[] = [];
   subCategories: SubCategory[] = [];
 
@@ -18,9 +19,9 @@ export class ServicesListComponent implements OnInit {
     maxPrice: ''
   };
 
-  filteredServices: Service[] = [];
+  filteredServices: ServiceDto[] = [];
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private categoryService: CategoryService) { }
 
   ngOnInit(): void {
     this.loadServices();
@@ -55,14 +56,21 @@ export class ServicesListComponent implements OnInit {
 
   applyFilters() {
     this.filteredServices = this.services.filter(service => {
-      return (!this.filter.category || service.categoryName === this.filter.category) &&
-             (!this.filter.subCategory || service.subCategoryName === this.filter.subCategory) &&
-             (!this.filter.maxPrice || service.price <= this.filter.maxPrice);
+      const categoryFilterMatch = !this.filter.category || service.categoryId === this.filter.category.categoryID;
+      const subCategoryFilterMatch = !this.filter.subCategory || service.subCategoryId === this.filter.subCategory.subCategoryID;
+      const maxPriceFilterMatch = !this.filter.maxPrice || service.price <= this.filter.maxPrice;
+
+      return categoryFilterMatch && subCategoryFilterMatch && maxPriceFilterMatch;
     });
+
+    console.log('Servizi filtrati:', this.filteredServices);
   }
 
+
+
+
   loadCategories(): void {
-    this.apiService.getCategories().subscribe(
+    this.categoryService.getCategories().subscribe(
       (data: any) => {  // Ricevi l'oggetto contenente $values
         if (data && data.$values) {
           this.categories = data.$values;  // Assegna l'array di categorie alla variabile
@@ -77,9 +85,9 @@ export class ServicesListComponent implements OnInit {
     );
   }
 
-
+  // Usa CategoryService per caricare le sottocategorie
   loadSubCategories(): void {
-    this.apiService.getSubCategories().subscribe(
+    this.categoryService.getSubcategories().subscribe(
       (data: any) => {
         // Accedi alla proprietà $values per ottenere l'array
         if (data && data.$values) {

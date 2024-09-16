@@ -73,6 +73,7 @@ export interface ServiceDto {
   categoryName?: string;  // Nome della categoria (opzionale)
   subCategoryName?: string;  // Nome della sottocategoria (opzionale)
   userName: string;
+  imagePath?: string;  // Aggiungi l'url per l'immagine
 }
 export interface OrderFile {
   orderFileID: number;

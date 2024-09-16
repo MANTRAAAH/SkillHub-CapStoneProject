@@ -1,0 +1,36 @@
+@import '../../../../../variables.scss'; // Assicurati che il percorso sia corretto
+
+/* Stile per il contenitore principale */
+.dashboard-container {
+  background-color: $background-color;
+  padding: 2rem;
+}
+
+/* Stile per i contenitori dei grafici */
+.chart-container {
+  background-color: $background-color;
+  border: 1px solid lighten($text-color, 40%);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+
+  /* Responsive per dispositivi mobili */
+  @media (max-width: 767px) {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Stile per i titoli dei grafici */
+.chart-title {
+  color: $primary-color;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Stile per i canvas dei grafici */
+canvas {
+  background-color: $background-color;
+  /* Assicura che i grafici riempiano il contenitore */
+  width: 100% !important;
+  height: auto !important;
+}

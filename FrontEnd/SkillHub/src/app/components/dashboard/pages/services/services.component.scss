@@ -1,0 +1,199 @@
+@import '../../../../../variables.scss'; // Assicurati che il percorso sia corretto
+
+
+.services-container {
+  padding: $padding;
+  background-color: $background-color;
+  color: $text-color;
+
+  .p-inputgroup {
+    margin-bottom: $margin;
+  }
+
+  h3 {
+    color: $primary-color;
+    margin-bottom: $margin;
+  }
+}
+
+
+.p-inputgroup-addon {
+  background-color: $primary-color;
+  color: $background-color;
+
+  .pi {
+    font-size: $font-size;
+  }
+}
+
+.p-inputtext {
+  border-radius: $border-radius;
+}
+
+
+.p-table {
+  .p-datatable-thead > tr > th {
+    background-color: $accent-color;
+    color: $background-color;
+    text-align: center;
+    font-weight: bold;
+    padding: $padding;
+  }
+
+  .p-datatable-tbody > tr {
+    &:nth-child(even) {
+      background-color: lighten($background-color, 5%);
+    }
+
+    &:hover {
+      background-color: lighten($background-color, 10%);
+    }
+
+    > td {
+      padding: $padding;
+      text-align: center;
+      vertical-align: middle;
+
+      img {
+        border-radius: $border-radius;
+      }
+
+      .p-button {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .p-paginator {
+    background-color: $background-color;
+    border: none;
+
+    .p-paginator-pages .p-paginator-page {
+      color: $text-color;
+
+      &.p-highlight {
+        background-color: $primary-color;
+        color: $background-color;
+      }
+    }
+
+    .p-paginator-icon {
+      color: $text-color;
+    }
+  }
+}
+
+
+.p-fieldset {
+  margin-top: $margin;
+  border: 1px solid lighten($text-color, 40%);
+  border-radius: $border-radius;
+
+  legend {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: $primary-color;
+    padding: 0 $padding;
+  }
+
+  .p-field {
+    margin-bottom: $margin;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: $text-color;
+      font-weight: bold;
+    }
+
+    input,
+    textarea,
+    .p-dropdown {
+      width: 100%;
+    }
+  }
+
+  .p-button {
+    width: 100%;
+    padding: $padding;
+    font-size: $font-size;
+    margin-top: $margin;
+  }
+
+  .p-button-secondary {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    background-color: $secondary-color;
+    border-color: $secondary-color;
+    color: $text-color;
+
+    &:hover {
+      background-color: darken($secondary-color, 5%);
+      border-color: darken($secondary-color, 5%);
+    }
+  }
+}
+
+img {
+  border-radius: $border-radius;
+  margin-top: $margin;
+}
+
+
+.p-button {
+  &.p-button-primary {
+    background-color: $primary-color;
+    border-color: $primary-color;
+    color: $background-color;
+
+    &:hover {
+      background-color: darken($primary-color, 5%);
+      border-color: darken($primary-color, 5%);
+    }
+  }
+
+  &.p-button-warning {
+    background-color: $accent-color;
+    border-color: $accent-color;
+    color: $background-color;
+
+    &:hover {
+      background-color: darken($accent-color, 5%);
+      border-color: darken($accent-color, 5%);
+    }
+  }
+
+  &.p-button-danger {
+    background-color: $danger-color;
+    border-color: $danger-color;
+    color: $background-color;
+
+    &:hover {
+      background-color: darken($danger-color, 5%);
+      border-color: darken($danger-color, 5%);
+    }
+  }
+}
+
+
+.p-progress-spinner,
+.p-progressbar {
+  margin: $margin auto;
+  display: block;
+
+  .p-progress-spinner-svg {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+
+.p-message {
+  margin-bottom: $margin;
+
+  &.p-message-error {
+    background-color: $danger-color;
+    color: $background-color;
+    border-color: darken($danger-color, 5%);
+  }
+}

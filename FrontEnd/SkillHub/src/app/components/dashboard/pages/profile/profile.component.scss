@@ -1,31 +1,49 @@
-.profile-form, .password-form {
-  width: 100%;
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+@import '../../../../../variables.scss'; // Assicurati che il percorso sia corretto
+
+.profile-form,
+.password-form {
+  max-width: 600px;
+  margin: 2rem auto;
+
+  h2 {
+    color: $primary-color;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .p-field {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: $text-color;
+      font-weight: bold;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+    }
+  }
+
+  .p-button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+  }
 }
 
-h2 {
-  margin-bottom: 20px;
-  text-align: center;
-}
+.profile-picture-upload {
+  margin-bottom: 2rem;
 
-.form-group {
-  margin-bottom: 15px;
-}
+  h3 {
+    color: $primary-color;
+    margin-bottom: 1rem;
+  }
 
-.form-control {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-}
-
-.btn {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  margin-top: 10px;
+  img.profile-image {
+    max-width: 200px;
+    margin-bottom: 1rem;
+  }
 }

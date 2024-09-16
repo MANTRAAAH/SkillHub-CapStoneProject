@@ -1,3 +1,6 @@
+/* Importa le variabili */
+@import '../../../../variables.scss';
+
 /* Dashboard Layout */
 .dashboard {
   display: flex;
@@ -6,8 +9,8 @@
 }
 
 .header {
-  background-color: #343a40;
-  color: white;
+  background-color: $primary-color;  // Sostituito #343a40 con $accent-color (Blu Scuro)
+  color: $background-color;         // Sostituito 'white' con $background-color (Bianco Panna)
   padding: 1rem;
   display: flex;
   justify-content: space-between;
@@ -21,7 +24,7 @@
 
 .sidebar {
   width: 200px;
-  background-color: #f8f9fa;
+  background-color: $background-color;  // Sostituito #f8f9fa con $background-color (Bianco Panna)
   padding: 1rem;
 }
 
@@ -36,17 +39,17 @@
 
 .sidebar ul li a {
   text-decoration: none;
-  color: #343a40;
+  color: $text-color;       // Sostituito #343a40 con $text-color (Grigio Scuro)
   display: block;
 }
 
 .sidebar ul li a.active {
-  color: #007bff;
+  color: $primary-color;    // Sostituito #007bff con $primary-color (Arancione)
   font-weight: bold;
 }
 
 .content {
   padding: 1rem;
   flex-grow: 1;
-  background-color: #f1f1f1;
+  background-color: $background-color;  // Sostituito #f1f1f1 con $background-color (Bianco Panna)
 }

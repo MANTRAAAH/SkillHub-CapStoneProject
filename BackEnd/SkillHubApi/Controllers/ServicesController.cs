@@ -36,7 +36,8 @@ public class ServicesController : ControllerBase
                 SubCategoryId = s.SubCategoryID,
                 CategoryName = s.Category.CategoryName,
                 SubCategoryName = s.SubCategory.SubCategoryName,
-                UserName = s.User.Username
+                UserName = s.User.Username,
+                ImagePath = s.ImagePath
             })
             .ToListAsync();
 
@@ -64,7 +65,8 @@ public class ServicesController : ControllerBase
                 SubCategoryId = s.SubCategoryID,
                 CategoryName = s.Category.CategoryName,
                 SubCategoryName = s.SubCategory.SubCategoryName,
-                UserName = s.User.Username
+                UserName = s.User.Username,
+                ImagePath = s.ImagePath
             })
             .FirstOrDefaultAsync();
 
@@ -79,13 +81,42 @@ public class ServicesController : ControllerBase
 
     // POST: api/services
     [HttpPost]
-    public async Task<ActionResult<Service>> PostService(Service service)
+    public async Task<ActionResult<Service>> PostService([FromForm] Service service, IFormFile image)
     {
+        // Estrai l'ID utente dal token JWT
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+        {
+            return BadRequest("Invalid or missing User ID.");
+        }
+
+        // Converti l'ID utente in un numero intero
+        service.UserID = int.Parse(userId);
+
+        if (image != null && image.Length > 0)
+        {
+            // Percorso per salvare l'immagine
+            var imagePath = Path.Combine("wwwroot", "images", "services", image.FileName);
+
+            // Salva l'immagine sul server
+            using (var stream = new FileStream(imagePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+
+            // Imposta il percorso dell'immagine nel servizio
+            service.ImagePath = $"/images/services/{image.FileName}";
+            Console.WriteLine($"Percorso immagine assegnato: {service.ImagePath}");
+        }
+
         _context.Services.Add(service);
         await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetService), new { id = service.ServiceID }, service);
     }
+
+
+
 
     [HttpGet("random")]
     public async Task<ActionResult<IEnumerable<ServiceDto>>> GetRandomServices()
@@ -110,31 +141,76 @@ public class ServicesController : ControllerBase
                                          SubCategoryId = s.SubCategoryID,
                                          CategoryName = s.Category.CategoryName,
                                          SubCategoryName = s.SubCategory.SubCategoryName,
-                                         UserName = s.User.Username
+                                         UserName = s.User.Username,
+                                         ImagePath = s.ImagePath,
                                      })
                                      .ToListAsync();
 
         return services;
     }
 
-
     // PUT: api/services/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutService(int id, Service service)
+    public async Task<IActionResult> PutService(int id, [FromForm] Service service, IFormFile image)
     {
         if (id != service.ServiceID)
         {
-            return BadRequest();
+            return BadRequest("ID del servizio non corrisponde.");
         }
 
-        // Verifica che l'utente esista nel database
-        var userExists = await _context.Users.AnyAsync(u => u.UserID == service.UserID);
-        if (!userExists)
+        // Recupera il servizio esistente dal database
+        var existingService = await _context.Services.FindAsync(id);
+        if (existingService == null)
         {
-            return BadRequest("Utente non trovato.");
+            return NotFound("Servizio non trovato.");
         }
 
-        _context.Entry(service).State = EntityState.Modified;
+        // Aggiorna le proprietà del servizio esistente
+        existingService.Title = service.Title;
+        existingService.Description = service.Description;
+        existingService.Price = service.Price;
+        existingService.CategoryID = service.CategoryID;
+        existingService.SubCategoryID = service.SubCategoryID;
+        existingService.UserID = service.UserID;
+
+        // Processa l'immagine se presente
+        if (image != null && image.Length > 0)
+        {
+            // Percorso per salvare l'immagine
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "services");
+
+            // Crea la cartella se non esiste
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            // Crea un nome file unico
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(image.FileName);
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            // Salva la nuova immagine
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+
+            // Elimina l'immagine precedente se esiste
+            if (!string.IsNullOrEmpty(existingService.ImagePath))
+            {
+                var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", existingService.ImagePath.TrimStart('/'));
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+
+            // Aggiorna il percorso dell'immagine nel servizio
+            existingService.ImagePath = $"/images/services/{uniqueFileName}";
+        }
+
+        // Aggiorna lo stato dell'entità
+        _context.Entry(existingService).State = EntityState.Modified;
 
         try
         {
@@ -154,6 +230,9 @@ public class ServicesController : ControllerBase
 
         return NoContent();
     }
+
+
+
 
 
 
@@ -200,7 +279,8 @@ public class ServicesController : ControllerBase
                 SubCategoryId = s.SubCategoryID,
                 CategoryName = s.Category.CategoryName,
                 SubCategoryName = s.SubCategory.SubCategoryName,
-                UserName = s.User.Username
+                UserName = s.User.Username,
+                ImagePath= s.ImagePath
             })
             .ToListAsync();
 

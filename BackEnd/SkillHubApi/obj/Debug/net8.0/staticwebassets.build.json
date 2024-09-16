@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "xgV109Ic69Gj5/uq3ZQVDvzQRT4vLvHQr6bnV9a3LlQ=",
+  "Hash": "I+JXJGGGtL5iOy9nPp1caowKkfL4GyCUYh+yuTQO2+M=",
   "Source": "SkillHubApi",
   "BasePath": "_content/SkillHubApi",
   "Mode": "Default",
@@ -16,63 +16,6 @@
     }
   ],
   "Assets": [
-    {
-      "Identity": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\files\\orders\\1_1fdad179-8a27-4f36-99a8-d0a6236e9a0e.jpeg",
-      "SourceId": "SkillHubApi",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\",
-      "BasePath": "_content/SkillHubApi",
-      "RelativePath": "files/orders/1_1fdad179-8a27-4f36-99a8-d0a6236e9a0e.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\files\\orders\\1_1fdad179-8a27-4f36-99a8-d0a6236e9a0e.jpeg"
-    },
-    {
-      "Identity": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\files\\orders\\1_b02d0d40-2f03-403f-8722-e04739d4508a.pdf",
-      "SourceId": "SkillHubApi",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\",
-      "BasePath": "_content/SkillHubApi",
-      "RelativePath": "files/orders/1_b02d0d40-2f03-403f-8722-e04739d4508a.pdf",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\files\\orders\\1_b02d0d40-2f03-403f-8722-e04739d4508a.pdf"
-    },
-    {
-      "Identity": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\files\\orders\\1_b9366d6c-0c44-4dec-a577-91858ac9c732.jpg",
-      "SourceId": "SkillHubApi",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\",
-      "BasePath": "_content/SkillHubApi",
-      "RelativePath": "files/orders/1_b9366d6c-0c44-4dec-a577-91858ac9c732.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\files\\orders\\1_b9366d6c-0c44-4dec-a577-91858ac9c732.jpg"
-    },
     {
       "Identity": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\images\\profiles\\10_159cb5fa-70e3-48c7-abd0-5c3aa6467aa6.png",
       "SourceId": "SkillHubApi",
@@ -300,6 +243,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\profiles\\default-profile-picture.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\images\\services\\Pizza_marinara.jpg",
+      "SourceId": "SkillHubApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\antan\\Desktop\\EPICODE\\SkillHub-CapStoneProject\\BackEnd\\SkillHubApi\\wwwroot\\",
+      "BasePath": "_content/SkillHubApi",
+      "RelativePath": "images/services/Pizza_marinara.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\services\\Pizza_marinara.jpg"
     }
   ]
 }

@@ -13,6 +13,7 @@ import { ServicesComponent } from './components/dashboard/pages/services/service
 import { ChartsComponent } from './components/dashboard/pages/charts/charts.component';
 import { FreelancerGuard } from './guards/freelancer.guard';
 import { ChatUsersComponent } from './components/chat/chat-users/chat-users.component';
+import { CategoryManagementComponent } from './components/admin/category-management/category-management.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,6 +23,11 @@ const routes: Routes = [
   { path: 'services', component: ServicesListComponent },
   { path: 'services/:id', component: ServiceDetailComponent }, // Aggiunta della route per i dettagli del servizio
   { path: 'home', pathMatch: 'full', component: HomeComponent },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'home'
+  },
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -33,6 +39,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'orders', pathMatch: 'full' } // Redirect predefinito
     ]
   },
+  {
+    path: 'admin/categories',
+  component: CategoryManagementComponent
+  }
 ];
 
 @NgModule({

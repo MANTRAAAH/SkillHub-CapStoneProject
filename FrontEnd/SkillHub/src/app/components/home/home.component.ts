@@ -8,8 +8,27 @@ import { ApiService } from '../../services/api.service';
 })
 export class HomeComponent implements OnInit {
   services: any[] = []; // Assicuriamoci che sia un array
+  responsiveOptions: any[];
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) {
+    this.responsiveOptions = [
+      {
+        breakpoint: '1024px',
+        numVisible: 3,
+        numScroll: 3
+      },
+      {
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 2
+      },
+      {
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1
+      }
+    ];
+  }
 
   ngOnInit(): void {
     this.loadRandomServices();

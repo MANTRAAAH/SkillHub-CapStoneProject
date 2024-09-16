@@ -1,0 +1,122 @@
+<!-- Aggiungi FontAwesome per le icone -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+/>
+
+<div class="container">
+  <h2>Gestione Categorie</h2>
+
+  <!-- Spinner -->
+  <div *ngIf="isLoading" class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+
+  <!-- Form per creare una nuova categoria -->
+  <form (ngSubmit)="onSubmitCategory()" *ngIf="!isLoading">
+    <div class="form-group">
+      <label for="categoryName">Nome Categoria:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="categoryName"
+        [(ngModel)]="categoryName"
+        name="categoryName"
+        required
+      />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Crea Categoria</button>
+    <div *ngIf="categorySuccessMessage" class="alert alert-success mt-2">
+      {{ categorySuccessMessage }}
+    </div>
+    <div *ngIf="categoryErrorMessage" class="alert alert-danger mt-2">
+      {{ categoryErrorMessage }}
+    </div>
+  </form>
+
+  <hr />
+
+  <!-- Form per creare una nuova sottocategoria -->
+  <form (ngSubmit)="onSubmitSubcategory()" *ngIf="!isLoading">
+    <div class="form-group">
+      <label for="subcategoryName">Nome Sottocategoria:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="subcategoryName"
+        [(ngModel)]="subcategoryName"
+        name="subcategoryName"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="parentCategory">Categoria Padre:</label>
+      <select
+        class="form-control"
+        id="parentCategory"
+        [(ngModel)]="selectedCategoryId"
+        name="parentCategory"
+        required
+      >
+        <option
+          *ngFor="let category of categories"
+          [value]="category.categoryID"
+        >
+          {{ category.categoryName }}
+        </option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">
+      Crea Sottocategoria
+    </button>
+    <div *ngIf="subcategorySuccessMessage" class="alert alert-success mt-2">
+      {{ subcategorySuccessMessage }}
+    </div>
+    <div *ngIf="subcategoryErrorMessage" class="alert alert-danger mt-2">
+      {{ subcategoryErrorMessage }}
+    </div>
+  </form>
+
+  <hr />
+
+  <!-- Elenco categorie e sottocategorie -->
+  <h3>Elenco Categorie e Sottocategorie</h3>
+  <table class="table table-bordered" *ngIf="!isLoading">
+    <thead>
+      <tr>
+        <th>Categoria</th>
+        <th>Sottocategorie</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories">
+        <td>
+          {{ category.categoryName }}
+          <!-- Icona per eliminare la categoria -->
+          <button
+            class="btn btn-danger btn-sm float-end"
+            (click)="deleteCategory(category.categoryID)"
+          >
+            <i class="fa fa-times"></i>
+            <!-- X Icon -->
+          </button>
+        </td>
+        <td>
+          <ul>
+            <li *ngFor="let subcategory of category.subCategories.$values">
+              {{ subcategory.subCategoryName }}
+              <!-- Icona per eliminare la sottocategoria -->
+              <button
+                class="btn btn-danger btn-sm ms-2"
+                (click)="deleteSubcategory(subcategory.subCategoryID)"
+              >
+                <i class="fa fa-times"></i>
+                <!-- X Icon -->
+              </button>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
