@@ -54,8 +54,7 @@
               "RelativeToolTip": "Hub\\MainHub.cs",
               "ViewState": "AQIAAHQAAAAAAAAAAAAQwJUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T06:36:48.855Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-13T06:36:48.855Z"
             },
             {
               "$type": "Document",
@@ -67,8 +66,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AQIAAE8AAAAAAAAAAAAswHkAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T06:10:02.363Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-13T06:10:02.363Z"
             },
             {
               "$type": "Document",
@@ -93,8 +91,7 @@
               "RelativeToolTip": "Hub\\NotificationHub.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T06:02:56.425Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-13T06:02:56.425Z"
             },
             {
               "$type": "Document",
@@ -106,8 +103,7 @@
               "RelativeToolTip": "Controllers\\OrdersController.cs",
               "ViewState": "AQIAAHIBAAAAAAAAAAAAAJgBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T04:39:55.208Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-13T04:39:55.208Z"
             },
             {
               "$type": "Document",
@@ -119,8 +115,7 @@
               "RelativeToolTip": "Models\\Order.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T04:39:34.13Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-13T04:39:34.13Z"
             },
             {
               "$type": "Document",
@@ -132,8 +127,7 @@
               "RelativeToolTip": "Models\\OrderFile.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T04:39:11.222Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-13T04:39:11.222Z"
             }
           ]
         }
