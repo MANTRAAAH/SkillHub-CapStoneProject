@@ -1,25 +1,51 @@
 <p-menubar [model]="items">
   <!-- Template per il logo/brand (sinistra) -->
   <ng-template pTemplate="start">
-    <a routerLink="/" class="navbar-brand">
-      <!-- Inserisci un logo o testo come marchio -->
-      SkillHub
-    </a>
+    <a routerLink="/" class="navbar-brand"> SkillHub </a>
   </ng-template>
 
-  <!-- Template per il pulsante Logout/Login (destra) -->
+  <!-- Template per il pulsante Logout/Login e l'immagine del profilo (destra) -->
   <ng-template pTemplate="end">
-    <ul class="navbar-nav" style="margin: 0">
-      <ng-template #loginLink>
-        <li class="nav-item">
-          <button
-            pButton
-            label="Login"
-            routerLink="/login"
-            class="p-button-text"
-          ></button>
-        </li>
-      </ng-template>
+    <ul class="navbar-nav d-flex align-items-center" style="margin-left: auto">
+      <!-- Mostra l'immagine del profilo se l'utente è autenticato -->
+      <li class="nav-item" *ngIf="isAuthenticated">
+        <a [routerLink]="['/dashboard/profile']">
+          <img
+            *ngIf="profilePictureUrl"
+            [src]="profilePictureUrl"
+            alt="Profile Picture"
+            class="shadow-sm"
+            style="
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              margin-right: 10px;
+            "
+          />
+        </a>
+
+        <!-- Mostra "Category Management" solo se l'utente è Admin -->
+      </li>
+      <li>
+        <button
+          pButton
+          label="Logout"
+          icon="pi pi-sign-out"
+          class="p-button-text"
+          (click)="logout()"
+        ></button>
+      </li>
+
+      <!-- Mostra il pulsante di login se l'utente non è autenticato -->
+      <li class="nav-item" *ngIf="!isAuthenticated">
+        <button
+          pButton
+          label="Login"
+          icon="pi pi-sign-in"
+          routerLink="/login"
+          class="p-button-text"
+        ></button>
+      </li>
     </ul>
   </ng-template>
 </p-menubar>

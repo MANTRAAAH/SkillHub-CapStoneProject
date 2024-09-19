@@ -61,6 +61,38 @@ export class AuthService {
   getToken(): string | null {
     return this.currentUserValue?.token || null;
   }
+  getDecodedToken(): any {
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+
+    try {
+      // Decodifica il payload del token
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload;
+    } catch (error) {
+      console.error('Errore nel decodificare il token JWT:', error);
+      return null;
+    }
+  }
+
+  getUserFromToken(): any {
+    const token = this.getToken(); // Recupera il token dal local storage o BehaviorSubject
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica il payload del token
+      console.log('Payload del token:', payload); // Log per vedere cosa c'è dentro il payload
+
+      return {
+        userId: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"], // ID utente
+        role: payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"], // Ruolo utente
+        username: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] // Puoi aggiungere altre proprietà del token qui
+      };
+    }
+    return null;
+  }
+
+
 
   // Estrai il ruolo dal token decodificato
   getRoleFromToken(): string | null {
@@ -83,6 +115,8 @@ export class AuthService {
       'Content-Type': 'application/json',
     });
   }
+
+  
 
   // Estrai l'ID utente dal token
 getUserId(): number | null {

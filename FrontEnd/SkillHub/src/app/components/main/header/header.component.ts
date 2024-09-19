@@ -1,8 +1,10 @@
+import { UserService } from './../../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd} from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -13,42 +15,63 @@ export class HeaderComponent implements OnInit {
   isAuthenticated: boolean = false;
   userRole: string | null = null;
   items: MenuItem[] = [];
+  profilePictureUrl: string | null = null;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.checkAuthentication();
+    this.authService.currentUser.subscribe(user => {
+      this.isAuthenticated = !!user;
+      this.userRole = this.authService.getRoleFromToken();
+
+      if (this.isAuthenticated) {
+        // Recupera il profilo utente e la foto del profilo
+        this.userService.getUserProfile().subscribe(
+          (userProfile) => {
+            this.profilePictureUrl = this.userService.getProfilePicture(userProfile);  // Passa l'oggetto utente
+            this.setupMenu();
+          },
+          (error) => {
+            console.error('Errore durante il caricamento del profilo utente:', error);
+          }
+        );
+      } else {
+        this.setupMenu();
+      }
+    });
   }
+
+
 
   // Metodo per impostare il menu dinamicamente
   setupMenu() {
     this.items = [
       { label: 'Home', icon: 'pi pi-home', routerLink: '/' },
       { label: 'Servizi', icon: 'pi pi-briefcase', routerLink: '/services' },
-      { label: 'Chat', icon: 'pi pi-comments', routerLink: '/chat' },
       { label: 'Dashboard', icon: 'pi pi-th-large', routerLink: '/dashboard', visible: this.isAuthenticated },
-      {
-        label: this.isAuthenticated ? 'Logout' : 'Login',
-        icon: this.isAuthenticated ? 'pi pi-sign-out' : 'pi pi-sign-in',
-        command: () => this.isAuthenticated ? this.logout() : null,
-        routerLink: this.isAuthenticated ? null : '/login'
-      },
-      { label: 'Registrati', icon: 'pi pi-user-plus', routerLink: '/register', visible: !this.isAuthenticated }
     ];
+
+    // Se l'utente è un Admin, aggiungi l'opzione per la gestione delle categorie
+    if (this.userRole === 'Admin') {
+      this.items.push(
+        { label: 'Gestione Categorie', icon: 'pi pi-cog', routerLink: '/admin/categories' }
+      );
+    }
 
     // Forza il rilevamento delle modifiche per aggiornare la UI
     this.cd.detectChanges();
   }
 
+
   // Metodo per controllare l'autenticazione e il ruolo
   checkAuthentication() {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.userRole = this.authService.getRoleFromToken();
-
     // Reimposta il menu con le informazioni aggiornate
     this.setupMenu();
 

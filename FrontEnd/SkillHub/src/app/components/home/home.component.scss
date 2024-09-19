@@ -23,6 +23,22 @@
   }
 }
 
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+
+  .hero-content {
+    background-color: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente */
+    padding: 2rem;
+    border-radius: 10px;
+  }
+}
+
 .carousel-container {
   .p-carousel-content {
     margin-left: 15px;
@@ -63,12 +79,71 @@
       height: 100%;
       object-fit: cover;
     }
+
+    &:hover {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      transform: scale(1.02);
+    }
   }
+
   .custom-icon {
     font-size: 1rem;
     color: #E67E22; // Puoi usare una variabile SCSS se disponibile
     vertical-align: middle;
     margin: 0 5px;
   }
+}
 
+/* Media Query for Tablets and Small Screens */
+@media (max-width: 768px) {
+  .service-card {
+    .card-img {
+      height: 300px; // Riduci l'altezza delle immagini su tablet
+    }
+  }
+
+  .hero-section {
+    .hero-content {
+      padding: 1rem; // Riduci il padding sui tablet
+      font-size: 0.9rem; // Riduci la dimensione del font
+    }
+  }
+}
+
+/* Media Query for Mobile Devices */
+@media (max-width: 576px) {
+  .service-card {
+    .card-img {
+      height: 200px; // Riduci ulteriormente l'altezza delle immagini su schermi piccoli
+    }
+
+    .custom-icon {
+      font-size: 0.9rem; // Riduci la dimensione dell'icona
+    }
+  }
+
+  .hero-section {
+    flex-direction: column; // Layout verticale su mobile
+
+    .hero-content {
+      padding: 0.8rem; // Riduci ulteriormente il padding su mobile
+      font-size: 0.8rem; // Riduci ancora la dimensione del font
+    }
+  }
+}
+
+/* Media Query for Large Screens */
+@media (min-width: 1200px) {
+  .service-card {
+    .card-img {
+      height: 500px; // Aumenta l'altezza dell'immagine su schermi grandi
+    }
+  }
+
+  .hero-section {
+    .hero-content {
+      padding: 3rem; // Aumenta il padding su schermi più grandi
+      font-size: 1.2rem; // Aumenta la dimensione del font
+    }
+  }
 }

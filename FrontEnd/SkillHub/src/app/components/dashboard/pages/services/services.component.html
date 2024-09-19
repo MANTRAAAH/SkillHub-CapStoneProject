@@ -114,10 +114,8 @@
   </p>
 
   <!-- Form per aggiungere/modificare un servizio -->
-  <p-fieldset
-    class="mx-3"
-    legend="{{ isEditing ? 'Modifica servizio' : 'Aggiungi nuovo servizio' }}"
-  >
+  <p-fieldset class="my-5">
+    <h2 class="text-center">Aggiungi o modifica un servizio</h2>
     <form (ngSubmit)="isEditing ? updateService() : addService()">
       <div class="p-fluid">
         <div class="p-field">
@@ -178,25 +176,26 @@
             required
           ></p-dropdown>
         </div>
-
+        <h2 class="text-center my-2">Aggiungi un'immagine</h2>
         <!-- Campo per il caricamento dell'immagine -->
-        <div class="p-field">
-          <label for="image">Carica immagine</label>
-          <p-fileUpload
-            mode="basic"
-            name="image"
-            auto="false"
-            chooseLabel="Scegli Immagine"
-            (onSelect)="onFileSelected($event)"
-            accept="image/*"
-            [customUpload]="true"
-          ></p-fileUpload>
+        <div class="d-flex justify-content-center my-2">
+          <div class="p-field my-2">
+            <label for="image">Carica immagine</label>
+            <p-fileUpload
+              mode="basic"
+              name="image"
+              auto="false"
+              chooseLabel="Scegli Immagine"
+              (onSelect)="onFileSelected($event)"
+              accept="image/*"
+              [customUpload]="true"
+            ></p-fileUpload>
+          </div>
         </div>
-
         <!-- Visualizza l'anteprima dell'immagine attuale -->
         <img
           *ngIf="currentService.imagePath"
-          [src]="currentService.imagePath"
+          [src]="'http://localhost:7117' + currentService.imagePath"
           alt="Immagine del servizio"
           style="width: 150px; height: 150px; margin-top: 10px"
         />
@@ -208,12 +207,12 @@
           name="userID"
         />
 
-        <div class="p-field p-mt-3">
+        <div class="p-field my-3">
           <button
             pButton
-            type="submit"
-            label="{{ isEditing ? 'Aggiorna' : 'Aggiungi' }}"
-            class="p-button-primary"
+            label="Aggiungi Servizio"
+            (click)="uploadFile()"
+            class="p-button-primary mt-2"
           ></button>
           <button
             *ngIf="isEditing"

@@ -1,18 +1,24 @@
 <div
-  class="hero bg-light text-center text-white py-5"
+  class="hero bg-light text-center text-white py-5 d-flex align-items-center"
   style="
-    background-image: url('https://via.placeholder.com/1920x600');
+    background-image: url('http://localhost:7117/images/Home/hero/hero-image.webp');
+    height: 600px;
     background-size: cover;
     background-position: center;
   "
 >
-  <div class="container">
+  <div class="container bg-opacity-10 bg-black pb-3">
     <h1 class="display-4">Benvenuto su SkillHub</h1>
     <p class="lead">
       Trova il freelance perfetto per il tuo prossimo progetto.
     </p>
     <a href="/register" class="btn btn-primary btn-lg mt-4">Inizia ora</a>
   </div>
+</div>
+
+<div class="container">
+  <h2 class="text-center mt-5">I nostri servizi</h2>
+  <p class="text-center">Scopri i servizi offerti dai nostri freelancer</p>
 </div>
 
 <div class="carousel-container">
@@ -24,23 +30,28 @@
     [responsiveOptions]="responsiveOptions"
   >
     <ng-template pTemplate="item" let-service>
-      <div class="service-card mt-3 mx-2">
-        <div class="card-img">
-          <img
-            [src]="'http://localhost:7117' + service.imagePath"
-            alt="Immagine Servizio"
-            class="img-fluid service-image"
-          />
+      <a
+        [routerLink]="['/services', service.serviceID]"
+        style="text-decoration: none; color: inherit"
+      >
+        <div class="service-card mt-3 mx-2">
+          <div class="card-img">
+            <img
+              [src]="'http://localhost:7117' + service.imagePath"
+              alt="Immagine Servizio"
+              class="img-fluid service-image"
+            />
+          </div>
+          <h5>{{ service.title }}</h5>
+          <p>
+            Categoria: {{ service.categoryName }}
+            <i class="pi pi-angle-right custom-icon"></i>
+            {{ service.subCategoryName }}
+          </p>
+          <p>Freelancer: {{ service.userName }}</p>
+          <p>Prezzo: ${{ service.price }}</p>
         </div>
-        <h5>{{ service.title }}</h5>
-        <p>
-          Categoria: {{ service.categoryName }}
-          <i class="pi pi-angle-right custom-icon"></i>
-          {{ service.subCategoryName }}
-        </p>
-        <p>Freelancer: {{ service.userName }}</p>
-        <p>Prezzo: ${{ service.price }}</p>
-      </div>
+      </a>
     </ng-template>
   </p-carousel>
 </div>

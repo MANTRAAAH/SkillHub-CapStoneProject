@@ -5,9 +5,10 @@
       <div class="service-image">
         <img
           *ngIf="service.imagePath"
-          [src]="service.imagePath"
+          [src]="'http://localhost:7117' + service.imagePath"
           alt="Immagine del servizio"
           style="width: 100%; height: auto; object-fit: cover"
+          class="shadow rounded-3"
         />
       </div>
     </div>

@@ -65,6 +65,15 @@ export class ServicesListComponent implements OnInit {
 
     console.log('Servizi filtrati:', this.filteredServices);
   }
+  resetFilters(): void {
+    this.filter = {
+      category: '',
+      subCategory: '',
+      maxPrice: ''
+    };
+    this.applyFilters();  // Applica i filtri dopo il reset per aggiornare la lista
+  }
+
 
 
 

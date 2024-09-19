@@ -4,16 +4,15 @@
     <div class="logo">
       <h1>SkillHub Dashboard</h1>
     </div>
-    <div class="user-info">
-      <span>Benvenuto, {{ currentUser.username }}</span>
-      <button (click)="logout()">Logout</button>
+    <div class="user-info" *ngIf="currentUser">
+      <span class="fs-2">Benvenuto, {{ currentUser.username }}</span>
     </div>
   </header>
 
   <!-- Layout con sidebar e content -->
   <div class="dashboard-container">
     <!-- Menu laterale -->
-    <aside class="sidebar">
+    <aside class="sidebar ps-5">
       <ul>
         <li>
           <a routerLink="/dashboard/orders" routerLinkActive="active">Ordini</a>

@@ -192,6 +192,246 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\profiles\default-profile-picture.jpg))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\01b2474e-a6db-46ab-88e0-b5cf4afda616_DALL·E 2024-09-19 16.32.25 - A creative design service for UI_UX development. The image features a sleek, modern user interface layout on a laptop screen, showing wireframes and c.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/01b2474e-a6db-46ab-88e0-b5cf4afda616_DALL·E 2024-09-19 16.32.25 - A creative design service for UI_UX development. The image features a sleek, modern user interface layout on a laptop screen, showing wireframes and c.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\01b2474e-a6db-46ab-88e0-b5cf4afda616_DALL·E 2024-09-19 16.32.25 - A creative design service for UI_UX development. The image features a sleek, modern user interface layout on a laptop screen, showing wireframes and c.webp))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\2fd394e3-ce12-405f-a910-c77c6488b6b0_DALL·E 2024-09-19 16.30.23 - A professional web development service. The image shows a clean and modern workspace with a computer screen displaying code in a sleek IDE. The desk i.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/2fd394e3-ce12-405f-a910-c77c6488b6b0_DALL·E 2024-09-19 16.30.23 - A professional web development service. The image shows a clean and modern workspace with a computer screen displaying code in a sleek IDE. The desk i.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\2fd394e3-ce12-405f-a910-c77c6488b6b0_DALL·E 2024-09-19 16.30.23 - A professional web development service. The image shows a clean and modern workspace with a computer screen displaying code in a sleek IDE. The desk i.webp))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\394da3a5-4f9b-4d58-9a93-53181477d45b_Pizza_marinara.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/394da3a5-4f9b-4d58-9a93-53181477d45b_Pizza_marinara.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\394da3a5-4f9b-4d58-9a93-53181477d45b_Pizza_marinara.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\621c0c56-ad22-456c-ae2f-a864fdcedc32_DALL·E 2024-09-19 16.35.53 - A creative design service for UI_UX development focused on mobile app design. The image should depict a sleek, modern interface with wireframes and vi.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/621c0c56-ad22-456c-ae2f-a864fdcedc32_DALL·E 2024-09-19 16.35.53 - A creative design service for UI_UX development focused on mobile app design. The image should depict a sleek, modern interface with wireframes and vi.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\621c0c56-ad22-456c-ae2f-a864fdcedc32_DALL·E 2024-09-19 16.35.53 - A creative design service for UI_UX development focused on mobile app design. The image should depict a sleek, modern interface with wireframes and vi.webp))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\6464a5de-247f-4197-972e-25ec08396add_Pizza_marinara.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/6464a5de-247f-4197-972e-25ec08396add_Pizza_marinara.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\6464a5de-247f-4197-972e-25ec08396add_Pizza_marinara.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\68b61077-9a13-48c3-b48f-ed333b4672a2_roscoe.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/68b61077-9a13-48c3-b48f-ed333b4672a2_roscoe.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\68b61077-9a13-48c3-b48f-ed333b4672a2_roscoe.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\885b75e0-265d-4611-b79b-0ab19cdb15e1_DALL·E 2024-09-19 16.37.59 - A creative marketing service for Facebook Ads management. The image should depict a computer screen showing a Facebook Ads dashboard with various metr.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/885b75e0-265d-4611-b79b-0ab19cdb15e1_DALL·E 2024-09-19 16.37.59 - A creative marketing service for Facebook Ads management. The image should depict a computer screen showing a Facebook Ads dashboard with various metr.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\885b75e0-265d-4611-b79b-0ab19cdb15e1_DALL·E 2024-09-19 16.37.59 - A creative marketing service for Facebook Ads management. The image should depict a computer screen showing a Facebook Ads dashboard with various metr.webp))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\bf800a67-6a68-4257-a859-120bb2ca3118_Pizza_Margherita_stu_spivack.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/bf800a67-6a68-4257-a859-120bb2ca3118_Pizza_Margherita_stu_spivack.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\bf800a67-6a68-4257-a859-120bb2ca3118_Pizza_Margherita_stu_spivack.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\cf967d93-c6a0-4ac7-b340-b13f614f3dd2_DALL·E 2024-09-19 16.37.25 - A modern and sleek graphic design service for website redesign using Figma and Adobe XD. The image should depict a professional designer workspace wit.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/cf967d93-c6a0-4ac7-b340-b13f614f3dd2_DALL·E 2024-09-19 16.37.25 - A modern and sleek graphic design service for website redesign using Figma and Adobe XD. The image should depict a professional designer workspace wit.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\cf967d93-c6a0-4ac7-b340-b13f614f3dd2_DALL·E 2024-09-19 16.37.25 - A modern and sleek graphic design service for website redesign using Figma and Adobe XD. The image should depict a professional designer workspace wit.webp))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\DALL·E 2024-09-19 16.30.23 - A professional web development service. The image shows a clean and modern workspace with a computer screen displaying code in a sleek IDE. The desk i.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/DALL·E 2024-09-19 16.30.23 - A professional web development service. The image shows a clean and modern workspace with a computer screen displaying code in a sleek IDE. The desk i.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\DALL·E 2024-09-19 16.30.23 - A professional web development service. The image shows a clean and modern workspace with a computer screen displaying code in a sleek IDE. The desk i.webp))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\DALL·E 2024-09-19 16.32.25 - A creative design service for UI_UX development. The image features a sleek, modern user interface layout on a laptop screen, showing wireframes and c.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/DALL·E 2024-09-19 16.32.25 - A creative design service for UI_UX development. The image features a sleek, modern user interface layout on a laptop screen, showing wireframes and c.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\DALL·E 2024-09-19 16.32.25 - A creative design service for UI_UX development. The image features a sleek, modern user interface layout on a laptop screen, showing wireframes and c.webp))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\DALL·E 2024-09-19 16.35.53 - A creative design service for UI_UX development focused on mobile app design. The image should depict a sleek, modern interface with wireframes and vi.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/DALL·E 2024-09-19 16.35.53 - A creative design service for UI_UX development focused on mobile app design. The image should depict a sleek, modern interface with wireframes and vi.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\DALL·E 2024-09-19 16.35.53 - A creative design service for UI_UX development focused on mobile app design. The image should depict a sleek, modern interface with wireframes and vi.webp))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\DALL·E 2024-09-19 16.37.25 - A modern and sleek graphic design service for website redesign using Figma and Adobe XD. The image should depict a professional designer workspace wit.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/DALL·E 2024-09-19 16.37.25 - A modern and sleek graphic design service for website redesign using Figma and Adobe XD. The image should depict a professional designer workspace wit.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\DALL·E 2024-09-19 16.37.25 - A modern and sleek graphic design service for website redesign using Figma and Adobe XD. The image should depict a professional designer workspace wit.webp))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\DALL·E 2024-09-19 16.37.59 - A creative marketing service for Facebook Ads management. The image should depict a computer screen showing a Facebook Ads dashboard with various metr.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/DALL·E 2024-09-19 16.37.59 - A creative marketing service for Facebook Ads management. The image should depict a computer screen showing a Facebook Ads dashboard with various metr.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\DALL·E 2024-09-19 16.37.59 - A creative marketing service for Facebook Ads management. The image should depict a computer screen showing a Facebook Ads dashboard with various metr.webp))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\Pizza_Margherita_stu_spivack.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>SkillHubApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SkillHubApi</BasePath>
+      <RelativePath>images/services/Pizza_Margherita_stu_spivack.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\Pizza_Margherita_stu_spivack.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\services\Pizza_marinara.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>SkillHubApi</SourceId>

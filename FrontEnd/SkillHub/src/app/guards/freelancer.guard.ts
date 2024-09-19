@@ -10,15 +10,15 @@ export class FreelancerGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
-    const currentUser = this.authService.currentUserValue;
+    const role = this.authService.getRoleFromToken();
 
     // Controlla se l'utente è un freelancer
-    if (currentUser && currentUser.role === 'Freelancer') {
+    if (role  === "Freelancer") {
       return true;
     }
 
     // Se l'utente non è un freelancer, lo reindirizziamo
-    this.router.navigate(['/unauthorized']);
+    this.router.navigate(['/home']);
     return false;
   }
 }

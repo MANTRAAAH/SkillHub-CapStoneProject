@@ -63,8 +63,7 @@ Chart.register(...registerables);
     ChartsComponent,
     PaymentComponent,
     ChatUsersComponent,
-    ChatWindowComponent,
-    CategoryManagementComponent
+    ChatWindowComponent
   ],
   imports: [
     BrowserModule,

@@ -69,8 +69,35 @@ export class ServicesComponent implements OnInit {
 
   // Funzione per gestire la selezione del file
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];  // Memorizza il file selezionato
+    if (event && event.files && event.files.length > 0) {
+      this.selectedFile = event.files[0];  // Memorizza il primo file selezionato
+      console.log('File selezionato:', this.selectedFile);
+    } else {
+      console.error('Nessun file selezionato o evento non valido');
+    }
   }
+
+  uploadFile() {
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('image', this.selectedFile);
+
+      this.apiService.uploadImage(formData).subscribe(
+        (response) => {
+          console.log('File caricato con successo', response.imagePath);
+          this.currentService.imagePath = response.imagePath; // Salva il percorso dell'immagine
+        },
+        (error) => {
+          console.error('Errore durante il caricamento del file', error);
+        }
+      );
+    } else {
+      console.error('Nessun file selezionato.');
+    }
+  }
+
+
+
 
   // Funzione per aggiungere un servizio con immagine
   addService() {

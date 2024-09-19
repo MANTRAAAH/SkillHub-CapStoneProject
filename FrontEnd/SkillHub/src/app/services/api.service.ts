@@ -110,6 +110,11 @@ export class ApiService {
       );
   }
 
+  // Metodo per caricare un'immagine
+uploadImage(formData: FormData): Observable<any> {
+  return this.http.post(`${this.apiUrl}/services/upload-image`, formData);
+}
+
   // **Aggiorna un servizio esistente** (Update)
   updateService(serviceId: number, serviceData: FormData): Observable<any> {
     const token = this.authService.getToken();

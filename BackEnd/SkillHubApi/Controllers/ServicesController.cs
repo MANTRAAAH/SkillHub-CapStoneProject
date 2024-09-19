@@ -288,6 +288,45 @@ public class ServicesController : ControllerBase
     }
 
 
+    // POST: api/services/upload-image
+    [HttpPost("upload-image")]
+    public async Task<IActionResult> UploadServiceImage(IFormFile image)
+    {
+        if (image == null || image.Length == 0)
+        {
+            return BadRequest("No image provided.");
+        }
+
+        try
+        {
+            // Percorso per salvare l'immagine
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "services");
+
+            // Crea la cartella se non esiste
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            // Crea un nome file unico
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(image.FileName);
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            // Salva l'immagine nel percorso specificato
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+
+            // Ritorna il percorso dell'immagine per essere salvato nel database
+            var imagePath = $"/images/services/{uniqueFileName}";
+            return Ok(new { imagePath });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
 
 
     private bool ServiceExists(int id)

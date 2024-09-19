@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     // Recupera il token dell'utente
-    this.currentUser = this.authService.currentUserValue;
+    this.currentUser = this.authService.getUserFromToken();
 
     // Verifica il valore di currentUser
     console.log('Utente corrente:', this.currentUser);

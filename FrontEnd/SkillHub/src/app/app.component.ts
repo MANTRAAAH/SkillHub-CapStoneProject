@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service'; // Importa il servizio di autenticazione
 import { NotificationService } from './services/notification.service'; // Importa il servizio delle notifiche
+import { Router,NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +14,14 @@ export class AppComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private notificationService: NotificationService // Inietta il servizio delle notifiche
-  ) {}
+    private router: Router
+  ) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(event =>{
+      console.log('Navigated to:', event);
+    })
+  }
 
   ngOnInit(): void {
   }
