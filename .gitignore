@@ -1,0 +1,11 @@
+# Ignora la cartella wwwroot/images
+wwwroot/images/
+# Ignora le cartelle node_modules e dist
+node_modules/
+dist/
+
+# Ignora file di log
+*.log
+
+# Ignora file di configurazione locali
+.env
