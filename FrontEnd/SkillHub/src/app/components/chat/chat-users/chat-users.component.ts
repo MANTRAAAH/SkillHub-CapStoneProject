@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChatService } from '../../../services/chat.service';
-import { UserService } from '../../../services/user.service';  // Importa il servizio UserService
+import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/models';
 
 @Component({
@@ -11,15 +11,15 @@ import { User } from '../../../models/models';
   styleUrls: ['./chat-users.component.scss']
 })
 export class ChatUsersComponent implements OnInit {
-  chattedUsers: User[] = [];  // Utenti con cui hai già chattato
-  searchResults: User[] = [];  // Risultati della ricerca
+  chattedUsers: User[] = [];
+  searchResults: User[] = [];
   selectedUser: User | null = null;
   searchTerm: string = '';
 
   constructor(private chatService: ChatService, private router: Router, private UserService:UserService) {}
 
   ngOnInit(): void {
-    this.loadChattedUsers();  // Carica gli utenti con cui hai già chattato
+    this.loadChattedUsers();
   }
 
   // Carica tutti gli utenti con cui hai avuto una conversazione
@@ -27,15 +27,13 @@ export class ChatUsersComponent implements OnInit {
     this.chatService.getChattedUsers().subscribe(
       (response: any) => {
         if (response && response.$values) {
-          this.chattedUsers = response.$values; // Usa solo l'array di utenti
+          this.chattedUsers = response.$values;
         } else if (Array.isArray(response)) {
-          this.chattedUsers = response; // Se è già un array, usalo direttamente
+          this.chattedUsers = response;
         } else {
-          console.error('Formato di risposta non valido:', response);
         }
       },
       error => {
-        console.error('Error loading chatted users', error);
       }
     );
   }
@@ -50,11 +48,9 @@ export class ChatUsersComponent implements OnInit {
           } else if (Array.isArray(response)) {
             this.searchResults = response;
           } else {
-            console.error('Formato di risposta non valido:', response);
           }
         },
         error => {
-          console.error('Error searching users:', error);
         }
       );
     } else {

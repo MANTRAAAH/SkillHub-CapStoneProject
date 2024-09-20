@@ -9,7 +9,7 @@ import { Service, Category, SubCategory, ServiceDto } from '../../../models/mode
   styleUrls: ['./services-list.component.scss']
 })
 export class ServicesListComponent implements OnInit {
-  services: ServiceDto[] = [];  // Usa l'interfaccia
+  services: ServiceDto[] = [];
   categories: Category[] = [];
   subCategories: SubCategory[] = [];
 
@@ -32,19 +32,14 @@ export class ServicesListComponent implements OnInit {
   loadServices() {
     this.apiService.getServices().subscribe(
       (data) => {
-        // Verifica che esista la proprietà $values
+
         if (data && data.$values) {
           this.services = data.$values;
-          this.filteredServices = this.services; // Mostra tutti i servizi inizialmente
-
-          // Logga per assicurarti che i dati siano processati correttamente
-          console.log('Servizi:', this.services);
+          this.filteredServices = this.services;
         } else {
-          console.error('Struttura dei dati non valida:', data);
         }
       },
       (error) => {
-        console.error('Errore nel caricamento dei servizi', error);
       }
     );
   }
@@ -63,7 +58,6 @@ export class ServicesListComponent implements OnInit {
       return categoryFilterMatch && subCategoryFilterMatch && maxPriceFilterMatch;
     });
 
-    console.log('Servizi filtrati:', this.filteredServices);
   }
   resetFilters(): void {
     this.filter = {
@@ -71,7 +65,7 @@ export class ServicesListComponent implements OnInit {
       subCategory: '',
       maxPrice: ''
     };
-    this.applyFilters();  // Applica i filtri dopo il reset per aggiornare la lista
+    this.applyFilters();
   }
 
 
@@ -80,16 +74,13 @@ export class ServicesListComponent implements OnInit {
 
   loadCategories(): void {
     this.categoryService.getCategories().subscribe(
-      (data: any) => {  // Ricevi l'oggetto contenente $values
+      (data: any) => {
         if (data && data.$values) {
-          this.categories = data.$values;  // Assegna l'array di categorie alla variabile
-          console.log('Categorie caricate:', this.categories);
+          this.categories = data.$values;
         } else {
-          console.error('Struttura dei dati non valida:', data);
         }
       },
       (error) => {
-        console.error('Errore nel caricamento delle categorie', error);
       }
     );
   }
@@ -98,16 +89,13 @@ export class ServicesListComponent implements OnInit {
   loadSubCategories(): void {
     this.categoryService.getSubcategories().subscribe(
       (data: any) => {
-        // Accedi alla proprietà $values per ottenere l'array
+
         if (data && data.$values) {
           this.subCategories = data.$values;
-          console.log('Sottocategorie:', this.subCategories);
         } else {
-          console.error('Struttura dei dati non valida:', data);
         }
       },
       (error) => {
-        console.error('Errore nel caricamento delle sottocategorie', error);
       }
     );
   }

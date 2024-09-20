@@ -32,7 +32,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.currentUserId = Number(this.authService.getUserId());
 
     this.chatService.getSelectedUser().subscribe((user: User | null) => {
-      console.log('Utente selezionato:', user);
       if (user) {
         this.selectedUser = user;
         this.loadMessages();
@@ -44,42 +43,28 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.hubConnection = this.notificationService.hubConnection;
 
     if (this.hubConnection) {
-      this.hubConnection
-        .start()
-        .then(() => {
-          console.log('Connessione SignalR avviata con successo.');
+      this.hubConnection.start().then(() => {
+        this.hubConnection?.on('ReceiveMessage', (userId: string, message: Message) => {
+          if (userId === String(this.currentUserId) || this.selectedUser?.userID === Number(userId)) {
+            this.addNewMessages([message]);
+            this.cdRef.detectChanges();
+          }
+        });
 
-          // Ascolta i messaggi della chat
-          this.hubConnection?.on('ReceiveMessage', (userId: string, message: Message) => {
-            console.log('Messaggio ricevuto:', message);
-            if (userId === String(this.currentUserId) || this.selectedUser?.userID === Number(userId)) {
-              this.addNewMessages([message]);
-              this.cdRef.detectChanges();
-            }
-          });
-
-          // Ascolta le notifiche
-          this.hubConnection?.on('ReceiveNotification', (message: string) => {
-            console.log('Notifica ricevuta:', message);  // Aggiungi log
-            this.toastr.success(message, 'Nuova notifica');
-          });
-        })
-        .catch(err => console.error('Errore nell\'avvio della connessione SignalR:', err));
-    } else {
-      console.error('Connessione SignalR non inizializzata correttamente.');
+        this.hubConnection?.on('ReceiveNotification', (message: string) => {
+          this.toastr.success(message, 'Nuova notifica');
+        });
+      });
     }
   }
 
-
-ngOnDestroy() {
-  // Verifica se la connessione è definita prima di interromperla
-  if (this.hubConnection) {
-    this.hubConnection.off('ReceiveMessage');
-    this.hubConnection.off('ReceiveNotification');
-    this.hubConnection.stop().then(() => console.log('Connessione SignalR interrotta.'));
+  ngOnDestroy() {
+    if (this.hubConnection) {
+      this.hubConnection.off('ReceiveMessage');
+      this.hubConnection.off('ReceiveNotification');
+      this.hubConnection.stop();
+    }
   }
-}
-
 
   loadMessages() {
     if (this.selectedUser && this.selectedUser.userID) {
@@ -99,13 +84,8 @@ ngOnDestroy() {
 
           this.addNewMessages(newMessages);
           this.cdRef.detectChanges();
-        },
-        (error) => {
-          console.error('Errore durante il caricamento dei messaggi:', error);
         }
       );
-    } else {
-      console.error('Utente selezionato o ID utente non definito.');
     }
   }
 
@@ -141,15 +121,10 @@ ngOnDestroy() {
 
       this.messages.push(tempMessage);
 
-      this.chatService.sendMessage(payload).subscribe(
-        () => {
-          this.newMessage = '';
-          this.cdRef.detectChanges();
-        },
-        (error: any) => {
-          console.error('Errore durante l\'invio del messaggio:', error);
-        }
-      );
+      this.chatService.sendMessage(payload).subscribe(() => {
+        this.newMessage = '';
+        this.cdRef.detectChanges();
+      });
     }
   }
 

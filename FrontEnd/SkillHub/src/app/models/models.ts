@@ -2,8 +2,8 @@ export interface User {
   userID: number;
   username: string;
   email: string;
-  bio?: string;           // Campo opzionale
-  profilePicture?: string; // Campo opzionale
+  bio?: string;
+  profilePicture?: string;
 }
 
 export interface Message {
@@ -11,7 +11,7 @@ export interface Message {
   senderId: number;
   receiverId: number;
   isRead: boolean;
-  content: string;  // Assicurati che questa proprietà esista
+  content: string;
   timestamp: Date;
 }
 
@@ -58,7 +58,7 @@ export interface OrderDetailsDto {
   orderDate: Date;
   totalPrice: number;
   paymentStatus: string;
-  files?: OrderFile[];  // Aggiungi la proprietà files
+  files?: OrderFile[];
   status: string;
 }
 
@@ -68,12 +68,12 @@ export interface ServiceDto {
   title: string;
   description: string;
   price: number;
-  categoryId: number;  // ID della categoria
-  subCategoryId: number;  // ID della sottocategoria
-  categoryName?: string;  // Nome della categoria (opzionale)
-  subCategoryName?: string;  // Nome della sottocategoria (opzionale)
+  categoryId: number;
+  subCategoryId: number;
+  categoryName?: string;
+  subCategoryName?: string;
   userName: string;
-  imagePath?: string;  // Aggiungi l'url per l'immagine
+  imagePath?: string;
 }
 export interface OrderFile {
   orderFileID: number;
@@ -106,6 +106,6 @@ export interface SubCategoryDto {
 export interface CategoryDto {
   categoryID: number;
   categoryName: string;
-  subCategories: SubCategoryDto[];  // Ogni categoria ha una lista di sottocategorie
+  subCategories: SubCategoryDto[];
 }
 

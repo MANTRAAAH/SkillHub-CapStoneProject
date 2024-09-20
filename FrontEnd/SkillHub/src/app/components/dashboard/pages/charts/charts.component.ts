@@ -56,25 +56,25 @@ export class ChartsComponent implements OnInit {
     plugins: {
       legend: {
         labels: {
-          color: this.textColor // Colore del testo della legenda
+          color: this.textColor
         }
       }
     },
     scales: {
       x: {
         ticks: {
-          color: this.textColor // Colore delle etichette sull'asse X
+          color: this.textColor
         },
         grid: {
-          color: this.backgroundColor // Colore della griglia sull'asse X
+          color: this.backgroundColor
         }
       },
       y: {
         ticks: {
-          color: this.textColor // Colore delle etichette sull'asse Y
+          color: this.textColor
         },
         grid: {
-          color: this.backgroundColor // Colore della griglia sull'asse Y
+          color: this.backgroundColor
         }
       }
     }
@@ -83,25 +83,24 @@ export class ChartsComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.loadOrderStats();  // Carica sia il ricavato che gli ordini
+    this.loadOrderStats();
   }
 
-  // Carica i dati per il ricavato totale e gli ordini completati
+
   loadOrderStats() {
     this.apiService.getOrderStats().subscribe({
       next: (data: OrderStatsDto) => {
         const labels = data.months.map(month => this.getMonthName(month));
 
-        // Aggiorna i dati del grafico del ricavato
+
         this.earningsChartData.labels = labels;
         this.earningsChartData.datasets[0].data = data.earnings;
 
-        // Aggiorna i dati del grafico degli ordini completati
+       
         this.orderChartData.labels = labels;
         this.orderChartData.datasets[0].data = data.ordersCount;
       },
       error: (error) => {
-        console.error('Errore nel caricamento delle statistiche:', error);
       }
     });
   }

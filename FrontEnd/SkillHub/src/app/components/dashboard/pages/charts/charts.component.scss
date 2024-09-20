@@ -1,4 +1,4 @@
-@import '../../../../../variables.scss'; // Assicurati che il percorso sia corretto
+@import '../../../../../variables.scss';
 
 /* Stile per il contenitore principale */
 .dashboard-container {
@@ -30,7 +30,6 @@
 /* Stile per i canvas dei grafici */
 canvas {
   background-color: $background-color;
-  /* Assicura che i grafici riempiano il contenitore */
   width: 100% !important;
   height: auto !important;
 }

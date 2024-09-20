@@ -71,9 +71,7 @@ export class ServicesComponent implements OnInit {
   onFileSelected(event: any) {
     if (event && event.files && event.files.length > 0) {
       this.selectedFile = event.files[0];  // Memorizza il primo file selezionato
-      console.log('File selezionato:', this.selectedFile);
     } else {
-      console.error('Nessun file selezionato o evento non valido');
     }
   }
 
@@ -84,15 +82,12 @@ export class ServicesComponent implements OnInit {
 
       this.apiService.uploadImage(formData).subscribe(
         (response) => {
-          console.log('File caricato con successo', response.imagePath);
           this.currentService.imagePath = response.imagePath; // Salva il percorso dell'immagine
         },
         (error) => {
-          console.error('Errore durante il caricamento del file', error);
         }
       );
     } else {
-      console.error('Nessun file selezionato.');
     }
   }
 
@@ -127,7 +122,6 @@ export class ServicesComponent implements OnInit {
         }, 1500);
       },
       (error: any) => {
-        console.error('Errore durante la creazione del servizio', error);
         this.isRefreshing = false;
       }
     );
@@ -136,7 +130,6 @@ export class ServicesComponent implements OnInit {
   // Funzione per aggiornare un servizio con immagine
   updateService() {
     if (!this.currentService || typeof this.currentService.serviceID !== 'number') {
-      console.error('ID del servizio non disponibile o non è un numero');
       return;
     }
 
@@ -144,7 +137,6 @@ export class ServicesComponent implements OnInit {
     if (userId && !isNaN(Number(userId))) {
       this.currentService.UserID = Number(userId);
     } else {
-      console.error('UserID non valido o non trovato.');
       return;
     }
 
@@ -164,7 +156,6 @@ if (this.selectedFile) {
 
 
     this.isRefreshing = true;
-    console.log('Dati inviati con FormData:', formData);
 
     this.apiService.updateService(this.currentService.serviceID, formData).subscribe(
       (updatedService) => {
@@ -182,7 +173,6 @@ if (this.selectedFile) {
         }, 1500);
       },
       (error: any) => {
-        console.error('Errore durante l\'aggiornamento del servizio', error);
         this.isRefreshing = false;
       }
     );
@@ -195,7 +185,6 @@ if (this.selectedFile) {
           this.services = this.services.filter(s => s.serviceID !== serviceID);
         },
         (error: any) => {
-          console.error('Errore durante l\'eliminazione del servizio', error);
         }
       );
     }
@@ -205,10 +194,8 @@ if (this.selectedFile) {
     this.categoryService.getCategories().subscribe(
       (data: any) => {
         this.categories = data?.$values || data || [];
-        console.log('Categorie caricate:', this.categories);
       },
       (error: any) => {
-        console.error('Errore nel caricamento delle categorie', error);
       }
     );
   }
@@ -217,10 +204,8 @@ if (this.selectedFile) {
     this.categoryService.getSubcategories().subscribe(
       (data: any) => {
         this.subCategories = data?.$values || data || [];
-        console.log('Sottocategorie caricate:', this.subCategories);
       },
       (error: any) => {
-        console.error('Errore nel caricamento delle sottocategorie', error);
       }
     );
   }

@@ -15,7 +15,7 @@ export class CategoryManagementComponent implements OnInit {
   categoryErrorMessage: string = '';
   subcategorySuccessMessage: string = '';
   subcategoryErrorMessage: string = '';
-  isLoading: boolean = false;  // Variabile per lo spinner
+  isLoading: boolean = false;
 
   constructor(private categoryService: CategoryService) {}
 
@@ -28,13 +28,11 @@ export class CategoryManagementComponent implements OnInit {
     this.isLoading = true;  // Mostra lo spinner
     this.categoryService.getCategories().subscribe(
       (data: any) => {
-        console.log('Categories data received:', data); // Log the received data to inspect its structure
         this.categories = data.$values ? data.$values : data;
-        this.isLoading = false;  // Nascondi lo spinner
+        this.isLoading = false;
       },
       (error) => {
-        console.error('Errore nel caricamento delle categorie:', error);
-        this.isLoading = false;  // Nascondi lo spinner anche in caso di errore
+        this.isLoading = false;
       }
     );
   }
@@ -46,19 +44,16 @@ export class CategoryManagementComponent implements OnInit {
         categoryName: this.categoryName
       };
 
-      console.log('Dati inviati:', categoryData); // Log dei dati
 
-      this.isLoading = true;  // Mostra lo spinner durante l'aggiunta
+      this.isLoading = true;
       this.categoryService.createCategory(categoryData).subscribe(
         (response) => {
-          console.log('Categoria creata con successo:', response);
           this.categorySuccessMessage = 'Categoria creata con successo!';
-          this.categoryName = ''; // Resetta il campo input
-          this.loadCategories(); // Ricarica le categorie aggiornate
+          this.categoryName = '';
+          this.loadCategories();
         },
         (error) => {
-          console.error('Errore nella creazione della categoria:', error);
-          this.isLoading = false;  // Nascondi lo spinner in caso di errore
+          this.isLoading = false;
         }
       );
     }
@@ -72,19 +67,17 @@ export class CategoryManagementComponent implements OnInit {
         categoryID: this.selectedCategoryId
       };
 
-      console.log('Dati sottocategoria inviati:', subcategoryData);
 
-      this.isLoading = true;  // Mostra lo spinner durante l'aggiunta
+
+      this.isLoading = true;
       this.categoryService.createSubcategory(subcategoryData).subscribe(
         (response) => {
-          console.log('Sottocategoria creata con successo:', response);
           this.subcategorySuccessMessage = 'Sottocategoria creata con successo!';
-          this.subcategoryName = ''; // Resetta il campo input
-          this.loadCategories(); // Ricarica le categorie aggiornate
+          this.subcategoryName = '';
+          this.loadCategories();
         },
         (error) => {
-          console.error('Errore nella creazione della sottocategoria:', error);
-          this.isLoading = false;  // Nascondi lo spinner in caso di errore
+          this.isLoading = false;
         }
       );
     }
@@ -92,15 +85,13 @@ export class CategoryManagementComponent implements OnInit {
   // Elimina una categoria
   deleteCategory(categoryID: number) {
     if (confirm('Sei sicuro di voler eliminare questa categoria?')) {
-      this.isLoading = true;  // Mostra lo spinner durante l'eliminazione
+      this.isLoading = true;
       this.categoryService.deleteCategory(categoryID).subscribe(
         () => {
-          console.log('Categoria eliminata con successo');
-          this.loadCategories(); // Ricarica le categorie aggiornate
+          this.loadCategories();
         },
         (error) => {
-          console.error('Errore nell\'eliminazione della categoria:', error);
-          this.isLoading = false;  // Nascondi lo spinner in caso di errore
+          this.isLoading = false;
         }
       );
     }
@@ -109,15 +100,13 @@ export class CategoryManagementComponent implements OnInit {
   // Elimina una sottocategoria
   deleteSubcategory(subCategoryID: number) {
     if (confirm('Sei sicuro di voler eliminare questa sottocategoria?')) {
-      this.isLoading = true;  // Mostra lo spinner durante l'eliminazione
+      this.isLoading = true;
       this.categoryService.deleteSubcategory(subCategoryID).subscribe(
         () => {
-          console.log('Sottocategoria eliminata con successo');
-          this.loadCategories(); // Ricarica le categorie aggiornate
+          this.loadCategories();
         },
         (error) => {
-          console.error('Errore nell\'eliminazione della sottocategoria:', error);
-          this.isLoading = false;  // Nascondi lo spinner in caso di errore
+          this.isLoading = false; 
         }
       );
     }

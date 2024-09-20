@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './services/auth.service'; // Importa il servizio di autenticazione
-import { NotificationService } from './services/notification.service'; // Importa il servizio delle notifiche
+import { AuthService } from './services/auth.service';
+import { NotificationService } from './services/notification.service';
 import { Router,NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { filter } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  notificationMessage: string | null = null; // Proprietà per mostrare il messaggio di notifica
+  notificationMessage: string | null = null;
 
   constructor(
     private authService: AuthService,
@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(event =>{
-      console.log('Navigated to:', event);
     })
   }
 
@@ -28,11 +27,11 @@ export class AppComponent implements OnInit {
 
   // Funzione per verificare se l'utente è autenticato
   isAuthenticated(): boolean {
-    return this.authService.isAuthenticated(); // Può essere una funzione del tuo servizio di autenticazione
+    return this.authService.isAuthenticated();
   }
 
   // Funzione per effettuare il logout
   logout() {
-    this.authService.logout(); // Chiama il logout dal servizio di autenticazione
+    this.authService.logout();
   }
 }

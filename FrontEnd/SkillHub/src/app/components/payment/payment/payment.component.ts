@@ -17,13 +17,9 @@ export class PaymentComponent {
       if (stripe) {
         stripe.redirectToCheckout({ sessionId }).then((result: any) => {
           if (result.error) {
-            // Gestisci l'errore, ad esempio mostrandolo all'utente
-            console.error('Payment failed:', result.error.message);
-            // Mostra un messaggio all'utente senza reindirizzarlo
           }
         });
       } else {
-        console.error('Stripe.js could not be loaded.');
       }
     });
   }

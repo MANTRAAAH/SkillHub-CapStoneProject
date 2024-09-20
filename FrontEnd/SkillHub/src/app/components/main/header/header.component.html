@@ -26,7 +26,7 @@
 
         <!-- Mostra "Category Management" solo se l'utente è Admin -->
       </li>
-      <li>
+      <li class="nav-item" *ngIf="isAuthenticated">
         <button
           pButton
           label="Logout"

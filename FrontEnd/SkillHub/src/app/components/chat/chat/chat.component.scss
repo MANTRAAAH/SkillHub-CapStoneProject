@@ -1,12 +1,11 @@
 @import '../../../../variables.scss';
 
-/* Adatta il contenuto della chat alla finestra */
 .chat-container {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;  /* Occupa tutto lo spazio disponibile */
+  flex-grow: 1;
   background-color: $background-color;
-  overflow-y: auto; /* Permetti lo scroll solo nel contenitore dei messaggi */
+  overflow-y: auto;
 }
 
 /* Messaggi inviati */
@@ -43,9 +42,9 @@
   justify-content: space-between;
   padding: 10px;
   background-color: $background-color;
-  border-top: 1px solid $accent-color;  /* Aggiungi un bordo superiore per separare la chat dall'input */
+  border-top: 1px solid $accent-color;
   position: sticky;
-  bottom: 0; /* Posiziona l'input sempre in basso */
+  bottom: 0;
 }
 
 input {
@@ -67,7 +66,6 @@ button {
   cursor: pointer;
 }
 
-/* Aggiungi lo stile per la scrollbar solo sul contenuto della chat */
 .chat-container::-webkit-scrollbar {
   width: 8px;
 }

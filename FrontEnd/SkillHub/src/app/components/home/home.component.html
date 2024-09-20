@@ -12,13 +12,21 @@
     <p class="lead">
       Trova il freelance perfetto per il tuo prossimo progetto.
     </p>
-    <a href="/register" class="btn btn-primary btn-lg mt-4">Inizia ora</a>
+
+    <a
+      [routerLink]="isAuthenticated ? '/services' : '/register'"
+      class="btn btn-primary btn-lg mt-4"
+    >
+      {{ isAuthenticated ? "Scopri i servizi" : "Inizia ora" }}
+    </a>
   </div>
 </div>
 
 <div class="container">
   <h2 class="text-center mt-5">I nostri servizi</h2>
-  <p class="text-center">Scopri i servizi offerti dai nostri freelancer</p>
+  <p class="text-center">
+    Scopri alcuni dei servizi offerti dai nostri freelancer
+  </p>
 </div>
 
 <div class="carousel-container">
@@ -40,16 +48,17 @@
               [src]="'http://localhost:7117' + service.imagePath"
               alt="Immagine Servizio"
               class="img-fluid service-image"
+              style="width: 100%; height: 200px; object-fit: cover"
             />
           </div>
-          <h5>{{ service.title }}</h5>
+          <h5 class="mt-3">{{ service.title }}</h5>
           <p>
             Categoria: {{ service.categoryName }}
             <i class="pi pi-angle-right custom-icon"></i>
             {{ service.subCategoryName }}
           </p>
           <p>Freelancer: {{ service.userName }}</p>
-          <p>Prezzo: ${{ service.price }}</p>
+          <p>Prezzo: €{{ service.price }}</p>
         </div>
       </a>
     </ng-template>

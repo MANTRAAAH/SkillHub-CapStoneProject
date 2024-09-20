@@ -10,7 +10,7 @@ import { ServiceDto } from '../models/models';
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:7117/api'; // L'URL base del tuo backend
+  private apiUrl = 'http://localhost:7117/api';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -45,7 +45,6 @@ export class ApiService {
     const token = this.authService.getToken();
 
     if (!token) {
-      console.error('Token JWT mancante o non valido');
       return throwError('Token JWT mancante o non valido');
     }
 
@@ -56,7 +55,6 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/orders`, order, { headers })
       .pipe(
         catchError(error => {
-          console.error('Errore nel piazzare l\'ordine', error);
           return throwError(error);
         })
       );
@@ -104,7 +102,6 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/services`, serviceData, { headers })
       .pipe(
         catchError(error => {
-          console.error('Errore durante la creazione del servizio', error);
           return throwError(error);
         })
       );
@@ -126,7 +123,6 @@ uploadImage(formData: FormData): Observable<any> {
     return this.http.put(`${this.apiUrl}/services/${serviceId}`, serviceData, { headers })
       .pipe(
         catchError(error => {
-          console.error('Errore durante l\'aggiornamento del servizio', error);
           return throwError(error);
         })
       );
@@ -142,7 +138,6 @@ uploadImage(formData: FormData): Observable<any> {
     return this.http.delete(`${this.apiUrl}/services/${serviceId}`, { headers })
       .pipe(
         catchError(error => {
-          console.error('Errore durante l\'eliminazione del servizio', error);
           return throwError(error);
         })
       );

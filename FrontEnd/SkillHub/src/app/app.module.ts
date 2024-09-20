@@ -86,17 +86,17 @@ Chart.register(...registerables);
     InputTextareaModule,
     PasswordModule,
     HttpClientModule,
-    TableModule,  // Aggiungi TableModule
+    TableModule,
     FieldsetModule,
-    CarouselModule,  // Aggiungi il modulo del carosello
-    ButtonModule,  // Aggiungi il modulo dei bottoni
-    BrowserAnimationsModule, // Aggiungi BrowserAnimationsModule se hai bisogno di animazioni
+    CarouselModule,
+    ButtonModule,
+    BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
       closeButton: true
-    })  // Aggiungi il modulo ToastrModule per le notifiche
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

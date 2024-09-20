@@ -8,12 +8,12 @@ import { User } from '../../../../models/models'; // Importa il modello User
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  user: User = { userID: 0, username: '', email: '', bio: '', profilePicture: '' };  // Dati utente
+  user: User = { userID: 0, username: '', email: '', bio: '', profilePicture: '' };
   oldPassword: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
 
-  selectedFile: File | null = null;  // Per gestire il file selezionato
+  selectedFile: File | null = null;
 
   constructor(private userService: UserService) {}
 
@@ -27,10 +27,8 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserProfile().subscribe(
       (data: User) => {
         this.user = data;
-        console.log(this.user); // Log per controllare l'ID utente
       },
       error => {
-        console.error('Error fetching user profile', error);
       }
     );
   }
@@ -39,10 +37,8 @@ export class ProfileComponent implements OnInit {
   updateProfile() {
     this.userService.updateUserProfile(this.user).subscribe(
       response => {
-        console.log('Profile updated successfully');
       },
       error => {
-        console.error('Error updating profile', error);
       }
     );
   }
@@ -50,16 +46,13 @@ export class ProfileComponent implements OnInit {
   // Metodo per aggiornare la password
   updateUserPassword() {
     if (this.newPassword !== this.confirmPassword) {
-      console.error('New passwords do not match');
       return;
     }
 
     this.userService.updateUserPassword(this.oldPassword, this.newPassword).subscribe(
       response => {
-        console.log('Password updated successfully');
       },
       error => {
-        console.error('Error updating password', error);
       }
     );
   }
@@ -72,7 +65,6 @@ export class ProfileComponent implements OnInit {
   // Metodo per caricare l'immagine del profilo
   uploadProfileImage() {
     if (!this.selectedFile) {
-      console.error('Nessun file selezionato');
       return;
     }
 
@@ -81,11 +73,9 @@ export class ProfileComponent implements OnInit {
 
     this.userService.uploadProfileImage(formData).subscribe(
       (response: any) => {
-        console.log('Immagine caricata con successo:', response);
-        this.user.profilePicture = response.path;  // Aggiorna il percorso dell'immagine
+        this.user.profilePicture = response.path;
       },
       (error: any) => {
-        console.error('Errore durante il caricamento dell\'immagine', error);
       }
     );
   }

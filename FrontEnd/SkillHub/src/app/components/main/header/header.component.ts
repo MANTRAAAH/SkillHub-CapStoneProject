@@ -30,14 +30,13 @@ export class HeaderComponent implements OnInit {
       this.userRole = this.authService.getRoleFromToken();
 
       if (this.isAuthenticated) {
-        // Recupera il profilo utente e la foto del profilo
+
         this.userService.getUserProfile().subscribe(
           (userProfile) => {
-            this.profilePictureUrl = this.userService.getProfilePicture(userProfile);  // Passa l'oggetto utente
+            this.profilePictureUrl = this.userService.getProfilePicture(userProfile);
             this.setupMenu();
           },
           (error) => {
-            console.error('Errore durante il caricamento del profilo utente:', error);
           }
         );
       } else {
@@ -48,7 +47,7 @@ export class HeaderComponent implements OnInit {
 
 
 
-  // Metodo per impostare il menu dinamicamente
+
   setupMenu() {
     this.items = [
       { label: 'Home', icon: 'pi pi-home', routerLink: '/' },
@@ -74,9 +73,6 @@ export class HeaderComponent implements OnInit {
     this.userRole = this.authService.getRoleFromToken();
     // Reimposta il menu con le informazioni aggiornate
     this.setupMenu();
-
-    console.log('Utente autenticato:', this.isAuthenticated);
-    console.log('Ruolo utente:', this.userRole);
   }
 
   // Metodo per effettuare il logout

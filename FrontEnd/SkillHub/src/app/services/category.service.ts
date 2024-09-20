@@ -7,8 +7,8 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiCategoriesUrl = 'http://localhost:7117/api/categories'; // URL API per categorie
-  private apiSubCategoriesUrl = 'http://localhost:7117/api/subcategories'; // URL API per sottocategorie
+  private apiCategoriesUrl = 'http://localhost:7117/api/categories';
+  private apiSubCategoriesUrl = 'http://localhost:7117/api/subcategories';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

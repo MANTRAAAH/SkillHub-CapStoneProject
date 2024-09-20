@@ -11,7 +11,7 @@ export class RegisterComponent {
   username: string = '';
   email: string = '';
   password: string = '';
-  role: string = 'User'; // Valore predefinito
+  role: string = 'User';
   error: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -19,7 +19,7 @@ export class RegisterComponent {
   register() {
     this.authService.register(this.username, this.email, this.password, this.role).subscribe(
       data => {
-        this.router.navigate(['/home']); // Naviga alla chat dopo la registrazione
+        this.router.navigate(['/home']); 
       },
       err => {
         this.error = 'Registration failed';

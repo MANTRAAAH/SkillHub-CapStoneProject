@@ -17,7 +17,7 @@ export class ChatService {
 
   private messagesSubject = new BehaviorSubject<Message[]>([]);
 
-  private apiUrl = 'http://localhost:7117/api/chat';  // Definisci l'API URL
+  private apiUrl = 'http://localhost:7117/api/chat';
 
   // Mantiene l'elenco di messaggi senza duplicati
   private allMessages: Message[] = [];
@@ -45,22 +45,17 @@ export class ChatService {
 
     this.hubConnection.start()
       .then(() => {
-        console.log('Connection started successfully.');
       })
       .catch(err => {
-        console.error('Error while starting connection:', err);
       });
 
     this.hubConnection.onreconnecting(() => {
-      console.warn('Attempting to reconnect...');
     });
 
     this.hubConnection.onreconnected(() => {
-      console.log('Reconnected to SignalR hub.');
     });
 
     this.hubConnection.onclose((error) => {
-      console.error('Connection closed:', error);
       this.startConnection();
     });
   }
@@ -70,7 +65,6 @@ export class ChatService {
     if (this.hubConnection) {
       this.hubConnection.off('ReceiveMessage'); // Rimuove eventuali handler duplicati
       this.hubConnection.on('ReceiveMessage', (message: Message) => {
-        console.log('Real-time message received:', message);
         this.addMessageWithoutDuplicate(message);
       });
     }
@@ -81,7 +75,6 @@ export class ChatService {
       headers: this.getAuthHeaders(),
     }).pipe(
       map(response => {
-        // Estrai l'array da $values se presente
         if (response && response.$values && Array.isArray(response.$values)) {
           return response.$values;
         } else if (Array.isArray(response)) {
@@ -91,7 +84,6 @@ export class ChatService {
         }
       }),
       catchError(error => {
-        console.error('Error during search:', error);
         return throwError(error);
       })
     );
@@ -119,9 +111,7 @@ export class ChatService {
 
       // Aggiorna il BehaviorSubject con la lista aggiornata
       this.messagesSubject.next([...this.allMessages]);
-      console.log('Message added:', newMessage);
     } else {
-      console.log('Duplicate message ignored:', newMessage);
     }
   }
 
@@ -146,7 +136,6 @@ export class ChatService {
         }
       }),
       catchError(error => {
-        console.error('Error getting chatted users:', error);
         return throwError(error);
       })
     );
@@ -162,21 +151,18 @@ export class ChatService {
         let messages: Message[] = [];
 
         if (response && response.$values && Array.isArray(response.$values)) {
-          messages = response.$values;  // Prendi i valori dall'array $values
+          messages = response.$values;
         } else if (Array.isArray(response)) {
-          messages = response;  // Se è già un array, lo usiamo direttamente
+          messages = response;
         } else {
-          console.error("Formato di risposta non previsto:", response);
         }
 
         if (Array.isArray(messages)) {
           messages.forEach(msg => this.addMessageWithoutDuplicate(msg)); // Aggiungi i messaggi senza duplicati
         } else {
-          console.error("La risposta non è un array di messaggi:", messages);
         }
       }),
       catchError((error: any) => {
-        console.error('Error getting messages:', error);
         return throwError(error);
       })
     );
@@ -188,10 +174,8 @@ export class ChatService {
       headers: this.getAuthHeaders(),
     }).pipe(
       tap(() => {
-        console.log('Message sent successfully:', payload);
       }),
       catchError(error => {
-        console.error('Error sending message:', error);
         return throwError(error);
       })
     );

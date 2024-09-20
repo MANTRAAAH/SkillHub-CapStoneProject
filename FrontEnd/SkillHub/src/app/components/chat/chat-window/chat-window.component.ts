@@ -8,11 +8,10 @@ import { User } from '../../../models/models';
   styleUrls: ['./chat-window.component.scss']
 })
 export class ChatWindowComponent {
-  isMinimized = true;  // Stato per la minimizzazione della finestra
-  selectedUser: User | null = null;  // Utente selezionato per la chat
+  isMinimized = true;
+  selectedUser: User | null = null;
 
   constructor(private chatService: ChatService) {
-    // Sottoscrivi al servizio per ottenere l'utente selezionato
     this.chatService.getSelectedUser().subscribe(user => {
       this.selectedUser = user;
     });

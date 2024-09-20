@@ -15,8 +15,7 @@ export class AuthService {
     try {
       this.currentUserSubject = new BehaviorSubject<any>(userJson ? JSON.parse(userJson) : null);
     } catch (error) {
-      console.error('Errore nel parsing del token JWT dal localStorage:', error);
-      localStorage.removeItem('currentUser'); // Elimina il token malformato
+      localStorage.removeItem('currentUser');
       this.currentUserSubject = new BehaviorSubject<any>(null);
     }
     this.currentUser = this.currentUserSubject.asObservable();
@@ -50,12 +49,12 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem('currentUser');
-    return !!token; // Ritorna true se il token esiste, altrimenti false
+    return !!token;
   }
 
   logout(): void {
-    localStorage.removeItem('currentUser'); // Rimuovi il token o i dati dell'utente
-    this.currentUserSubject.next(null); // Resetta lo stato dell'utente corrente
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
   }
 
   getToken(): string | null {
@@ -68,25 +67,23 @@ export class AuthService {
     }
 
     try {
-      // Decodifica il payload del token
+
       const payload = JSON.parse(atob(token.split('.')[1]));
       return payload;
     } catch (error) {
-      console.error('Errore nel decodificare il token JWT:', error);
       return null;
     }
   }
 
   getUserFromToken(): any {
-    const token = this.getToken(); // Recupera il token dal local storage o BehaviorSubject
+    const token = this.getToken();
     if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica il payload del token
-      console.log('Payload del token:', payload); // Log per vedere cosa c'è dentro il payload
+      const payload = JSON.parse(atob(token.split('.')[1]));
 
       return {
-        userId: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"], // ID utente
-        role: payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"], // Ruolo utente
-        username: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] // Puoi aggiungere altre proprietà del token qui
+        userId: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"],
+        role: payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+        username: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]
       };
     }
     return null;
@@ -94,18 +91,15 @@ export class AuthService {
 
 
 
-  // Estrai il ruolo dal token decodificato
+
   getRoleFromToken(): string | null {
-    const token = this.getToken(); // Recupera il token
+    const token = this.getToken();
     if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica il payload del token
-      console.log('Token decodificato:', payload); // Log del token decodificato
+      const payload = JSON.parse(atob(token.split('.')[1]));
 
       const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-      console.log('Ruolo estratto:', role); // Verifica se il ruolo viene estratto
-      return role || null; // Ritorna il ruolo se presente
+      return role || null;
     }
-    console.log('Nessun token presente'); // Se non esiste token, stampalo
     return null;
   }
   getAuthHeaders(): HttpHeaders {
@@ -116,17 +110,15 @@ export class AuthService {
     });
   }
 
-  
+
 
   // Estrai l'ID utente dal token
 getUserId(): number | null {
   const token = this.getToken();
   if (token) {
-    const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica il payload del token
-    console.log('Payload del token:', payload); // Log del payload
-
+    const payload = JSON.parse(atob(token.split('.')[1]));
     const userId = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-    return userId ? parseInt(userId, 10) : null;  // Converti l'ID utente in numero
+    return userId ? parseInt(userId, 10) : null;
   }
   return null;
 }

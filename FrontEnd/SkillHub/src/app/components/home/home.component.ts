@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -7,10 +8,11 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  services: any[] = []; // Assicuriamoci che sia un array
+  services: any[] = [];
   responsiveOptions: any[];
+  isAuthenticated: boolean = false;
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private authService:AuthService) {
     this.responsiveOptions = [
       {
         breakpoint: '1024px',
@@ -32,24 +34,23 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadRandomServices();
+    this.isAuthenticated=this.authService.isAuthenticated();
   }
 
   loadRandomServices() {
     this.apiService.getRandomServices().subscribe(
       (data: any) => {
-        // Verifica se data.$values esiste e assegna solo l'array di servizi
+
         if (data && data.$values) {
-          this.services = data.$values; // Passiamo solo l'array di servizi
+          this.services = data.$values;
         } else {
-          this.services = data; // In caso non ci siano $values, usa direttamente data
+          this.services = data;
         }
 
-        // Log per confermare i dati
-        console.log('Servizi:', this.services);
+
       },
       (error) => {
-        console.error('Errore nel caricamento dei servizi', error);
-        this.services = []; // Imposta come array vuoto in caso di errore
+        this.services = [];
       }
     );
   }

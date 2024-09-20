@@ -113,12 +113,9 @@
       <td>{{ order.paymentStatus }}</td>
       <td>{{ order.totalPrice | currency }}</td>
       <td>
-        <!-- Azioni personalizzate -->
-        <!-- Condizione per applicare la classe bg-success se ci sono file -->
         <div
           [ngClass]="{ 'bg-success': order.files && order.files.length > 0 }"
         >
-          <!-- Mostra l'opzione di caricamento solo se l'utente è un freelancer e non ci sono file -->
           <div
             *ngIf="isFreelancer && (!order.files || order.files.length === 0)"
           >
@@ -176,7 +173,6 @@
     </tr>
   </ng-template>
 
-  <!-- Opzionale: Template per il messaggio quando non ci sono dati -->
   <ng-template pTemplate="emptymessage">
     <tr>
       <td [attr.colspan]="9" class="text-center">Nessun ordine trovato.</td>

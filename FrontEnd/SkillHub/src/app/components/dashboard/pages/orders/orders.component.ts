@@ -23,7 +23,7 @@ export class OrdersComponent implements OnInit {
     maxPrice: null as number | null,
     searchQuery: ''
   };
-  filters: any = {}; // Puoi specificare il tipo appropriato
+  filters: any = {};
   selectedOrders: OrderDetailsDto[] = [];
   constructor(private apiService: ApiService, private authService: AuthService , private orderService: OrderService) {}
 
@@ -36,31 +36,28 @@ export class OrdersComponent implements OnInit {
   loadOrders() {
     this.apiService.getUserOrders().subscribe(
       (data: any) => {
-        // Controlla se data è un oggetto con la proprietà $values e se è un array
+
         if (data && Array.isArray(data.$values)) {
           this.orders = data.$values.map((order: any) => {
-            // Verifica se orderFiles è presente e se è un array
+
             if (order.orderFiles && Array.isArray(order.orderFiles.$values)) {
-              // Mappa i file degli ordini
-              order.files = order.orderFiles.$values;  // Assegna a `files` per coerenza col template
+
+              order.files = order.orderFiles.$values;
             } else {
-              // Gestisci il caso in cui orderFiles non sia presente o non sia un array
+
               order.files = [];
             }
             return order;
           });
         } else {
-          console.error('Errore: i dati ricevuti non sono un array', data);
-          this.orders = []; // Imposta come array vuoto in caso di errore
+          this.orders = [];
         }
 
-        // Applica i filtri agli ordini
+
         this.applyFilters();
-        console.log('Ordini caricati:', this.orders);
       },
       (error) => {
-        console.error('Errore nel caricamento degli ordini', error);
-        this.orders = [];  // Imposta come array vuoto in caso di errore
+        this.orders = [];
       }
     );
   }
@@ -72,18 +69,15 @@ export class OrdersComponent implements OnInit {
 
   uploadFiles(orderId: number) {
     if (this.selectedFiles.length === 0) {
-      console.error('Nessun file selezionato.');
       return;
     }
 
     this.orderService.uploadOrderFiles(orderId, this.selectedFiles).subscribe(
       () => {
-        console.log('File caricati con successo.');
         this.selectedFiles = [];
         this.loadOrders();
       },
       (error) => {
-        console.error('Errore durante il caricamento dei file', error);
       }
     );
   }
@@ -91,11 +85,9 @@ export class OrdersComponent implements OnInit {
   deleteFile(orderId: number, fileId: number) {
     this.orderService.deleteOrderFile(orderId, fileId).subscribe(
       () => {
-        console.log('File eliminato con successo.');
         this.loadOrders();
       },
       (error) => {
-        console.error('Errore durante l\'eliminazione del file', error);
       }
     );
   }
@@ -106,24 +98,21 @@ export class OrdersComponent implements OnInit {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        // Usa il nome del file dal percorso per il download
-        const fileName = blob.type.includes('pdf') ? 'file.pdf' : fileId.toString(); // Modifica se necessario
+
+        const fileName = blob.type.includes('pdf') ? 'file.pdf' : fileId.toString();
         link.download = fileName;
         link.click();
       },
       (error) => {
-        console.error('Errore durante il download del file', error);
       }
     );
   }
   completeOrder(orderId: number) {
     this.orderService.completeOrder(orderId).subscribe(
       () => {
-        console.log('Ordine completato con successo.');
-        this.loadOrders();  // Ricarica gli ordini per aggiornare lo stato
+        this.loadOrders();  
       },
       (error) => {
-        console.error('Errore durante il completamento dell\'ordine', error);
       }
     );
   }

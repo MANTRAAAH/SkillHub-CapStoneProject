@@ -15,19 +15,16 @@ export class NotificationService {
 
   private startConnection() {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:7117/notificationHub')  // L'endpoint per le notifiche
+      .withUrl('http://localhost:7117/notificationHub')
       .build();
 
     this.hubConnection
       .start()
-      .then(() => console.log('Connessione SignalR per le notifiche avviata con successo.'))
-      .catch(err => console.error('Errore nell\'avvio della connessione SignalR per le notifiche:', err));
   }
 
   private registerNotificationListener() {
     if (this.hubConnection) {
       this.hubConnection.on('ReceiveNotification', (message: string) => {
-        console.log('Notifica ricevuta:', message);
         this.toastr.success(message, 'Nuova notifica');
       });
     }

@@ -17,7 +17,7 @@ export class LoginComponent {
   login() {
     this.authService.login(this.email, this.password).subscribe(
       data => {
-        this.router.navigate(['/home']); // Naviga alla chat dopo il login
+        this.router.navigate(['/home']);
       },
       err => {
         this.error = 'Login failed';

@@ -1,4 +1,3 @@
-<!-- Aggiungi FontAwesome per le icone -->
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -7,7 +6,6 @@
 <div class="container">
   <h2>Gestione Categorie</h2>
 
-  <!-- Spinner -->
   <div *ngIf="isLoading" class="spinner-border text-primary" role="status">
     <span class="sr-only">Loading...</span>
   </div>
@@ -92,26 +90,22 @@
       <tr *ngFor="let category of categories">
         <td>
           {{ category.categoryName }}
-          <!-- Icona per eliminare la categoria -->
           <button
             class="btn btn-danger btn-sm float-end"
             (click)="deleteCategory(category.categoryID)"
           >
             <i class="fa fa-times"></i>
-            <!-- X Icon -->
           </button>
         </td>
         <td>
           <ul>
             <li *ngFor="let subcategory of category.subCategories.$values">
               {{ subcategory.subCategoryName }}
-              <!-- Icona per eliminare la sottocategoria -->
               <button
                 class="btn btn-danger btn-sm ms-2"
                 (click)="deleteSubcategory(subcategory.subCategoryID)"
               >
                 <i class="fa fa-times"></i>
-                <!-- X Icon -->
               </button>
             </li>
           </ul>
