@@ -7,7 +7,6 @@ namespace SkillHubApi.Filters
     {
         public string GetUserId(HubConnectionContext connection)
         {
-            // Restituisce il valore dell'ID utente basato sui claims (ad esempio, NameIdentifier)
             return connection.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
     }

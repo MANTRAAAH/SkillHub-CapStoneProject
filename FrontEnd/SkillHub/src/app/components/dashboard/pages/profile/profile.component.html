@@ -25,8 +25,8 @@
           mode="basic"
           chooseLabel="Scegli Immagine"
           auto="false"
-          (onSelect)="onFileSelected($event)"
           [customUpload]="true"
+          (onSelect)="onFileSelected($event)"
         ></p-fileUpload>
       </div>
       <button
@@ -77,7 +77,7 @@
 <div class="password-form">
   <h2>Cambia la password</h2>
 
-  <form (ngSubmit)="updateUserPassword()">
+  <form (ngSubmit)="updateUserPassword()" #passwordForm="ngForm">
     <div class="p-field">
       <label for="oldPassword">Vecchia password</label>
       <input
@@ -86,8 +86,16 @@
         [(ngModel)]="oldPassword"
         name="oldPassword"
         required
+        #oldPasswordInput="ngModel"
         feedback="false"
       />
+      <!-- Messaggio di errore per la vecchia password -->
+      <div
+        *ngIf="oldPasswordInput.invalid && oldPasswordInput.touched"
+        class="p-error"
+      >
+        La vecchia password è obbligatoria.
+      </div>
     </div>
 
     <div class="p-field">
@@ -98,7 +106,16 @@
         [(ngModel)]="newPassword"
         name="newPassword"
         required
+        minlength="6"
+        #newPasswordInput="ngModel"
       />
+      <!-- Messaggio di errore per la nuova password -->
+      <div
+        *ngIf="newPasswordInput.invalid && newPasswordInput.touched"
+        class="p-error"
+      >
+        La nuova password deve essere almeno di 6 caratteri.
+      </div>
     </div>
 
     <div class="p-field">
@@ -109,7 +126,15 @@
         [(ngModel)]="confirmPassword"
         name="confirmPassword"
         required
+        #confirmPasswordInput="ngModel"
       />
+      <!-- Messaggio di errore per la conferma della password -->
+      <div
+        *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched"
+        class="p-error"
+      >
+        Le password non coincidono.
+      </div>
     </div>
 
     <button
@@ -117,6 +142,7 @@
       type="submit"
       label="Aggiorna password"
       class="p-button-warning"
+      [disabled]="passwordForm.invalid"
     ></button>
   </form>
 </div>

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
+import { CategoryService } from '../../services/category.service';
+import { Router } from '@angular/router';
+import { CategoryDto } from '../../models/models';
 
 @Component({
   selector: 'app-home',
@@ -11,8 +14,9 @@ export class HomeComponent implements OnInit {
   services: any[] = [];
   responsiveOptions: any[];
   isAuthenticated: boolean = false;
+  categories: any[] = [];
 
-  constructor(private apiService: ApiService, private authService:AuthService) {
+  constructor(private router:Router,private apiService: ApiService, private authService:AuthService,private categoryService: CategoryService) {
     this.responsiveOptions = [
       {
         breakpoint: '1024px',
@@ -35,7 +39,36 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.loadRandomServices();
     this.isAuthenticated=this.authService.isAuthenticated();
+    this.loadCategories();
   }
+
+
+
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe(
+      (data: any) => {
+
+        if (data && data.$values) {
+          this.categories = data.$values;
+        } else {
+          this.categories = data;
+        }
+      },
+      (error) => {
+        console.error('Errore durante il caricamento delle categorie:', error);
+      }
+    );
+  }
+
+
+  navigateToServices(categoryName: string): void {
+
+    this.router.navigate(['/services'], { queryParams: { category: categoryName } });
+  }
+
+
+
+
 
   loadRandomServices() {
     this.apiService.getRandomServices().subscribe(

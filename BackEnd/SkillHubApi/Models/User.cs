@@ -5,8 +5,8 @@
         public int UserID { get; set; }
         public string Username { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public byte[] PasswordHash { get; set; }  // Hash della password
-        public byte[] PasswordSalt { get; set; }  // Salt usato per il hashing della password
+        public byte[] PasswordHash { get; set; }  
+        public byte[] PasswordSalt { get; set; }  
         public string Role { get; set; } = string.Empty;
         public string ProfilePicture { get; set; } = string.Empty;
         public string Bio { get; set; } = string.Empty;
@@ -17,7 +17,7 @@
 
        
 
-        // Navigation Properties
+
         public ICollection<Service> Services { get; set; } = new List<Service>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public ICollection<Order> ClientOrders { get; set; } = new List<Order>();

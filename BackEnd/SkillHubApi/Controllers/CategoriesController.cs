@@ -16,7 +16,7 @@ public class CategoriesController : ControllerBase
     }
 
     // GET: api/categories
-    [HttpGet] // Rimuovi "categories" dal percorso
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
     {
         var categories = await _context.Categories

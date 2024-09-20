@@ -1,6 +1,7 @@
 import { CategoryService } from './../../../services/category.service';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
+import { ActivatedRoute,Router } from '@angular/router';
 import { Service, Category, SubCategory, ServiceDto } from '../../../models/models';  // Importa le interfacce
 
 @Component({
@@ -12,6 +13,8 @@ export class ServicesListComponent implements OnInit {
   services: ServiceDto[] = [];
   categories: Category[] = [];
   subCategories: SubCategory[] = [];
+  selectedCategory: string | null = null;
+
 
   filter:any = {
     category: '',
@@ -21,28 +24,41 @@ export class ServicesListComponent implements OnInit {
 
   filteredServices: ServiceDto[] = [];
 
-  constructor(private apiService: ApiService, private categoryService: CategoryService) { }
+  constructor(private apiService: ApiService, private categoryService: CategoryService,private route:ActivatedRoute) { }
 
   ngOnInit(): void {
     this.loadServices();
     this.loadCategories();
     this.loadSubCategories();
+    this.route.queryParams.subscribe(params => {
+      this.selectedCategory = params['category'] || null;
+      this.loadServices();
+    });
   }
 
-  loadServices() {
+  loadServices(): void {
     this.apiService.getServices().subscribe(
       (data) => {
 
         if (data && data.$values) {
           this.services = data.$values;
-          this.filteredServices = this.services;
         } else {
+          this.services = data;
+        }
+
+
+        if (this.selectedCategory) {
+          this.filteredServices = this.services.filter(service => service.categoryName === this.selectedCategory);
+        } else {
+          this.filteredServices = this.services;
         }
       },
       (error) => {
+        console.error('Errore durante il caricamento dei servizi:', error);
       }
     );
   }
+
 
 
 

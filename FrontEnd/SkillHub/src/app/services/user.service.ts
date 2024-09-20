@@ -42,9 +42,12 @@ export class UserService {
     );
   }
 
-  // Metodo per aggiornare la password
   updateUserPassword(oldPassword: string, newPassword: string): Observable<any> {
     const token = this.authService.getToken();
+
+    if (!token) {
+    }
+
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     const body = {
@@ -52,12 +55,16 @@ export class UserService {
       newPassword: newPassword
     };
 
+
     return this.http.put(`${this.apiUrl}/update-password`, body, { headers }).pipe(
       catchError(error => {
         return throwError(error);
       })
     );
   }
+
+
+
 
   // Metodo per caricare l'immagine del profilo
   uploadProfileImage(formData: FormData): Observable<any> {

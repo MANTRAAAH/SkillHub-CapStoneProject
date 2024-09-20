@@ -19,7 +19,7 @@ public class ReviewsController : ControllerBase
     {
         return await _context.Reviews
                              .Include(r => r.Order)
-                             .Include(r => r.User)  // Se associata a un utente
+                             .Include(r => r.User)  
                              .ToListAsync();
     }
 
@@ -29,7 +29,7 @@ public class ReviewsController : ControllerBase
     {
         var review = await _context.Reviews
                                    .Include(r => r.Order)
-                                   .Include(r => r.User)  // Se associata a un utente
+                                   .Include(r => r.User)  
                                    .FirstOrDefaultAsync(r => r.ReviewID == id);
 
         if (review == null)

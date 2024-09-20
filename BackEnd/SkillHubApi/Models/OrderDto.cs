@@ -2,11 +2,11 @@
 {
     public class OrderDto
     {
-        public int ServiceID { get; set; }  // ID del servizio
-        public int ClientID { get; set; }  // ID del cliente (utente loggato)
-        public decimal TotalPrice { get; set; }  // Prezzo totale
+        public int ServiceID { get; set; }  
+        public int ClientID { get; set; }  
+        public decimal TotalPrice { get; set; }  
 
-        // Aggiungi questa proprietà se necessaria per Stripe
-        public string StripePaymentID { get; set; } = "";  // ID del pagamento su Stripe
+       
+        public string StripePaymentID { get; set; } = "";  
     }
 }

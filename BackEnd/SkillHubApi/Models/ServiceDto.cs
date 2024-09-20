@@ -15,7 +15,6 @@ namespace SkillHubApi.Models
         public int SubCategoryId { get; set; }
         public string UserName { get; set; }
 
-        // Aggiungere il campo per l'immagine
         [JsonPropertyName("imagePath")]
         public string? ImagePath { get; set; }
     }

@@ -28,7 +28,6 @@ public class OrdersController : ControllerBase
         [FromQuery] DateTime? dateTo = null,
         [FromQuery] decimal? maxPrice = null)
     {
-        // Estrai l'ID dell'utente autenticato dal token JWT
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (string.IsNullOrEmpty(userId))
@@ -38,7 +37,6 @@ public class OrdersController : ControllerBase
 
         int parsedUserId = int.Parse(userId);
 
-        // Ottieni tutti gli ordini dove l'utente è il cliente o il freelancer
         var query = _context.Orders
             .Where(o => o.ClientID == parsedUserId || o.FreelancerID == parsedUserId)
             .Include(o => o.Service)
@@ -46,31 +44,26 @@ public class OrdersController : ControllerBase
             .Include(o => o.Freelancer)
             .AsQueryable();
 
-        // Applica il filtro sullo stato dell'ordine, se fornito
         if (!string.IsNullOrEmpty(status))
         {
             query = query.Where(o => o.Status == status);
         }
 
-        // Filtra per data di inizio, se fornita
         if (dateFrom.HasValue)
         {
             query = query.Where(o => o.OrderDate >= dateFrom.Value);
         }
 
-        // Filtra per data di fine, se fornita
         if (dateTo.HasValue)
         {
             query = query.Where(o => o.OrderDate <= dateTo.Value);
         }
 
-        // Filtra per prezzo massimo, se fornito
         if (maxPrice.HasValue)
         {
             query = query.Where(o => o.TotalPrice <= maxPrice.Value);
         }
 
-        // Esegui la query e restituisci i risultati
         var orders = await query
             .Select(o => new OrderDetailsDto
             {
@@ -214,7 +207,6 @@ public class OrdersController : ControllerBase
             return NotFound();
         }
 
-        // Verifica che l'ordine sia dell'utente autenticato, sia come cliente che come freelancer
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (order.ClientID.ToString() != userId && order.FreelancerID.ToString() != userId)
         {
@@ -229,7 +221,6 @@ public class OrdersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Order>> PlaceOrder(OrderDto orderDto)
     {
-        // Estrai l'ID dell'utente autenticato dal token JWT
         var clientId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (string.IsNullOrEmpty(clientId))
@@ -249,12 +240,12 @@ public class OrdersController : ControllerBase
         var order = new Order
         {
             ServiceID = orderDto.ServiceID,
-            ClientID = parsedClientId, // Usa l'ID del client estratto dal token
-            FreelancerID = service.UserID, // L'ID del freelancer è l'utente che ha creato il servizio
+            ClientID = parsedClientId, 
+            FreelancerID = service.UserID, 
             OrderDate = DateTime.UtcNow,
             Status = "Pending",
             TotalPrice = orderDto.TotalPrice,
-            PaymentStatus = "Pending",  // Questo sarà aggiornato una volta che Stripe è integrato
+            PaymentStatus = "Pending",  
             StripePaymentID = orderDto.StripePaymentID
         };
 
@@ -315,36 +306,31 @@ public class OrdersController : ControllerBase
     [HttpGet("orders/stats")]
     public async Task<ActionResult<OrderStatsDto>> GetOrderStats()
     {
-        // Log: inizio del metodo
-        _logger.LogInformation("GetOrderStats method called.");
+      
 
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userId))
         {
-            _logger.LogWarning("User ID is missing in the token.");
+           
             return BadRequest("User ID is missing.");
         }
 
         int parsedUserId;
         if (!int.TryParse(userId, out parsedUserId))
         {
-            _logger.LogError($"User ID '{userId}' is not a valid integer.");
+           
             return BadRequest("Invalid User ID.");
         }
 
-        // Log: userId verificato correttamente
-        _logger.LogInformation($"User ID is: {parsedUserId}");
-
+ 
         try
         {
             var stats = await GetMonthlyOrderStats(parsedUserId);
-            _logger.LogInformation("Stats retrieved successfully.");
             return Ok(stats);
         }
         catch (Exception ex)
         {
             // Log: eccezione durante il recupero delle statistiche
-            _logger.LogError(ex, "An error occurred while retrieving order stats.");
             return StatusCode(500, "An error occurred while retrieving order stats.");
         }
     }
@@ -353,7 +339,6 @@ public class OrdersController : ControllerBase
 
     private async Task<OrderStatsDto> GetMonthlyOrderStats(int userId)
     {
-        _logger.LogInformation($"Fetching monthly order stats for user ID: {userId}");
 
         var orderStats = await _context.Orders
             .Where(o => o.FreelancerID == userId)
@@ -368,11 +353,9 @@ public class OrdersController : ControllerBase
 
         if (!orderStats.Any())
         {
-            _logger.LogWarning($"No order stats found for user ID: {userId}");
         }
         else
         {
-            _logger.LogInformation($"Retrieved {orderStats.Count} months of stats for user ID: {userId}");
         }
 
         return new OrderStatsDto
@@ -393,7 +376,6 @@ public class OrdersController : ControllerBase
             return NotFound();
         }
 
-        // Imposta lo stato dell'ordine come completato
         order.Status = "Completed";
         await _context.SaveChangesAsync();
 

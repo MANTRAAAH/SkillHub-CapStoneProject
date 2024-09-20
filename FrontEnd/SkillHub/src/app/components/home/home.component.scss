@@ -95,6 +95,51 @@
 }
 
 
+
+
+
+.category-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background-color: $primary-color;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    color: white;
+  }
+
+  .icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .category-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}
+
+.category-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  overflow-x: scroll;
+  padding: 20px 0;
+}
+
+
+
+
+
+
+
+
 @media (max-width: 768px) {
   .service-card {
     .card-img {

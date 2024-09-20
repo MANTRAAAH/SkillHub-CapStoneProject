@@ -43,24 +43,40 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  // Metodo per aggiornare la password
-  updateUserPassword() {
-    if (this.newPassword !== this.confirmPassword) {
-      return;
-    }
+// Metodo per aggiornare la password
+updateUserPassword() {
+  if (this.newPassword !== this.confirmPassword) {
+    console.error('Le password non coincidono.');
+    return;
+  }
 
-    this.userService.updateUserPassword(this.oldPassword, this.newPassword).subscribe(
-      response => {
-      },
-      error => {
+  this.userService.updateUserPassword(this.oldPassword, this.newPassword).subscribe(
+    response => {
+      console.log('Password aggiornata con successo.');
+      // Puoi aggiungere ulteriori azioni dopo l'aggiornamento della password, come notificare l'utente.
+    },
+    error => {
+      console.error('Errore durante l\'aggiornamento della password:', error);
+      // Log degli errori specifici
+      if (error.status === 400) {
+        console.error('Richiesta non valida. Controlla i dati inseriti.');
+      } else if (error.status === 401) {
+        console.error('Autenticazione fallita. L\'utente non è autorizzato.');
+      } else {
+        console.error('Errore generico:', error.message);
       }
-    );
-  }
+    }
+  );
+}
 
-  // Gestione del file selezionato per il caricamento dell'immagine
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+
+// Gestione del file selezionato per il caricamento dell'immagine
+onFileSelected(event: any) {
+  if (event.currentFiles && event.currentFiles.length > 0) {
+    this.selectedFile = event.currentFiles[0];
   }
+}
+
 
   // Metodo per caricare l'immagine del profilo
   uploadProfileImage() {

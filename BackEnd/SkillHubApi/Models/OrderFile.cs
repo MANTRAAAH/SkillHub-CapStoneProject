@@ -4,9 +4,8 @@
     {
         public int OrderFileID { get; set; }
         public int OrderID { get; set; }
-        public string FilePath { get; set; } = string.Empty; // Percorso del file
+        public string FilePath { get; set; } = string.Empty; 
 
-        // Navigazione verso l'ordine
         public Order Order { get; set; }
     }
 

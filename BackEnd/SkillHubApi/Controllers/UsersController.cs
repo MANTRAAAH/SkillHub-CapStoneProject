@@ -258,13 +258,13 @@ public class UsersController : ControllerBase
         }
 
         // Salva il percorso dell'immagine nel database
-        var user = await _context.Users.FindAsync(int.Parse(userId));  // Usa _context invece di _userRepository
+        var user = await _context.Users.FindAsync(int.Parse(userId));  
         if (user == null)
         {
             return NotFound("Utente non trovato.");
         }
 
-        user.ProfilePicture = $"/images/profiles/{fileName}";  // Salva il percorso relativo
+        user.ProfilePicture = $"/images/profiles/{fileName}";  
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
 

@@ -6,7 +6,7 @@ using Stripe.Checkout;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Collections.Generic;
-using Microsoft.Extensions.Logging; // Importa ILogger
+using Microsoft.Extensions.Logging; 
 
 [Route("api/[controller]")]
 [ApiController]
@@ -31,7 +31,6 @@ public class PaymentsController : ControllerBase
     {
         if (order == null || order.TotalPrice <= 0)
         {
-            _logger.LogError("Invalid order received.");
             return BadRequest("Invalid order.");
         }
 
@@ -59,13 +58,13 @@ public class PaymentsController : ControllerBase
             CancelUrl = "http://localhost:4200/home",
             Metadata = new Dictionary<string, string>
     {
-        { "order_id", order.OrderID.ToString() }  // Metadata dell'ordine
+        { "order_id", order.OrderID.ToString() }  
     },
             PaymentIntentData = new SessionPaymentIntentDataOptions
             {
                 Metadata = new Dictionary<string, string>
         {
-            { "order_id", order.OrderID.ToString() }  // Assicurati che anche il PaymentIntent abbia i metadata
+            { "order_id", order.OrderID.ToString() }  
         }
             }
         };
@@ -77,13 +76,10 @@ public class PaymentsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error creating checkout session: {ex.Message}");
             return BadRequest("Failed to create checkout session.");
         }
 
-        _logger.LogInformation($"Checkout session created: {session.Id}");
 
-        // Salva l'ID della sessione Stripe nell'ordine
         order.StripeSessionID = session.Id;
         _context.Orders.Update(order);
         await _context.SaveChangesAsync();
@@ -99,27 +95,21 @@ public class PaymentsController : ControllerBase
 
         try
         {
-            _logger.LogInformation("Webhook received.");
 
-            // Verifica la firma del Webhook
             var signatureHeader = Request.Headers["Stripe-Signature"];
             if (string.IsNullOrEmpty(signatureHeader))
             {
-                _logger.LogError("Stripe signature not found in headers.");
                 return BadRequest("Stripe signature not found.");
             }
 
-            _logger.LogInformation($"Stripe-Signature header: {signatureHeader}");
 
             // Verifica che il Webhook Secret sia configurato
             var webhookSecret = _configuration["Stripe:WebhookSecret"];
             if (string.IsNullOrEmpty(webhookSecret))
             {
-                _logger.LogError("Stripe WebhookSecret is not configured.");
                 return BadRequest("Webhook secret not configured.");
             }
 
-            _logger.LogInformation($"Using Webhook Secret: {webhookSecret}");
 
             // Verifica il Webhook usando Stripe's EventUtility
             var stripeEvent = EventUtility.ConstructEvent(
@@ -128,16 +118,13 @@ public class PaymentsController : ControllerBase
                 webhookSecret
             );
 
-            _logger.LogInformation($"Stripe event type: {stripeEvent.Type}");
 
             // Gestisci l'evento di pagamento riuscito
             if (stripeEvent.Type == Events.CheckoutSessionCompleted)
             {
                 var session = stripeEvent.Data.Object as Session;
-                _logger.LogInformation($"Checkout session completed for session ID: {session?.Id}");
 
                 var paymentIntentId = session?.PaymentIntentId;
-                _logger.LogInformation($"PaymentIntent ID: {paymentIntentId}");
 
                 // Recupera l'ID dell'ordine dai metadata
                 if (session?.Metadata.ContainsKey("order_id") == true)
@@ -145,7 +132,6 @@ public class PaymentsController : ControllerBase
                     var orderId = session.Metadata["order_id"];
                     if (int.TryParse(orderId, out var orderIdInt))
                     {
-                        _logger.LogInformation($"Order ID from metadata: {orderIdInt}");
 
                         // Ottieni i dettagli del Charge
                         var chargeService = new ChargeService();
@@ -159,24 +145,20 @@ public class PaymentsController : ControllerBase
                             var charge = charges.Data.First();
                             var amountPaid = charge.Amount / 100M;
 
-                            _logger.LogInformation($"Amount Paid: {amountPaid}");
 
                             // Aggiorna lo stato dell'ordine nel database come pagato
                             await UpdateOrderStatus(orderIdInt, "Paid", paymentIntentId, amountPaid);
                         }
                         else
                         {
-                            _logger.LogWarning("No charges found for the PaymentIntent.");
                         }
                     }
                     else
                     {
-                        _logger.LogError("Invalid order ID in metadata.");
                     }
                 }
                 else
                 {
-                    _logger.LogError("Order ID not found in session metadata.");
                 }
             }
             // Gestisci l'evento di pagamento fallito
@@ -184,7 +166,6 @@ public class PaymentsController : ControllerBase
             {
                 var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
                 var paymentIntentId = paymentIntent?.Id;
-                _logger.LogInformation($"PaymentIntent failed for ID: {paymentIntentId}");
 
                 // Recupera l'ID dell'ordine dai metadata del PaymentIntent
                 if (paymentIntent?.Metadata.ContainsKey("order_id") == true)
@@ -192,32 +173,26 @@ public class PaymentsController : ControllerBase
                     var orderId = paymentIntent.Metadata["order_id"];
                     if (int.TryParse(orderId, out var orderIdInt))
                     {
-                        _logger.LogInformation($"Order ID from metadata: {orderIdInt}");
 
                         // Aggiorna lo stato dell'ordine nel database come fallito
                         await UpdateOrderStatus(orderIdInt, "Failed", paymentIntentId, 0); // Importo zero poiché fallito
-                        _logger.LogInformation($"Order {orderIdInt} updated as 'Failed'.");
                     }
                     else
                     {
-                        _logger.LogError("Invalid order ID in metadata.");
                     }
                 }
                 else
                 {
-                    _logger.LogError("Order ID not found in payment intent metadata.");
                 }
             }
             return Ok();
         }
         catch (StripeException e)
         {
-            _logger.LogError($"Stripe Exception: {e.Message}");
             return BadRequest();
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error processing Stripe webhook: {ex.Message}");
             return BadRequest();
         }
     }
@@ -239,11 +214,9 @@ public class PaymentsController : ControllerBase
             _context.Orders.Update(order);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation($"Order {orderId} updated in the database.");
         }
         else
         {
-            _logger.LogWarning($"Order {orderId} not found in the database.");
         }
     }
 }
